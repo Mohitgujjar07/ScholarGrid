@@ -13,7 +13,9 @@ const APP_SHELL = [
   './scripts/tools-data.js',
   './scripts/tools.js',
   './scripts/app.js',
-  './manifest.json'
+  './manifest.json',
+  './assets/logo.jpg',
+  './assets/splash.jpg'
 ];
 
 self.addEventListener('install', (event) => {

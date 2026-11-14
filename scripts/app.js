@@ -127,10 +127,10 @@
     sidebar.innerHTML = `
       <div class="sidebar-header">
         <a href="index.html" class="brand">
-          <span class="brand-badge">SG</span>
-          <span>
-            ${DATA.brand.name}
-            <span class="brand-sub">Academic Workspace</span>
+          <img src="assets/logo.jpg" alt="ScholarGrid" class="brand-logo-img" />
+          <span class="brand-text-wrap">
+            <span class="brand-name">${DATA.brand.name}</span>
+            <span class="brand-sub">Academic Companion</span>
           </span>
         </a>
       </div>
@@ -765,6 +765,45 @@
     });
   }
 
+  function initSplashScreen() {
+    const splash = document.getElementById('splashScreen');
+    if (!splash) return;
+
+    // Check if splash was already dismissed in this browser session
+    const shown = sessionStorage.getItem('scholargrid_splash_shown');
+    if (shown) {
+      splash.remove();
+      return;
+    }
+
+    const dismiss = () => {
+      if (!splash.parentElement) return;
+      splash.classList.add('fade-out');
+      sessionStorage.setItem('scholargrid_splash_shown', 'true');
+      setTimeout(() => {
+        if (splash.parentElement) splash.remove();
+      }, 520);
+    };
+
+    // Auto dismiss after 1.8s
+    const timer = setTimeout(dismiss, 1800);
+
+    // Immediate dismiss on click or skip button
+    splash.addEventListener('click', () => {
+      clearTimeout(timer);
+      dismiss();
+    });
+
+    const skipBtn = document.getElementById('skipSplashBtn');
+    if (skipBtn) {
+      skipBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        clearTimeout(timer);
+        dismiss();
+      });
+    }
+  }
+
   window.addEventListener('hashchange', () => {
     if (document.body.dataset.page === 'resource') {
       initResourcePage();
@@ -772,6 +811,7 @@
   });
 
   document.addEventListener('DOMContentLoaded', () => {
+    initSplashScreen();
     mountPdfViewer();
     const page = document.body.dataset.page;
     if (page === 'home') {

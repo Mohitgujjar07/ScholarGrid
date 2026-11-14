@@ -4,12 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ScholarGrid — Your Academic Workspace</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%236366f1'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold' font-size='28'%3ESG%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg" />
+  <link rel="apple-touch-icon" href="assets/logo.jpg" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#4f46e5" />
   <link rel="stylesheet" href="styles/main.css" />
 </head>
 <body data-page="home">
+  <!-- Interactive App Splash Screen -->
+  <div id="splashScreen" class="splash-overlay" role="dialog" aria-modal="true" aria-label="ScholarGrid Splash Screen">
+    <div class="splash-poster-wrap">
+      <img src="assets/splash.jpg" alt="ScholarGrid — Your Complete BCA Academic Companion" class="splash-poster" />
+      <div class="splash-glow-bar">
+        <div class="splash-spinner"></div>
+        <span>Loading Workspace...</span>
+        <button type="button" class="splash-skip-btn" id="skipSplashBtn" aria-label="Skip splash screen">Skip ✕</button>
+      </div>
+    </div>
+  </div>
+
   <div id="appShell" class="app-shell">
     <aside id="sidebar" class="sidebar" aria-label="Primary Navigation"></aside>
     <div id="sidebarOverlay" class="sidebar-overlay"></div>
@@ -22,13 +35,17 @@
 
         <section class="hero">
           <div class="hero-card">
-            <div>
-              <span class="badge badge-free" style="margin-bottom:10px;">Ad-Free Open Academic Workspace</span>
-              <h1>Your Academic Workspace</h1>
-              <p>
-                Access semester notes, question papers, lab manuals, roadmaps, AI tools, and university notices
-                from one fast, distraction-free portal — no login required.
-              </p>
+            <div class="hero-brand-header">
+              <img src="assets/logo.jpg" alt="ScholarGrid Logo" class="hero-logo-img" />
+              <div>
+                <span class="badge badge-free" style="margin-bottom:8px;">Ad-Free Open Academic Workspace</span>
+                <h1>Your Academic Workspace</h1>
+                <p class="hero-tagline">Learn • Prepare • Excel — Your Complete BCA Academic Companion</p>
+                <p style="margin-top:6px;">
+                  Access semester notes, question papers, lab manuals, roadmaps, AI tools, and university notices
+                  from one fast, distraction-free portal — no login required.
+                </p>
+              </div>
             </div>
             <div class="search-bar">
               <input
