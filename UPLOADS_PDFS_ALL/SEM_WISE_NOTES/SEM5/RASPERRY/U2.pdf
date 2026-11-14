@@ -1,0 +1,4429 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<<
+/Producer (pypdf)
+/Title (Unit 02 \055 Booting Up Raspberry Pi)
+/Author (Department of BCA\054 VIMTECH\054 Tumkur)
+>>
+endobj
+2 0 obj
+<<
+/Type /Pages
+/Count 15
+/Kids [ 4 0 R 13 0 R 16 0 R 19 0 R 22 0 R 25 0 R 28 0 R 31 0 R 34 0 R 37 0 R 40 0 R 43 0 R 47 0 R 52 0 R 55 0 R ]
+>>
+endobj
+3 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+4 0 obj
+<<
+/Contents 5 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 7 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+5 0 obj
+<<
+/Length 4611
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.835294 .866667 .905882 RG
+.5 w
+n 51.02362 42.51969 m 544.252 42.51969 l S
+BT /F1 8 Tf 9.6 TL ET
+.356863 .396078 .45098 rg
+BT 1 0 0 1 51.02362 28.34646 Tm (DEPARTMENT OF BCA) Tj T* ET
+BT 1 0 0 1 518.9 28.34646 Tm (Page 1) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 722.5039 cm
+Q
+q
+1 0 0 1 59.85827 697.5039 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 5 Tm /F2 20 Tf 25 TL 200.5495 0 Td (UNIT 02) Tj T* -200.5495 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 658.3307 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 5 Tm /F2 20 Tf 25 TL 96.64953 0 Td (BOOTING UP RASPBERRY PI) Tj T* -96.64953 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 629.1575 cm
+q
+.333333 .333333 .333333 rg
+BT 1 0 0 1 0 4 Tm /F1 11 Tf 15 TL 191.6235 0 Td (BCA \226 V Semester) Tj T* -191.6235 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 583.8031 cm
+Q
+q
+1 0 0 1 59.85827 547.7953 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 4 Tm /F2 15 Tf 19 TL (Operating System:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 499.6913 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 30.2 Tm /F1 9.4 Tf 13.2 TL (An Operating System\(OS\) is a software that manages and handles hardware and software resources of a) Tj T* (computing device. Or An Operating System \(OS\) is system software that acts as an interface between the user) Tj T* (and computer hardware.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 480.2551 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Manages computer resources such as CPU, memory, and files) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 460.8189 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Acts as an interface between user and hardware) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 441.3827 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Performs core functions like process, memory, and file management) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 421.9465 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Organizes system resources similar to different departments in a government) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 402.5102 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Examples include Linux, Unix, Windows 11, MS-DOS, Android, macOS, and iOS) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 366.5024 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 4 Tm /F2 15 Tf 19 TL (Linux Commands:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 331.5984 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17 Tm /F1 9.4 Tf 13.2 TL (Linux commands are instructions given to the Linux operating system through the Terminal/Command Line. They) Tj T* (are used to manage files, directories, users, processes, networks, and system resources.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 312.1622 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL /F3 9.4 Tf 13.2 TL (n) Tj /F1 9.4 Tf 13.2 TL ( Basic Linux Commands) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 295.426 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.2 Tm /F2 8.3 Tf 10.5 TL (Command Meaning Example) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 223.426 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 56.6 Tm /F1 9.4 Tf 13.2 TL (pwd Shows current location pwd ls Shows files and folders ls cd Open a folder cd Documents cd .. Go back cd ..) Tj T* -0.121547 Tw (mkdir Create a folder mkdir Test rmdir Delete empty folder rmdir Test touch Create a file touch abc.txt cat Show file) Tj T* 0 Tw (content cat abc.txt cp Copy a file cp abc.txt xyz.txt mv Rename a file mv abc.txt xyz.txt rm Delete a file rm xyz.txt) Tj T* (clear Clear the screen clear date Show date date whoami Show username whoami history Show previous) Tj T* (commands history) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 187.4181 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 4 Tm /F2 15 Tf 19 TL (What is Linux?) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 165.7142 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Linux is an open-source operating system used to manage computer hardware and software.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 133.078 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17 Tm /F1 9.4 Tf 13.2 TL (It is similar to Windows and macOS, but Linux is widely used in servers, cloud computing, networking,) Tj T* (cybersecurity, and embedded systems) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 113.6417 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Or) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 94.20551 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Linux is an operating system that acts as a bridge between the user and computer hardware.) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+n
+45 23.88976 300 17 re
+f*
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+6 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+7 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+8 0 obj
+<<
+/BaseFont /Helvetica-Bold
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+9 0 obj
+<<
+/BaseFont /ZapfDingbats
+/Name /F3
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+10 0 obj
+<<
+/BaseFont /Courier-Bold
+/Encoding /WinAnsiEncoding
+/Name /F4
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+11 0 obj
+<<
+/BaseFont /Symbol
+/Name /F5
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+12 0 obj
+<<
+/BaseFont /Courier
+/Encoding /WinAnsiEncoding
+/Name /F6
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+13 0 obj
+<<
+/Contents 14 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 15 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+14 0 obj
+<<
+/Length 5576
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.835294 .866667 .905882 RG
+.5 w
+n 51.02362 42.51969 m 544.252 42.51969 l S
+BT /F1 8 Tf 9.6 TL ET
+.356863 .396078 .45098 rg
+BT 1 0 0 1 51.02362 28.34646 Tm (DEPARTMENT OF BCA) Tj T* ET
+BT 1 0 0 1 518.9 28.34646 Tm (Page 2) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 769.8661 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Features of Linux:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 751.3661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (1. Open Source \226 Source code is freely available.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 732.8661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (2. Free to Use \226 Most Linux distributions are free.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 714.3661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (3. Secure \226 Provides user and file permissions.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 695.8661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (4. Multi-user \226 Multiple users can use the system.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 677.3661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (5. Multitasking \226 Can run multiple programs at the same time.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 658.8661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (6. Portable \226 Can run on different types of hardware.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 640.3661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (7. Stable \226 Suitable for servers and long-running systems.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 604.3583 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 4 Tm /F2 15 Tf 19 TL (Linux Architecture:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 583.8543 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL (USER) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 578.185 cm
+Q
+q
+1 0 0 1 59.85827 558.985 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL /F5 9.4 Tf 13.2 TL (\257) Tj /F1 9.4 Tf 13.2 TL T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 540.7488 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL (APPLICATIONS) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 535.0795 cm
+Q
+q
+1 0 0 1 59.85827 515.8795 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL /F5 9.4 Tf 13.2 TL (\257) Tj /F1 9.4 Tf 13.2 TL T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 497.6433 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL (SHELL) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 491.974 cm
+Q
+q
+1 0 0 1 59.85827 472.774 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL /F5 9.4 Tf 13.2 TL (\257) Tj /F1 9.4 Tf 13.2 TL T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 454.5378 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL (KERNEL) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 448.8685 cm
+Q
+q
+1 0 0 1 59.85827 429.6685 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL /F5 9.4 Tf 13.2 TL (\257) Tj /F1 9.4 Tf 13.2 TL T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 411.4323 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL (HARDWARE) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 405.763 cm
+Q
+q
+1 0 0 1 59.85827 379.4244 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Hardware) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 360.2244 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Hardware is the physical part of the computer.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 340.7882 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Examples:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 321.352 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (CPU) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 301.9157 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (RAM) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 282.4795 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Hard Disk) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 263.0433 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Keyboard) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 243.6071 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Mouse) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 224.1709 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Network Card) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 197.8323 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Kernel) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 178.6323 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (The kernel is the core of Linux.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 159.1961 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (It manages the computer's hardware and system resources.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 139.7598 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Main functions of Kernel) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 120.3236 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Process management) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 100.8874 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Memory management) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 81.45118 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (File management) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+n
+45 23.88976 300 17 re
+f*
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+15 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+16 0 obj
+<<
+/Contents 17 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 18 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+17 0 obj
+<<
+/Length 5908
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.835294 .866667 .905882 RG
+.5 w
+n 51.02362 42.51969 m 544.252 42.51969 l S
+BT /F1 8 Tf 9.6 TL ET
+.356863 .396078 .45098 rg
+BT 1 0 0 1 51.02362 28.34646 Tm (DEPARTMENT OF BCA) Tj T* ET
+BT 1 0 0 1 518.9 28.34646 Tm (Page 3) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 771.6661 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Device management) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 752.2299 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Security) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 732.7937 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Network management) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 706.4551 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Shell) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 687.2551 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (The Shell is an interface between the user and the kernel.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 660.9165 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Applications) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 641.7165 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Applications are programs used by users.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 622.2803 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Examples:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 602.8441 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Text editors) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 583.4079 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Web browsers) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 563.9717 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Media players) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 544.5354 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Programming tools) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 525.0992 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Office applications) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 489.0913 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 4 Tm /F2 15 Tf 19 TL (File System \(Linux File System\):) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 467.3874 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL -0.075997 Tw (A file system is the way an operating system organizes, stores, and manages files and folders on a storage device.) Tj T* 0 Tw ET
+Q
+Q
+q
+1 0 0 1 59.85827 447.9512 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Or) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 428.515 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Linux File System is a structure used to store and organize files and directories in Linux.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 409.0787 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Linux starts with the root directory /.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 390.8425 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL (/) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 385.1732 cm
+Q
+q
+1 0 0 1 59.85827 373.1732 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL /F3 9 Tf 12 TL (nnn) Tj /F4 9 Tf 12 TL ( bin) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 367.5039 cm
+Q
+q
+1 0 0 1 59.85827 355.5039 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL /F3 9 Tf 12 TL (nnn) Tj /F4 9 Tf 12 TL ( boot) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 349.8346 cm
+Q
+q
+1 0 0 1 59.85827 337.8346 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL /F3 9 Tf 12 TL (nnn) Tj /F4 9 Tf 12 TL ( dev) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 332.1654 cm
+Q
+q
+1 0 0 1 59.85827 320.1654 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL /F3 9 Tf 12 TL (nnn) Tj /F4 9 Tf 12 TL ( etc) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 314.4961 cm
+Q
+q
+1 0 0 1 59.85827 302.4961 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL /F3 9 Tf 12 TL (nnn) Tj /F4 9 Tf 12 TL ( home) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 296.8268 cm
+Q
+q
+1 0 0 1 59.85827 284.8268 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL /F3 9 Tf 12 TL (nnn) Tj /F4 9 Tf 12 TL ( lib) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 279.1575 cm
+Q
+q
+1 0 0 1 59.85827 267.1575 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL /F3 9 Tf 12 TL (nnn) Tj /F4 9 Tf 12 TL ( tmp) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 261.4882 cm
+Q
+q
+1 0 0 1 59.85827 249.4882 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL /F3 9 Tf 12 TL (nnn) Tj /F4 9 Tf 12 TL ( usr) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 243.8189 cm
+Q
+q
+1 0 0 1 59.85827 231.8189 cm
+%PreformattedPara
+.141176 .278431 .419608 rg
+BT 1 0 0 1 34.01575 3 Tm /F4 9 Tf 12 TL /F3 9 Tf 12 TL (nnn) Tj /F4 9 Tf 12 TL ( var) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 226.1496 cm
+Q
+q
+1 0 0 1 59.85827 190.1417 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 4 Tm /F2 15 Tf 19 TL (Raspbian Operating System:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 168.4378 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Raspbian is a Linux-based operating system designed for Raspberry Pi computers.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 149.0016 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (It is based on Debian Linux and is optimized to work well with Raspberry Pi hardware.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 129.5654 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Simple Definition: Raspbian is an operating system used to run Raspberry Pi.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 110.1291 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Today, Raspbian is commonly known as Raspberry Pi OS.) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+n
+45 23.88976 300 17 re
+f*
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+18 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+19 0 obj
+<<
+/Contents 20 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 21 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+20 0 obj
+<<
+/Length 5592
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.835294 .866667 .905882 RG
+.5 w
+n 51.02362 42.51969 m 544.252 42.51969 l S
+BT /F1 8 Tf 9.6 TL ET
+.356863 .396078 .45098 rg
+BT 1 0 0 1 51.02362 28.34646 Tm (DEPARTMENT OF BCA) Tj T* ET
+BT 1 0 0 1 518.9 28.34646 Tm (Page 4) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 769.8661 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Features of Raspbian) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 751.3661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (1. Linux Based) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 732.1661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Raspbian is based on Debian Linux.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 713.4299 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (2. Open Source) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 694.2299 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (It is based largely on open-source software.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 675.4937 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (3. Lightweight) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 656.2937 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (It is designed to run efficiently on Raspberry Pi hardware.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 637.5575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (4. Graphical Interface) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 618.3575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (It provides a desktop environment where users can open applications using windows and menus.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 599.6213 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (5. Command Line) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 580.4213 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Users can also operate the system using Linux commands.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 554.0827 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Tools like: Leaf Pad Editor, Installing Raspbian on PI:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 534.8827 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Leafpad is a simple and lightweight text editor used in older Raspbian desktop environments.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 508.5441 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Features of Leafpad) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 489.3441 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Simple and easy to use.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 469.9079 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Opens and edits text files.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 450.4717 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Supports copy, cut, paste, find and replace.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 431.0354 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Uses very little system memory.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 411.5992 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Can be used for writing simple programs and configuration files.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 375.5913 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 4 Tm /F2 15 Tf 19 TL (Installing Raspbian on Raspberry Pi:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 353.8874 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Raspbian/Raspberry Pi OS is normally installed on a microSD card and then inserted into the Raspberry Pi.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 327.5488 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Requirements) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 309.0488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (1. Raspberry Pi board) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 290.5488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (2. microSD card) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 272.0488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (3. Computer/Laptop) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 253.5488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (4. Card reader) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 235.0488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (5. Raspberry Pi OS image or Raspberry Pi Imager) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 216.5488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (6. Power supply) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 198.0488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (7. Keyboard and mouse) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 179.5488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (8. Monitor/HDMI cable) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 153.2102 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Installation Steps) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 126.8717 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Step 1: Download Raspberry Pi Imager) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 107.6717 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Download and install the Raspberry Pi Imager on your computer.) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+n
+45 23.88976 300 17 re
+f*
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+21 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+22 0 obj
+<<
+/Contents 23 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 24 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+23 0 obj
+<<
+/Length 5066
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.835294 .866667 .905882 RG
+.5 w
+n 51.02362 42.51969 m 544.252 42.51969 l S
+BT /F1 8 Tf 9.6 TL ET
+.356863 .396078 .45098 rg
+BT 1 0 0 1 51.02362 28.34646 Tm (DEPARTMENT OF BCA) Tj T* ET
+BT 1 0 0 1 518.9 28.34646 Tm (Page 5) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 769.8661 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Step 2: Insert the microSD card) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 750.6661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Insert the microSD card into your computer using a card reader.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 724.3276 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Step 3: Select the Raspberry Pi model) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 705.1276 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Open Raspberry Pi Imager and select the Raspberry Pi model you are using.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 678.789 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Step 4: Select Operating System) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 659.589 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Choose Raspberry Pi OS as the operating system.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 633.2504 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Step 5: Select Storage) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 614.0504 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Select the microSD card as the storage device.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 587.7118 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Step 6: Write the OS) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 568.5118 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Click Write.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 549.0756 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (The Imager copies the operating system files to the microSD card.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 522.737 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Step 7: Insert the card) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 503.537 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (After the installation is complete:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 484.1008 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Safely remove the microSD card.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 464.6646 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Insert it into the Raspberry Pi.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 438.326 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Step 8: Connect devices) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 419.126 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Connect:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 399.6898 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Monitor) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 380.2535 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Keyboard) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 360.8173 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Mouse) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 341.3811 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Network/Wi-Fi if required) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 321.9449 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Power supply) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 295.6063 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Step 9: First Boot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 276.4063 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Switch on the Raspberry Pi.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 256.9701 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (The Raspberry Pi starts the operating system from the microSD card.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 230.6315 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Step 10: Basic Configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 211.4315 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (During the first setup, configure:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 191.9953 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Country/region) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 172.5591 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Language) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 153.1228 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Keyboard layout) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 133.6866 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Wi-Fi) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 114.2504 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Username and password) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 94.81417 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Software updates) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+n
+45 23.88976 300 17 re
+f*
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+24 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+25 0 obj
+<<
+/Contents 26 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 27 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+26 0 obj
+<<
+/Length 6120
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.835294 .866667 .905882 RG
+.5 w
+n 51.02362 42.51969 m 544.252 42.51969 l S
+BT /F1 8 Tf 9.6 TL ET
+.356863 .396078 .45098 rg
+BT 1 0 0 1 51.02362 28.34646 Tm (DEPARTMENT OF BCA) Tj T* ET
+BT 1 0 0 1 518.9 28.34646 Tm (Page 6) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 769.8661 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Simple Installation Flow) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 750.6661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (Download Imager ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Insert SD Card ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Select Raspberry Pi ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Select Raspberry Pi OS ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 731.2299 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (Select SD Card ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Write ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Insert SD Card into Pi ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Power ON ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Configure) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 704.8913 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Advantages of Raspbian) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 685.6913 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Free and open source) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 666.2551 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Easy to use) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 646.8189 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Supports Python and other programming languages) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 627.3827 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Provides a graphical desktop) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 607.9465 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Supports GPIO programming) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 588.5102 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Suitable for IoT and electronics projects) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 569.074 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Large Raspberry Pi community support) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 523.2378 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 30.2 Tm /F1 9.4 Tf 13.2 TL (Note: Raspbian is a Linux-based operating system developed for Raspberry Pi computers. It provides a) Tj T* (user-friendly desktop environment and supports programming, networking, GPIO, and various Raspberry Pi) Tj T* (applications.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 487.2299 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 4 Tm /F2 15 Tf 19 TL (First Boot and Basic Configuration of Raspberry Pi:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 452.326 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17 Tm /F1 9.4 Tf 13.2 TL (After installing Raspberry Pi OS \(Raspbian\) on the microSD card, the next step is to start the Raspberry Pi for the) Tj T* (first time. This is called the First Boot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 425.9874 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (First Boot:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 406.7874 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (First Boot means starting the Raspberry Pi for the first time after installing the operating system.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 380.4488 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Steps for First Boot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 361.9488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (1. Insert the microSD card containing Raspberry Pi OS into the Raspberry Pi.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 343.4488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (2. Connect the monitor using HDMI.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 324.9488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (3. Connect a keyboard and mouse.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 306.4488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (4. Connect to Wi-Fi or Ethernet if required.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 287.9488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (5. Connect the power supply.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 269.4488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (6. The Raspberry Pi starts and loads Raspberry Pi OS.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 250.9488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (7. The desktop screen appears after the boot process.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 224.6102 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Basic Configuration:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 205.4102 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (After the first boot, some basic settings should be configured.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 179.0717 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (a\) Country and Language) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 159.8717 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Select:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 140.4354 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Country) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 120.9992 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Language) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 101.563 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Time zone) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 82.12677 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Keyboard layout) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+n
+45 23.88976 300 17 re
+f*
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+27 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+28 0 obj
+<<
+/Contents 29 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 30 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+29 0 obj
+<<
+/Length 5246
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.835294 .866667 .905882 RG
+.5 w
+n 51.02362 42.51969 m 544.252 42.51969 l S
+BT /F1 8 Tf 9.6 TL ET
+.356863 .396078 .45098 rg
+BT 1 0 0 1 51.02362 28.34646 Tm (DEPARTMENT OF BCA) Tj T* ET
+BT 1 0 0 1 518.9 28.34646 Tm (Page 7) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 771.6661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Example:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 752.2299 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Country: India Language: English Keyboard: English \(US/UK\) Time Zone: Asia/Kolkata) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 725.8913 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (b\) Create User Account) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 706.6913 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Create a username and password.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 687.2551 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Example:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 667.8189 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Username: student Password: ********) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 648.3827 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (The password should be kept secure.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 622.0441 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (c\) Configure Wi-Fi) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 602.8441 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Select the available Wi-Fi network and enter its password.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 583.4079 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (This allows the Raspberry Pi to access the Internet.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 557.0693 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (d\) Update the System) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 537.8693 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (It is recommended to update the operating system after installation.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 518.4331 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Open the Terminal and use:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 501.1969 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (sudo apt update) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 495.5276 cm
+Q
+q
+1 0 0 1 59.85827 476.3276 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Then:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 459.0913 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (sudo apt upgrade) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 453.422 cm
+Q
+q
+1 0 0 1 59.85827 427.0835 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (e\) Change Screen Settings) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 407.8835 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Screen resolution and display settings can be adjusted according to the monitor.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 381.5449 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (f\) Enable/Configure Interfaces) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 362.3449 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Raspberry Pi provides interfaces such as:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 342.9087 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (GPIO) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 323.4724 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (SSH) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 304.0362 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (I2C) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 284.6 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (SPI) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 265.1638 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Serial Port) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 245.7276 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (These can be enabled when required for projects.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 219.389 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (g\) Set Date and Time) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 200.189 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (The correct time zone should be selected so that the Raspberry Pi displays the correct date and time.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 173.8504 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (h\) Restart the Raspberry Pi) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 154.6504 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (After completing important configuration changes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 137.4142 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (sudo reboot) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 131.7449 cm
+Q
+q
+1 0 0 1 59.85827 105.4063 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (3. Basic Configuration Using Terminal) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 86.2063 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Some common commands are:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 69.47008 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.2 Tm /F2 8.3 Tf 10.5 TL (Command Purpose) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+n
+45 23.88976 300 17 re
+f*
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+30 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+31 0 obj
+<<
+/Contents 32 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 33 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+32 0 obj
+<<
+/Length 5997
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.835294 .866667 .905882 RG
+.5 w
+n 51.02362 42.51969 m 544.252 42.51969 l S
+BT /F1 8 Tf 9.6 TL ET
+.356863 .396078 .45098 rg
+BT 1 0 0 1 51.02362 28.34646 Tm (DEPARTMENT OF BCA) Tj T* ET
+BT 1 0 0 1 518.9 28.34646 Tm (Page 8) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 771.6661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (sudo raspi-config Raspberry Pi configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 752.2299 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (sudo apt update Updates package information) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 732.7937 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (sudo apt upgrade Installs available updates) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 716.0575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.2 Tm /F2 8.3 Tf 10.5 TL (Command Purpose) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 696.8575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (hostname Displays computer name) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 677.4213 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (whoami Displays current user) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 657.985 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (date Displays date and time) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 638.5488 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (sudo reboot Restarts Raspberry Pi) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 619.1126 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (sudo shutdown -h now Shuts down Raspberry Pi) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 592.774 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (raspi-config) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 573.574 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (The command:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 556.3378 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (sudo raspi-config) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 550.6685 cm
+Q
+q
+1 0 0 1 59.85827 531.4685 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (opens the Raspberry Pi configuration utility.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 512.0323 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (It can be used to configure system settings such as:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 492.5961 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (System options) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 473.1598 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Display options) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 453.7236 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Interface options) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 434.2874 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Localisation) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 414.8512 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Advanced options) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 388.5126 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Simple First Boot Flow) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 369.3126 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F2 9.4 Tf 0 0 0 rg (Insert SD Card ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Connect Monitor/Keyboard/Mouse ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Power ON ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Select Country &) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 349.8764 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (Keyboard ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Create User ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Connect Wi-Fi ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Update System ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Configure Required) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 330.4402 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (Interfaces ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Restart) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 297.8039 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17 Tm /F1 9.4 Tf 13.2 TL (Note: The first startup of Raspberry Pi after installing Raspberry Pi OS, during which the user performs essential) Tj T* (settings such as user creation, network configuration, language, keyboard, time zone, and system updates.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 261.7961 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 4 Tm /F2 15 Tf 19 TL (Popular Linux Commands for Raspberry Pi:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 240.0921 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Linux commands are used to control and manage the Raspberry Pi using the Terminal.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 223.3559 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.2 Tm /F2 8.3 Tf 10.5 TL (Command Meaning Example) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 206.8559 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.2 Tm /F2 8.3 Tf 10.5 TL (Command Meaning Example) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 121.6559 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 69.8 Tm /F1 9.4 Tf 13.2 TL (pwd Shows current folder pwd ls Shows files and folders ls cd Changes folder cd Documents mkdir Creates a) Tj T* (folder mkdir test rmdir Deletes an empty folder rmdir test touch Creates a file touch file.txt cat Shows file content) Tj T* -0.03957 Tw (cat file.txt cp Copies a file cp a.txt b.txt mv Moves/renames a file mv old.txt new.txt rm Deletes a file rm file.txt clear) Tj T* 0 Tw (Clears the screen clear date Shows date and time date whoami Shows current user whoami sudo Runs command) Tj T* (as administrator sudo apt update reboot Restarts Raspberry Pi sudo reboot shutdown Turns off Raspberry Pi sudo) Tj T* (shutdown -h now) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 102.2197 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Simple Example) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 84.98346 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (mkdir college) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 79.31417 cm
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+n
+45 23.88976 300 17 re
+f*
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+33 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+34 0 obj
+<<
+/Contents 35 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 36 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+35 0 obj
+<<
+/Length 6376
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.835294 .866667 .905882 RG
+.5 w
+n 51.02362 42.51969 m 544.252 42.51969 l S
+BT /F1 8 Tf 9.6 TL ET
+.356863 .396078 .45098 rg
+BT 1 0 0 1 51.02362 28.34646 Tm (DEPARTMENT OF BCA) Tj T* ET
+BT 1 0 0 1 518.9 28.34646 Tm (Page 9) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 773.8661 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (cd college) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 768.1969 cm
+Q
+q
+1 0 0 1 59.85827 757.1969 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (touch student.txt) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 751.5276 cm
+Q
+q
+1 0 0 1 59.85827 740.5276 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (ls) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 734.8583 cm
+Q
+q
+1 0 0 1 59.85827 715.6583 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Result: A folder named college is created, we enter the folder, create student.txt, and then display the file.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 689.3197 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Important Commands to Remember) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 670.1197 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (ls ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( List files) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 650.6835 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (cd ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Change folder) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 631.2472 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (mkdir ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Create folder) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 611.811 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (rm ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Delete file) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 592.3748 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (cp ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Copy) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 572.9386 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (mv ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Move/Rename) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 553.5024 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (sudo ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Administrator) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 534.0661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (reboot ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Restart) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 501.4299 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17 Tm /F1 9.4 Tf 13.2 TL (Python for Sensing Data Using Python: Python is a simple and popular programming language used with) Tj T* (Raspberry Pi.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 481.9937 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (In Raspberry Pi, Python can be used to read data from sensors such as:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 462.5575 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Temperature sensor) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 443.1213 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Light sensor) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 423.685 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Humidity sensor) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 404.2488 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Motion sensor) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 384.8126 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Distance sensor) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 365.3764 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (The sensor collects information from the real world, and Python reads and processes that information.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 339.0378 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (How It Works) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 319.8378 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (Sensor ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Raspberry Pi ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Python Program ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Output) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 300.4016 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (For example:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 280.9654 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (Temperature Sensor ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Raspberry Pi ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Python ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Temperature Value) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 261.5291 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Example: Reading Temperature) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 242.0929 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (A temperature sensor provides a temperature value to the Raspberry Pi.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 222.6567 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (A simple Python program can display the value:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 205.4205 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (temperature = 28) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 199.7512 cm
+Q
+q
+1 0 0 1 59.85827 188.7512 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (print\("Temperature =", temperature, "\260C"\)) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 183.0819 cm
+Q
+q
+1 0 0 1 59.85827 163.8819 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Output:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 144.4457 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Temperature = 28 \260C) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 125.0094 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Example with a Sensor) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 105.5732 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (A sensor can be connected to the GPIO pins of Raspberry Pi.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 86.13701 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Python program:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 68.90079 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (import time) Tj T* ET
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+n
+45 23.88976 300 17 re
+f*
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+36 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+37 0 obj
+<<
+/Contents 38 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 39 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+38 0 obj
+<<
+/Length 5373
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.835294 .866667 .905882 RG
+.5 w
+n 51.02362 42.51969 m 544.252 42.51969 l S
+BT /F1 8 Tf 9.6 TL ET
+.356863 .396078 .45098 rg
+BT 1 0 0 1 51.02362 28.34646 Tm (DEPARTMENT OF BCA) Tj T* ET
+BT 1 0 0 1 514.452 28.34646 Tm (Page 10) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 779.1969 cm
+Q
+q
+1 0 0 1 59.85827 746.1969 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 24.8 Tm /F6 8.2 Tf 11 TL (while True:) Tj T* (temperature = 28) Tj T* (print\("Temperature:", temperature, "\260C"\)) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 740.5276 cm
+Q
+q
+1 0 0 1 59.85827 721.3276 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (time.sleep\(2\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 701.8913 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (This program displays the temperature every 2 seconds.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 682.4551 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Important Python Concepts for Sensors) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 663.0189 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (For sensing applications, students should understand:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 643.5827 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Variables) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 624.1465 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (if conditions) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 604.7102 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Loops) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 585.274 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Functions) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 565.8378 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Libraries) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 546.4016 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (GPIO pins) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 526.9654 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Reading sensor values) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 507.5291 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Displaying sensor data) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 488.0929 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Applications) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 468.6567 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Python-based sensing is used in:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 449.2205 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (IoT projects) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 429.7843 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Home automation) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 410.348 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Weather monitoring) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 390.9118 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Smart agriculture) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 371.4756 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Security systems) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 352.0394 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Temperature monitoring) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 332.6031 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Motion detection) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 306.2646 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Simple Definition) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 273.8646 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17 Tm /F1 9.4 Tf 13.2 TL (Python for sensing data means using Python programs on Raspberry Pi to read, process, and display information) Tj T* (collected from sensors.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 247.526 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Simple Flow) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 228.326 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Sensor) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 208.8898 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL /F5 9.4 Tf 13.2 TL (\257) Tj /F1 9.4 Tf 13.2 TL ( Raspberry Pi) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 189.4535 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL /F5 9.4 Tf 13.2 TL (\257) Tj /F1 9.4 Tf 13.2 TL ( Python Program) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 170.0173 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL /F5 9.4 Tf 13.2 TL (\257) Tj /F1 9.4 Tf 13.2 TL ( Process Data) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 150.5811 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL /F5 9.4 Tf 13.2 TL (\257) Tj /F1 9.4 Tf 13.2 TL ( Display Result) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 131.1449 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (Example: A temperature sensor measures temperature ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Raspberry Pi receives the value ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 111.7087 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (Python reads it ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( Python displays the temperature.) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+n
+45 23.88976 300 17 re
+f*
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+39 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+40 0 obj
+<<
+/Contents 41 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 42 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+41 0 obj
+<<
+/Length 5307
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.835294 .866667 .905882 RG
+.5 w
+n 51.02362 42.51969 m 544.252 42.51969 l S
+BT /F1 8 Tf 9.6 TL ET
+.356863 .396078 .45098 rg
+BT 1 0 0 1 51.02362 28.34646 Tm (DEPARTMENT OF BCA) Tj T* ET
+BT 1 0 0 1 514.452 28.34646 Tm (Page 11) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 765.8661 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 4 Tm /F2 15 Tf 19 TL (Using WiringPi for GPIO Programming:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 739.5276 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (What is GPIO?) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 720.3276 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (GPIO stands for General Purpose Input/Output.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 700.8913 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (GPIO pins are used to connect Raspberry Pi with external devices such as:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 681.4551 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (LED) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 662.0189 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Push button) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 642.5827 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Buzzer) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 623.1465 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Sensors) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 603.7102 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Motors) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 584.274 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (GPIO pins can work as:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 564.8378 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Input ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F1 9.4 Tf 13.2 TL ( Receive data) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 545.4016 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Output ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F1 9.4 Tf 13.2 TL ( Send data) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 525.9654 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Wiring Pi:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 506.5291 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (WiringPi is a GPIO access library for Raspberry Pi, originally designed for use with the C programming language.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 487.0929 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (It allows a C program to control GPIO pins.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 460.7543 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Basic Functions) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 441.5543 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Function Purpose) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 422.1181 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (wiringPiSetup\(\) Initializes WiringPi) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 402.6819 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (pinMode\(\) Sets pin as input/output) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 383.2457 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (digitalWrite\(\) Sends HIGH/LOW) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 363.8094 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (digitalRead\(\) Reads input) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 344.3732 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (delay\(\) Creates delay) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 298.537 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 30.2 Tm /F1 9.4 Tf 13.2 TL (Note: WiringPi is an older/legacy library and is no longer maintained for current Raspberry Pi OS releases. For) Tj T* (new projects, modern GPIO libraries are generally preferred. For syllabus purposes, however, WiringPi concepts) Tj T* (are still useful.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 262.5291 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 4 Tm /F2 15 Tf 19 TL (Interfacing Raspberry Pi Using C:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 236.1906 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (What is Interfacing?) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 216.9906 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Interfacing means connecting an electronic device to the Raspberry Pi and controlling it using a program.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 197.5543 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (Examples:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 178.1181 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (LED) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 158.6819 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Switch) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 139.2457 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Sensor) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 119.8094 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Buzzer) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 93.47087 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (GPIO) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 74.27087 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (GPIO means General Purpose Input/Output.) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+n
+45 23.88976 300 17 re
+f*
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+42 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+43 0 obj
+<<
+/Contents 44 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 6 0 R
+/F1-0 45 0 R
+/F1-1 46 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+44 0 obj
+<<
+/Length 5992
+>>
+stream
+q
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.835294 .866667 .905882 RG
+.5 w
+n 51.02362 42.51969 m 544.252 42.51969 l S
+BT /F1 8 Tf 9.6 TL ET
+.356863 .396078 .45098 rg
+BT 1 0 0 1 51.02362 28.34646 Tm (DEPARTMENT OF BCA) Tj T* ET
+BT 1 0 0 1 514.452 28.34646 Tm (Page 12) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 771.6661 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (GPIO pins are used to connect devices to the Raspberry Pi.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 752.2299 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Input ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F1 9.4 Tf 13.2 TL ( Raspberry Pi receives data.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 732.7937 cm
+q
+BT 1 0 0 1 0 3.8 Tm 13.2 TL /F1 9.4 Tf 0 0 0 rg (\177) Tj ( ) Tj ( ) Tj (Output ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F1 9.4 Tf 13.2 TL ( Raspberry Pi sends data.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 706.4551 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Simple Example: LED) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 687.2551 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F2 9.4 Tf 13.2 TL (Raspberry Pi ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( GPIO Pin ) Tj /F5 9.4 Tf 13.2 TL (\256) Tj /F2 9.4 Tf 13.2 TL ( LED) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 667.8189 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (A C program can turn the LED ON and OFF.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 641.4803 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Simple C Program) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 624.811 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (#include <wiringPi.h>) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 619.1417 cm
+Q
+q
+1 0 0 1 59.85827 586.1417 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 24.8 Tm /F6 8.2 Tf 11 TL (int main\(\)) Tj T* ({) Tj T* (wiringPiSetup\(\);) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 580.4724 cm
+Q
+q
+1 0 0 1 59.85827 569.4724 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (pinMode\(0, OUTPUT\);) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 563.8031 cm
+Q
+q
+1 0 0 1 59.85827 541.8031 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 13.8 Tm /F6 8.2 Tf 11 TL (digitalWrite\(0, HIGH\);) Tj T* (delay\(1000\);) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 536.1339 cm
+Q
+q
+1 0 0 1 59.85827 525.1339 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 2.8 Tm /F6 8.2 Tf 11 TL (digitalWrite\(0, LOW\);) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 519.4646 cm
+Q
+q
+1 0 0 1 59.85827 497.4646 cm
+%PreformattedPara
+0 0 0 rg
+BT 1 0 0 1 14.17323 13.8 Tm /F6 8.2 Tf 11 TL (return 0;) Tj T* (}) Tj T* ET
+Q
+q
+1 0 0 1 59.85827 491.7953 cm
+Q
+q
+1 0 0 1 59.85827 465.4567 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Meaning of Commands) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 448.9567 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.2 Tm /F2 8.3 Tf 10.5 TL (Command Meaning) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 416.5567 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17 Tm /F1 9.4 Tf 13.2 TL (wiringPiSetup\(\) Start GPIO pinMode\(\) Set pin as input/output digitalWrite\(\) Turn device ON/OFF HIGH ON LOW) Tj T* (OFF delay\(1000\) Wait 1 second) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 390.2181 cm
+q
+BT 1 0 0 1 0 3 Tm 15 TL /F2 12 Tf .141176 .321569 .478431 rg (Note: -) Tj (> In One Line) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 357.8181 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 17 Tm /F1 9.4 Tf 13.2 TL -0.079175 Tw (C programming can be used to control Raspberry Pi GPIO pins and interface devices such as LEDs, switches, and) Tj T* 0 Tw (sensors.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 338.3819 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 3.8 Tm /F1 9.4 Tf 13.2 TL (BCA V SEMESTER \226 RASPBERRY PI) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 302.374 cm
+q
+.090196 .211765 .364706 rg
+BT 1 0 0 1 0 4 Tm /F2 15 Tf 19 TL (UNIT 1: OVERVIEW OF RASPBERRY PI) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 276.0354 cm
+q
+.141176 .321569 .478431 rg
+BT 1 0 0 1 0 3 Tm /F2 12 Tf 15 TL (Part A \226 2 Marks Questions) Tj T* ET
+Q
+Q
+q
+1 0 0 1 59.85827 257.5354 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (1. What is Raspberry Pi?) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 239.0354 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (2. Define a Single Board Computer \(SBC\).) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 220.5354 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (3. What is GPIO? State its voltage level.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 202.0354 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (4. Mention any four key characteristics of Raspberry Pi.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 183.5354 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (5. What is System-on-Chip \(SoC\)?) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 165.0354 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (6. State any two advantages of SoC.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 146.5354 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (7. What are I\262C and SPI? Mention their main GPIO pins.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 128.0354 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (8. What is UART? Name its TXD and RXD GPIO pins.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 109.5354 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (9. What is PWM? Mention any two applications.) Tj T* 11.33858 0 Td ET
+Q
+Q
+q
+1 0 0 1 59.85827 91.03543 cm
+q
+0 0 0 rg
+BT 1 0 0 1 11.33858 3.3 Tm /F1 9.2 Tf 12.5 TL -11.33858 0 Td (10. What is the function of the microSD card slot in Raspberry Pi?) Tj T* 11.33858 0 Td ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+1 1 1 RG
+n
+40 70 515.2756 283.8898 re
+f*
+Q
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-1 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+n
+45 23.88976 300 17 re
+f*
+0.356863 0.396078 0.45098 rg
+BT
+/F1-1 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+45 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+46 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+47 0 obj
+<<
+/Contents 48 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 49 0 R
+/F1-0 50 0 R
+/F2 51 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+48 0 obj
+<<
+/Length 7379
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 65.9 763.8898 cm
+q
+.1 .1 .1 rg
+BT 1 0 0 1 0 3 Tm /F2 10 Tf 13 TL (BCA V SEMESTER \226 RASPBERRY PI) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 735.8898 cm
+q
+.17 .33 .55 rg
+BT 1 0 0 1 0 4 Tm /F2 14 Tf 18 TL (UNIT 1: OVERVIEW OF RASPBERRY PI) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 708.8898 cm
+q
+.17 .33 .55 rg
+BT 1 0 0 1 0 3.5 Tm /F2 11.5 Tf 15 TL (Part A \226 2 Marks Questions) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 689.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (1.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is Raspberry Pi?) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 670.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (2.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Define a Single Board Computer \(SBC\).) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 652.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (3.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is GPIO? State its voltage level.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 633.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (4.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Mention any four key characteristics of Raspberry Pi.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 615.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (5.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is System-on-Chip \(SoC\)?) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 596.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (6.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (State any two advantages of SoC.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 578.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (7.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What are I) Tj /F1 7.6 Tf 4.75 Ts (2) Tj /F1 9.5 Tf 0 Ts (C and SPI? Mention their main GPIO pins.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 559.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (8.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is UART? Name its TXD and RXD GPIO pins.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 541.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (9.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is PWM? Mention any two applications.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 522.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (10.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is the function of the microSD card slot in Raspberry Pi?) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 495.8898 cm
+q
+.17 .33 .55 rg
+BT 1 0 0 1 0 3.5 Tm /F2 11.5 Tf 15 TL (Part B \226 5 Marks Questions) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 476.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (1.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the definition, objectives and applications of Raspberry Pi.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 457.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (2.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the major characteristics of Raspberry Pi.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 439.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (3.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain Single Board Computer \(SBC\) and list its major components.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 420.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (4.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the 40-pin GPIO header and different types of pins.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 402.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (5.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain I) Tj /F1 7.6 Tf 4.75 Ts (2) Tj /F1 9.5 Tf 0 Ts (C, SPI, UART and PWM with their pin assignments and applications.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 383.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (6.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain System-on-Chip \(SoC\) and its importance.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 365.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (7.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the major components of Raspberry Pi SoC and their functions.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 346.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (8.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the working of SoC in Raspberry Pi.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 328.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (9.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the advantages and limitations of SoC.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 309.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (10.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the major on-board components of Raspberry Pi and their functions.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 282.8898 cm
+q
+.17 .33 .55 rg
+BT 1 0 0 1 0 3.5 Tm /F2 11.5 Tf 15 TL (Part C \226 7 Marks Questions) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 263.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (1.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain Raspberry Pi in detail, including its definition, objectives, characteristics and applications.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 244.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (2.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the history and evolution of Raspberry Pi from the early 2000s to Raspberry Pi 5.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 226.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (3.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain Single Board Computer \(SBC\) architecture and why Raspberry Pi is considered an SBC.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 207.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (4.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the 40-pin GPIO header in detail, including Power, GND, GPIO, I) Tj /F1 7.6 Tf 4.75 Ts (2) Tj /F1 9.5 Tf 0 Ts (C, SPI, UART and PWM pins.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 189.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (5.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Draw and explain the block diagram/architecture of Raspberry Pi SoC.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 157.3898 cm
+q
+BT 1 0 0 1 22 17.5 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (6.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the Raspberry Pi SoC in detail, including CPU, GPU, memory controller and) Tj T* 22 0 Td (communication/peripheral controllers.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 138.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (7.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the working of SoC in Raspberry Pi step by step.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 120.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (8.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Discuss the advantages and limitations of SoC in Raspberry Pi.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 101.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (9.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the evolution of Raspberry Pi SoCs from BCM2835 to BCM2712.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 83.38976 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (10.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Draw and explain the Raspberry Pi board diagram and identify its major on-board components.) Tj T* 22 0 Td ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+0.85 0.87 0.9 RG
+0.5 w
+n
+51.02 42.51976 m
+544.25 42.51976 l
+S
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+BT
+1 0 0 1 514.45 28.68976 Tm
+(Page 13) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+49 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+50 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+51 0 obj
+<<
+/BaseFont /Helvetica-Bold
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+52 0 obj
+<<
+/Contents 53 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 49 0 R
+/F1-0 54 0 R
+/F2 51 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+53 0 obj
+<<
+/Length 6858
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 65.9 762.8898 cm
+Q
+q
+1 0 0 1 65.9 738.8898 cm
+q
+.17 .33 .55 rg
+BT 1 0 0 1 0 4 Tm /F2 14 Tf 18 TL (UNIT 2: BOOTING UP RPI) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 711.8898 cm
+q
+.17 .33 .55 rg
+BT 1 0 0 1 0 3.5 Tm /F2 11.5 Tf 15 TL (Part A \226 2 Marks Questions) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 692.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (1.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is an Operating System?) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 673.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (2.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Define Linux and mention any two features of Linux.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 655.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (3.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is the purpose of the pwd command in Linux?) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 636.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (4.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is the function of the Linux kernel?) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 618.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (5.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is a Shell in Linux?) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 599.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (6.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is Raspbian?) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 581.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (7.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is the purpose of the Raspberry Pi Imager?) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 562.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (8.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is meant by First Boot of Raspberry Pi?) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 544.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (9.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is GPIO? Mention its two modes of operation.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 525.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (10.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (What is WiringPi?) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 498.8898 cm
+q
+.17 .33 .55 rg
+BT 1 0 0 1 0 3.5 Tm /F2 11.5 Tf 15 TL (Part B \226 5 Marks Questions) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 479.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (1.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the basic Linux commands used for managing files and directories.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 460.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (2.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the features of Linux.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 442.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (3.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the architecture of Linux with a neat diagram.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 423.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (4.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the Linux file system and its directory structure.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 405.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (5.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain Raspbian and its important features.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 386.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (6.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the steps involved in installing Raspberry Pi OS on a microSD card.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 368.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (7.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the steps involved in the first boot and basic configuration of Raspberry Pi.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 349.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (8.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the important terminal commands used for Raspberry Pi configuration.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 331.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (9.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain how Python is used for sensing data on Raspberry Pi.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 312.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (10.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain GPIO and the basic functions of WiringPi.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 285.8898 cm
+q
+.17 .33 .55 rg
+BT 1 0 0 1 0 3.5 Tm /F2 11.5 Tf 15 TL (Part C \226 7 Marks Questions) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 266.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (1.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the Linux operating system, its features, and Linux architecture with a neat diagram.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 247.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (2.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the Linux file system and describe the important directories in the Linux directory structure.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 229.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (3.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain Raspbian/Raspberry Pi OS and describe its features and advantages.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 197.3898 cm
+q
+BT 1 0 0 1 22 17.5 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (4.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Describe the complete procedure for installing Raspbian/Raspberry Pi OS on Raspberry Pi using a microSD) Tj T* 22 0 Td (card.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 178.8898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td -0.010689 Tw 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (5.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the first boot process and all the basic configuration steps performed after installing Raspberry Pi OS.) Tj T* 0 Tw 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 160.3898 cm
+q
+BT 1 0 0 1 22 4 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (6.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the commonly used Linux commands for Raspberry Pi with their purpose and suitable examples.) Tj T* 22 0 Td ET
+Q
+Q
+q
+1 0 0 1 65.9 128.3898 cm
+q
+BT 1 0 0 1 22 17.5 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (7.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain how Python can be used for sensing data on Raspberry Pi, including the flow from sensor to output) Tj T* 22 0 Td (and a suitable example.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 96.38976 cm
+q
+BT 1 0 0 1 22 17.5 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (8.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain GPIO programming using WiringPi and describe the functions wiringPiSetup\(\), pinMode\(\),) Tj T* 22 0 Td (digitalWrite\(\), digitalRead\(\), and delay\(\).) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+0.85 0.87 0.9 RG
+0.5 w
+n
+51.02 42.51976 m
+544.25 42.51976 l
+S
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+BT
+1 0 0 1 514.45 28.68976 Tm
+(Page 14) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+54 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+55 0 obj
+<<
+/Contents 56 0 R
+/MediaBox [ 0 0 595.2756 841.8898 ]
+/Resources <<
+/Font <<
+/F1 49 0 R
+/F1-0 57 0 R
+/F2 51 0 R
+>>
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Annots [ ]
+/Parent 2 0 R
+>>
+endobj
+56 0 obj
+<<
+/Length 971
+>>
+stream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 65.9 749.8898 cm
+q
+BT 1 0 0 1 22 17.5 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (9.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain Raspberry Pi interfacing using C with an LED. Write and explain a suitable C program to turn an LED) Tj T* 22 0 Td (ON and OFF.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 65.9 717.8898 cm
+q
+BT 1 0 0 1 22 17.5 Tm -22 0 Td 13.5 TL /F2 9.5 Tf .1 .1 .1 rg (10.) Tj /F1 9.5 Tf ( ) Tj ( ) Tj (Explain the complete process of controlling an external device through Raspberry Pi GPIO using C and) Tj T* 22 0 Td (WiringPi, with reference to the LED interfacing example.) Tj T* ET
+Q
+Q
+ 
+
+Q
+q
+0.0 0.0 595.2756 841.8898 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+1 1 1 rg
+0.85 0.87 0.9 RG
+0.5 w
+n
+51.02 42.51976 m
+544.25 42.51976 l
+S
+0.356863 0.396078 0.45098 rg
+BT
+/F1-0 8 Tf
+9.6 TL
+ET
+BT
+1 0 0 1 51.02 28.68976 Tm
+(DEPARTMENT OF BCA  \174  VIMTECH\054 TUMKUR) Tj
+T*
+ET
+BT
+1 0 0 1 514.45 28.68976 Tm
+(Page 15) Tj
+T*
+ET
+Q
+
+endstream
+endobj
+57 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+xref
+0 58
+0000000000 65535 f 
+0000000015 00000 n 
+0000000151 00000 n 
+0000000309 00000 n 
+0000000358 00000 n 
+0000000644 00000 n 
+0000005307 00000 n 
+0000005414 00000 n 
+0000005521 00000 n 
+0000005633 00000 n 
+0000005716 00000 n 
+0000005827 00000 n 
+0000005905 00000 n 
+0000006011 00000 n 
+0000006300 00000 n 
+0000011929 00000 n 
+0000012037 00000 n 
+0000012326 00000 n 
+0000018287 00000 n 
+0000018395 00000 n 
+0000018684 00000 n 
+0000024329 00000 n 
+0000024437 00000 n 
+0000024726 00000 n 
+0000029845 00000 n 
+0000029953 00000 n 
+0000030242 00000 n 
+0000036415 00000 n 
+0000036523 00000 n 
+0000036812 00000 n 
+0000042111 00000 n 
+0000042219 00000 n 
+0000042508 00000 n 
+0000048558 00000 n 
+0000048666 00000 n 
+0000048955 00000 n 
+0000055384 00000 n 
+0000055492 00000 n 
+0000055781 00000 n 
+0000061207 00000 n 
+0000061315 00000 n 
+0000061604 00000 n 
+0000066964 00000 n 
+0000067072 00000 n 
+0000067374 00000 n 
+0000073419 00000 n 
+0000073527 00000 n 
+0000073635 00000 n 
+0000073883 00000 n 
+0000081315 00000 n 
+0000081423 00000 n 
+0000081531 00000 n 
+0000081644 00000 n 
+0000081892 00000 n 
+0000088803 00000 n 
+0000088911 00000 n 
+0000089159 00000 n 
+0000090182 00000 n 
+trailer
+<<
+/Size 58
+/Root 3 0 R
+/Info 1 0 R
+>>
+startxref
+90290
+%%EOF
