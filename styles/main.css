@@ -949,134 +949,325 @@ textarea:focus {
   border: 1px solid rgba(220, 38, 38, 0.24);
 }
 
-/* Code Playground, Viva Q&As & Formula Sheets */
-.code-toolbar {
+/* ==========================================================================
+   Advanced ATS Resume Builder (Harvard / Ivy League Standard Single-Page)
+   ========================================================================== */
+
+.resume-toolbar-wrap {
+  position: sticky;
+  top: 68px;
+  z-index: 20;
+  background: var(--bg);
+  padding: 10px 0 14px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.resume-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
   flex-wrap: wrap;
-  padding: 10px 14px;
-  background: #f1f5f9;
-  border: 1px solid var(--border);
-  border-bottom: none;
-  border-radius: 12px 12px 0 0;
+  gap: 12px;
 }
 
-.code-block {
-  background: #f8fafc;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  font-family: 'JetBrains Mono', 'Fira Code', Consolas, 'Courier New', monospace;
-  font-size: 0.85rem;
-  line-height: 1.55;
-  color: #0f172a;
-  overflow-x: auto;
-  white-space: pre;
+.resume-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.code-toolbar + .code-block {
-  border-radius: 0 0 12px 12px;
+.resume-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.viva-item {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 16px;
-  transition: border-color 0.15s ease;
-}
-
-.viva-item:hover {
-  border-color: var(--border-strong);
-}
-
-.viva-item summary {
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.92rem;
-  color: var(--text);
-  list-style: none;
-}
-
-.viva-item[open] summary {
-  margin-bottom: 8px;
-  color: var(--primary);
-}
-
-.formula-sheet {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-}
-
-.formula-sheet h3 {
-  font-size: 1.15rem;
-  margin-bottom: 10px;
-}
-
-.formula-sheet h4 {
-  font-size: 0.95rem;
-  color: var(--primary);
-  margin: 14px 0 6px;
-}
-
-.formula-sheet ul {
-  padding-left: 18px;
-  color: var(--text-muted);
-  font-size: 0.88rem;
-}
-
-.formula-sheet code {
-  background: var(--bg-card-hover);
-  padding: 2px 6px;
-  border-radius: 6px;
-  font-size: 0.84rem;
-  color: var(--text);
-}
-
-/* ATS Resume Builder */
 .resume-builder {
   display: grid;
-  grid-template-columns: minmax(300px, 1fr) minmax(360px, 1.15fr);
+  grid-template-columns: minmax(320px, 1fr) minmax(380px, 1.25fr);
   gap: 24px;
   align-items: start;
 }
 
-.resume-preview {
-  background: #ffffff;
-  color: #0f172a;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 28px 32px;
-  box-shadow: var(--shadow);
-  font-size: 0.88rem;
-  line-height: 1.48;
+.resume-form-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.resume-preview h2 {
-  font-size: 1.35rem;
+.resume-section-card {
+  padding: 18px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.resume-section-card:focus-within {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow);
+}
+
+.resume-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.resume-section-header h3 {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.resume-entry-card {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.resume-entry-card:last-child {
+  margin-bottom: 0;
+}
+
+/* ATS Score Gauge Card */
+.ats-score-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.ats-meter-track {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.ats-meter-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+}
+
+/* Resume Preview Pane & Sticky Container */
+.resume-preview-pane {
+  position: sticky;
+  top: 138px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resume-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+#resumePaperWrap {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 12px;
+}
+
+/* Harvard / Ivy League Standard ATS Resume Sheet */
+.resume-paper {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  padding: 34px 38px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  width: 100%;
+  min-height: 840px;
+  box-sizing: border-box;
+}
+
+.rp-header {
+  text-align: center;
+  margin-bottom: 12px;
+  border-bottom: 1.5px solid #0f172a;
+  padding-bottom: 10px;
+}
+
+.rp-name {
+  font-size: 1.6rem;
   font-weight: 800;
   letter-spacing: -0.02em;
+  color: #0f172a;
+  margin: 0 0 2px 0;
+  text-transform: uppercase;
+}
+
+.rp-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #334155;
   margin-bottom: 4px;
 }
 
-.resume-preview h3 {
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--primary);
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 4px;
-  margin: 14px 0 8px;
+.rp-contact {
+  font-size: 0.82rem;
+  color: #475569;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 6px;
 }
 
-.resume-preview ul {
-  padding-left: 18px;
+.rp-link {
+  color: #0f172a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rp-link:hover {
+  color: var(--primary);
+}
+
+.rp-sep {
+  color: #94a3b8;
+  padding: 0 2px;
+}
+
+.rp-section {
+  margin-top: 10px;
+  page-break-inside: avoid;
+}
+
+.rp-section-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0f172a;
+  border-bottom: 1.5px solid #0f172a;
+  padding-bottom: 2px;
+  margin: 0 0 6px 0;
+}
+
+.rp-summary-text {
+  font-size: 0.86rem;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.45;
+  text-align: justify;
+}
+
+.rp-item {
+  margin-bottom: 8px;
+  page-break-inside: avoid;
+}
+
+.rp-item:last-child {
+  margin-bottom: 0;
+}
+
+.rp-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.rp-bold {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.rp-right {
+  font-size: 0.82rem;
+  color: #334155;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+  padding-left: 8px;
+}
+
+.rp-sub {
+  color: #334155;
+  font-size: 0.85rem;
+}
+
+.rp-item-sub {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-top: 1px;
+}
+
+.rp-coursework {
+  font-size: 0.8rem;
+  color: #475569;
+  margin-top: 2px;
+}
+
+.rp-italic {
+  font-style: italic;
+  color: #475569;
+}
+
+.rp-muted {
+  color: #64748b;
+}
+
+.rp-skills-table {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.85rem;
+  color: #1e293b;
+}
+
+.rp-skill-line {
+  line-height: 1.4;
+}
+
+.rp-skill-line strong {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.rp-bullets {
+  margin: 3px 0 0 18px;
+  padding: 0;
+  list-style-type: disc;
+  font-size: 0.85rem;
+  color: #1e293b;
+  line-height: 1.45;
+}
+
+.rp-bullets li {
+  margin-bottom: 2px;
+}
+
+.rp-bullets li:last-child {
+  margin-bottom: 0;
 }
 
 /* MCQ & Aptitude Quiz */
@@ -1474,18 +1665,25 @@ textarea:focus {
 }
 
 /* ==========================================================================
-   Print Styles (Single-Page ATS Resume & Formula Sheets)
+   Print Styles (Single-Page Standard ATS Resume)
    ========================================================================== */
 
 @media print {
   @page {
-    size: A4;
-    margin: 12mm;
+    size: A4 portrait;
+    margin: 8mm 10mm;
   }
 
-  body {
+  html, body {
     background: #ffffff !important;
     color: #000000 !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .sidebar,
@@ -1496,41 +1694,49 @@ textarea:focus {
   .help-fab,
   .tabs,
   #moduleHeader,
+  .resume-toolbar-wrap,
+  .resume-form-pane,
+  .resume-preview-header,
   .no-print {
     display: none !important;
   }
 
   .app-shell,
   .main-content,
-  .container {
+  .container,
+  #moduleContainer,
+  .resume-builder,
+  .resume-preview-pane,
+  #resumePaperWrap {
     display: block !important;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
-  }
-
-  .resume-builder {
-    display: block !important;
-  }
-
-  .resume-builder > *:not(.resume-preview) {
-    display: none !important;
-  }
-
-  .resume-preview {
     border: none !important;
     box-shadow: none !important;
+  }
+
+  .resume-paper {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
     width: 100% !important;
-    page-break-inside: avoid;
+    min-height: auto !important;
+    color: #000000 !important;
+    page-break-inside: auto;
   }
 
-  .formula-sheet {
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
+  .resume-paper a {
+    color: #000000 !important;
+    text-decoration: underline !important;
+  }
+
+  .rp-section-title,
+  .rp-header {
+    border-color: #000000 !important;
   }
 }
 

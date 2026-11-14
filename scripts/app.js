@@ -224,7 +224,7 @@
           <a href="resource.html#notes">Notes</a>
           <a href="resource.html#lab-manuals">Labs</a>
           <a href="resource.html#sgpa-calculator">SGPA Calc</a>
-          <a href="resource.html#code-playground">Playground</a>
+          <a href="resource.html#resume-builder">ATS Resume</a>
           <a href="resource.html#mcq-quiz">Quiz</a>
           <a href="resource.html#notices">Notices</a>
         </div>
@@ -451,10 +451,6 @@
       TOOLS.renderSgpaCalculator(content);
     } else if (mod.id === 'attendance-tracker' && TOOLS.renderAttendanceTracker) {
       TOOLS.renderAttendanceTracker(content);
-    } else if (mod.id === 'code-playground' && TOOLS.renderCodePlayground) {
-      TOOLS.renderCodePlayground(content);
-    } else if (mod.id === 'formula-sheets' && TOOLS.renderFormulaSheets) {
-      TOOLS.renderFormulaSheets(content);
     } else if (mod.id === 'resume-builder' && TOOLS.renderResumeBuilder) {
       TOOLS.renderResumeBuilder(content);
     } else if (mod.id === 'mcq-quiz' && TOOLS.renderMcqQuiz) {

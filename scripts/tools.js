@@ -3,7 +3,7 @@
 
   const SGPA_STORAGE_KEY = 'scholargrid_sgpa_v1';
   const ATTENDANCE_STORAGE_KEY = 'scholargrid_attendance_v1';
-  const RESUME_STORAGE_KEY = 'scholargrid_resume_v1';
+  const RESUME_STORAGE_KEY = 'scholargrid_resume_v3';
 
   const GRADE_SCALE = [
     { label: 'O (Outstanding — 10)', gp: 10 },
@@ -469,501 +469,683 @@
     return window._scholarPyodidePromise;
   }
 
-  function renderCodePlayground(container) {
-    if (!container) return;
-    const labs = DATA.labPrograms || [];
-    if (!labs.length) {
-      container.innerHTML = '<div class="card">No lab programs available.</div>';
-      return;
-    }
-
-    let activeIndex = 0;
-    let sampleIndex = 0;
-    let currentCode = labs[0].program;
-    let pyOutput = '';
-    let pyStatus = '';
-
-    function render() {
-      const lab = labs[activeIndex];
-      const samples = lab.samples && lab.samples.length ? lab.samples : [{ name: lab.title, code: lab.program }];
-      const isPython = lab.language.toLowerCase() === 'python';
-
-      container.innerHTML = `
-        <div class="tabs" role="tablist" aria-label="Lab Languages">
-          ${labs.map((l, idx) => `
-            <button type="button" class="tab-btn ${idx === activeIndex ? 'active' : ''}" data-lang-idx="${idx}">
-              ${esc(l.language)} (${esc(l.semester)})
-            </button>
-          `).join('')}
-        </div>
-
-        <div class="card" style="margin-bottom:18px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-            <div>
-              <div class="card-title">${esc(lab.code)} — ${esc(lab.title)}</div>
-              <div class="card-desc">${isPython ? 'Edit and run Python directly in your browser (Pyodide) or open in an online compiler.' : 'Copy the sample program or launch it in an online compiler.'}</div>
-            </div>
-            ${samples.length > 1 ? `
-              <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                ${samples.map((s, sIdx) => `
-                  <button type="button" class="btn ${sIdx === sampleIndex ? 'btn-primary' : 'btn-outline'} btn-sm" data-sample-idx="${sIdx}">${esc(s.name)}</button>
-                `).join('')}
-              </div>
-            ` : ''}
-          </div>
-
-          <div class="code-toolbar">
-            <span class="badge">${esc(lab.language)}</span>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <button type="button" class="btn btn-outline btn-sm" id="copyCodeBtn">📋 Copy Code</button>
-              ${isPython ? '<button type="button" class="btn btn-primary btn-sm" id="runPythonBtn">▶ Run Python</button>' : ''}
-              <a href="${esc(lab.compilerUrl)}" target="_blank" rel="noopener" class="btn btn-outline btn-sm">↗ Run in Online Compiler</a>
-            </div>
-          </div>
-
-          <textarea id="codeEditor" class="code-block" rows="13" spellcheck="false" aria-label="Code Editor">${esc(currentCode)}</textarea>
-
-          ${isPython ? `
-            <div id="pyStatusBox" style="font-size:0.84rem; color:var(--text-muted); margin-top:4px;">${esc(pyStatus)}</div>
-            <pre id="pyOutputBox" class="code-block" style="min-height:64px; margin-top:6px; ${pyOutput ? '' : 'display:none;'}">${esc(pyOutput)}</pre>
-          ` : ''}
-        </div>
-
-        <div class="card">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-            <div>
-              <div class="card-title">Top 10 ${esc(lab.language)} Lab Viva Questions & Answers</div>
-              <div class="card-desc">Click any question to reveal the concise viva answer.</div>
-            </div>
-            <button type="button" class="btn btn-outline btn-sm" id="toggleAllVivaBtn">Expand / Collapse All</button>
-          </div>
-          <div id="vivaList" style="display:grid; gap:8px; margin-top:6px;">
-            ${(lab.viva || []).map((v, i) => `
-              <details class="viva-item">
-                <summary><strong>Q${i + 1}.</strong> ${esc(v.q)}</summary>
-                <div style="margin-top:8px; color:var(--text-muted); font-size:0.9rem;">${esc(v.a)}</div>
-              </details>
-            `).join('')}
-          </div>
-        </div>
-      `;
-
-      container.querySelectorAll('.tab-btn[data-lang-idx]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          activeIndex = Number(btn.getAttribute('data-lang-idx'));
-          sampleIndex = 0;
-          currentCode = labs[activeIndex].program;
-          pyOutput = '';
-          pyStatus = '';
-          render();
-        });
-      });
-
-      container.querySelectorAll('[data-sample-idx]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          sampleIndex = Number(btn.getAttribute('data-sample-idx'));
-          currentCode = samples[sampleIndex].code;
-          pyOutput = '';
-          pyStatus = '';
-          render();
-        });
-      });
-
-      const editor = container.querySelector('#codeEditor');
-      if (editor) {
-        editor.addEventListener('input', () => {
-          currentCode = editor.value;
-        });
-      }
-
-      const copyBtn = container.querySelector('#copyCodeBtn');
-      if (copyBtn) {
-        copyBtn.addEventListener('click', () => {
-          const text = editor ? editor.value : currentCode;
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(() => {
-              copyBtn.textContent = '✓ Copied!';
-              setTimeout(() => { copyBtn.textContent = '📋 Copy Code'; }, 1500);
-            }).catch(() => {});
-          }
-        });
-      }
-
-      const runBtn = container.querySelector('#runPythonBtn');
-      if (runBtn) {
-        runBtn.addEventListener('click', async () => {
-          const statusEl = container.querySelector('#pyStatusBox');
-          const outEl = container.querySelector('#pyOutputBox');
-          const codeToRun = editor ? editor.value : currentCode;
-
-          runBtn.disabled = true;
-          pyStatus = 'Loading Python runtime (Pyodide)...';
-          if (statusEl) statusEl.textContent = pyStatus;
-
-          try {
-            const pyodide = await loadPyodideRuntime();
-            pyStatus = 'Running Python code...';
-            if (statusEl) statusEl.textContent = pyStatus;
-
-            await pyodide.runPythonAsync(`
-import sys, io
-_sg_stdout = io.StringIO()
-_sg_stderr = io.StringIO()
-sys.stdout = _sg_stdout
-sys.stderr = _sg_stderr
-`);
-            try {
-              await pyodide.runPythonAsync(codeToRun);
-              const out = pyodide.runPython('_sg_stdout.getvalue()');
-              const err = pyodide.runPython('_sg_stderr.getvalue()');
-              pyOutput = (out || '') + (err ? '\n[stderr]\n' + err : '');
-              if (!pyOutput.trim()) pyOutput = '(Program finished with no output)';
-              pyStatus = 'Executed successfully via Pyodide.';
-            } catch (pyErr) {
-              pyOutput = String(pyErr);
-              pyStatus = 'Execution finished with an error.';
-            }
-          } catch (loadErr) {
-            pyStatus = loadErr.message || 'Could not load Pyodide.';
-            pyOutput = 'Tip: Use "Run in Online Compiler" if offline.';
-          } finally {
-            runBtn.disabled = false;
-            if (statusEl) statusEl.textContent = pyStatus;
-            if (outEl) {
-              outEl.style.display = 'block';
-              outEl.textContent = pyOutput;
-            }
-          }
-        });
-      }
-
-      const toggleAllBtn = container.querySelector('#toggleAllVivaBtn');
-      if (toggleAllBtn) {
-        toggleAllBtn.addEventListener('click', () => {
-          const items = Array.from(container.querySelectorAll('#vivaList details'));
-          const anyClosed = items.some((d) => !d.open);
-          items.forEach((d) => { d.open = anyClosed; });
-        });
-      }
-    }
-
-    render();
-  }
 
   /* ==========================================================================
-     4. 1-Page Formula & Cheat Sheets
+     3. Advanced Single-Page ATS Resume Builder (Harvard / Tech Standard)
      ========================================================================== */
-  function renderFormulaSheets(container) {
-    if (!container) return;
-    const sheets = DATA.formulaSheets || [];
-    if (!sheets.length) {
-      container.innerHTML = '<div class="card">No formula sheets available.</div>';
-      return;
-    }
-
-    let activeIdx = 0;
-
-    function render() {
-      const sheet = sheets[activeIdx];
-      container.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-          <div class="tabs" role="tablist" aria-label="Formula Sheet Subjects" style="margin-bottom:0;">
-            ${sheets.map((s, idx) => `
-              <button type="button" class="tab-btn ${idx === activeIdx ? 'active' : ''}" data-sheet-idx="${idx}">${esc(s.title.split('(')[0].trim())}</button>
-            `).join('')}
-          </div>
-          <button type="button" class="btn btn-primary btn-sm" id="printFormulaBtn">🖨️ Print / Save PDF</button>
-        </div>
-
-        <div class="card formula-sheet">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
-            <div>
-              <div class="card-title" style="font-size:1.2rem;">${esc(sheet.title)}</div>
-              <div class="card-desc">${esc(sheet.subtitle)}</div>
-            </div>
-            <span class="badge">${esc(sheet.code)}</span>
-          </div>
-
-          <div class="grid grid-2">
-            ${(sheet.sections || []).map((sec) => `
-              <div style="border:1px solid var(--border); border-radius:12px; padding:14px;">
-                <h3 style="font-size:0.98rem; margin-bottom:10px; color:var(--primary);">${esc(sec.heading)}</h3>
-                <div style="display:grid; gap:8px;">
-                  ${(sec.items || []).map((item) => `
-                    <div style="padding-bottom:6px; border-bottom:1px dashed var(--border);">
-                      <div style="font-weight:600; font-size:0.86rem;">${esc(item.term)}</div>
-                      <div style="font-family:monospace; font-size:0.85rem; margin:2px 0;">${esc(item.formula)}</div>
-                      <div style="font-size:0.78rem; color:var(--text-muted);">${esc(item.note)}</div>
-                    </div>
-                  `).join('')}
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `;
-
-      container.querySelectorAll('.tab-btn[data-sheet-idx]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          activeIdx = Number(btn.getAttribute('data-sheet-idx'));
-          render();
-        });
-      });
-
-      const printBtn = container.querySelector('#printFormulaBtn');
-      if (printBtn) {
-        printBtn.addEventListener('click', () => window.print());
-      }
-    }
-
-    render();
-  }
-
-  /* ==========================================================================
-     5. ATS Resume Builder
-     ========================================================================== */
-  const PROJECT_PRESETS = [
-    {
-      label: 'ScholarGrid Academic Workspace',
-      title: 'ScholarGrid — Offline-Ready BCA Academic Portal',
-      tech: 'HTML5, CSS3, Vanilla JavaScript, PWA, Service Workers',
-      bullets: '• Built an ad-free academic workspace serving 22 modules, PDFs, and interactive study tools.\n• Implemented offline caching via Service Workers and LocalStorage persistence for SGPA & attendance.'
-    },
-    {
-      label: 'DBMS Library Management System',
-      title: 'Automated Library & Inventory Management System',
-      tech: 'Python, SQLite/MySQL, SQL, Tkinter/Flask',
-      bullets: '• Designed a normalized 3NF relational schema for 1,000+ books, members, and fine tracking.\n• Reduced book search and issue latency by 45% using indexed SQL queries and triggers.'
-    },
-    {
-      label: 'AI Placement Prep Assistant',
-      title: 'CS Interview & MCQ Readiness Analyzer',
-      tech: 'JavaScript, Python, REST APIs, Charting',
-      bullets: '• Created a timed mock-test engine covering DBMS, OS, CN, and Quantitative Aptitude.\n• Added instant explanation feedback and topic-wise accuracy analytics.'
-    },
-    {
-      label: 'Network Packet & Port Scanner',
-      title: 'Lightweight TCP Port & Latency Diagnostic Tool',
-      tech: 'Python, Socket Programming, Multithreading',
-      bullets: '• Implemented multithreaded TCP port scanning and RTT latency logging for LAN diagnostics.\n• Exported structured JSON/CSV audit reports for network troubleshooting.'
-    }
-  ];
-
-  const DEFAULT_RESUME = {
-    fullName: 'Ananya Rao',
-    email: 'ananya.rao@example.edu',
-    phone: '+91 98765 43210',
-    location: 'Bengaluru, India',
-    links: 'github.com/ananyarao | linkedin.com/in/ananyarao',
-    summary: 'Final-year BCA student (CGPA 8.95) with strong foundations in Data Structures, DBMS, Python, and Web Development. Seeking a Software Engineer / Analyst role to build reliable, user-centric applications.',
-    degree: 'Bachelor of Computer Applications (BCA)',
-    college: 'Bengaluru City University',
-    eduYear: '2024 – 2027',
-    cgpa: '8.95 / 10.0',
-    skills: 'C, Java, Python, SQL, HTML5, CSS3, JavaScript, Git, DBMS, Operating Systems, Computer Networks',
-    projectTitle: PROJECT_PRESETS[0].title,
-    projectTech: PROJECT_PRESETS[0].tech,
-    projectBullets: PROJECT_PRESETS[0].bullets,
-    experience: 'Web Development Intern — Campus Tech Cell (May 2026 – Jul 2026)\n• Maintained department notice portal and optimized static assets for mobile students.\n• Collaborated with 4 peers using Git branches and pull requests.',
-    certifications: '• Google Data Analytics Certificate (Coursera)\n• AWS Cloud Practitioner Essentials\n• NPTEL Database Management Systems (Elite)'
-  };
 
   function renderResumeBuilder(container) {
     if (!container) return;
-    let resume = Object.assign({}, DEFAULT_RESUME, loadJson(RESUME_STORAGE_KEY, {}));
 
-    function updatePreviewOnly() {
-      const preview = container.querySelector('#resumePreviewPane');
-      if (!preview) return;
-      saveJson(RESUME_STORAGE_KEY, resume);
+    const PRESETS = window.SCHOLAR_TOOLS_DATA?.resumePresets || {};
+    let resume = loadJson(RESUME_STORAGE_KEY, null);
+    if (!resume) {
+      resume = JSON.parse(JSON.stringify(PRESETS.fullstack || {}));
+    }
 
-      const skillList = resume.skills.split(',').map((s) => s.trim()).filter(Boolean);
-      const bulletHtml = (text) => esc(text).replace(/\n/g, '<br/>');
+    // Ensure array structures
+    if (!Array.isArray(resume.education)) resume.education = [];
+    if (!Array.isArray(resume.projects)) resume.projects = [];
+    if (!Array.isArray(resume.experience)) resume.experience = [];
+    if (!Array.isArray(resume.certifications)) {
+      if (typeof resume.certifications === 'string') {
+        resume.certifications = resume.certifications.split('\n').filter(Boolean);
+      } else {
+        resume.certifications = [];
+      }
+    }
+    if (!resume.skills || typeof resume.skills !== 'object') {
+      resume.skills = { languages: '', frameworks: '', databases: '', tools: '', concepts: '' };
+    }
 
-      preview.innerHTML = `
-        <div style="border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:10px;">
-          <h2 style="font-size:1.35rem; margin:0; color:#0f172a;">${esc(resume.fullName || 'Your Name')}</h2>
-          <div style="font-size:0.82rem; color:#334155; margin-top:4px;">
-            ${esc(resume.email)} • ${esc(resume.phone)} • ${esc(resume.location)}<br/>
-            ${esc(resume.links)}
-          </div>
+    function computeAtsScore() {
+      let score = 0;
+      const tips = [];
+
+      // Contact info
+      if (resume.fullName && resume.fullName.trim().length >= 2) score += 10;
+      else tips.push('Add your full name');
+
+      if (resume.email && resume.email.includes('@')) score += 10;
+      else tips.push('Add a valid professional email');
+
+      if (resume.phone && resume.phone.trim().length >= 8) score += 10;
+      else tips.push('Add a phone number');
+
+      if (resume.linkedin || resume.github) score += 10;
+      else tips.push('Add LinkedIn or GitHub profile link');
+
+      // Summary
+      const summaryWords = (resume.summary || '').trim().split(/\s+/).filter(Boolean).length;
+      if (summaryWords >= 20 && summaryWords <= 85) {
+        score += 15;
+      } else if (summaryWords > 0) {
+        score += 8;
+        tips.push('Keep professional summary between 30–80 words');
+      } else {
+        tips.push('Add a concise 2–3 sentence professional summary');
+      }
+
+      // Education
+      if (resume.education.length > 0 && resume.education[0].degree) score += 10;
+      else tips.push('Add education details with degree and institution');
+
+      // Skills
+      const hasSkills = Object.values(resume.skills || {}).some(s => (s || '').trim().length > 3);
+      if (hasSkills) score += 10;
+      else tips.push('Categorize your core technical skills');
+
+      // Projects
+      if (resume.projects.length >= 2) {
+        score += 15;
+      } else if (resume.projects.length === 1) {
+        score += 8;
+        tips.push('Include at least 2 technical projects with tech stacks');
+      } else {
+        tips.push('Add your academic or personal programming projects');
+      }
+
+      // Action verbs check
+      const allBullets = [
+        ...resume.projects.flatMap(p => p.bullets || []),
+        ...resume.experience.flatMap(e => e.bullets || [])
+      ].join(' ');
+
+      const actionVerbs = /\b(Built|Developed|Architected|Engineered|Designed|Implemented|Created|Optimized|Automated|Integrated|Deployed|Formulated|Spearheaded|Refactored)\b/i;
+      if (actionVerbs.test(allBullets)) {
+        score += 5;
+      } else {
+        tips.push('Start project & experience bullets with strong action verbs (Built, Engineered, Developed)');
+      }
+
+      // Quantified metrics
+      const metrics = /[0-9]+%|[0-9]+\+?|\$[0-9]+|[0-9]+\s*(ms|sec|users|queries|records)/i;
+      if (metrics.test(allBullets)) {
+        score += 5;
+      } else {
+        tips.push('Quantify accomplishments with numbers, percentages, or metrics (e.g. 35% faster, 2,000+ users)');
+      }
+
+      return { score: Math.min(score, 100), tips };
+    }
+
+    function cleanUrl(u) {
+      if (!u) return '#';
+      if (/^https?:\/\//i.test(u)) return u;
+      return 'https://' + u;
+    }
+
+    function renderPreviewHtml() {
+      const r = resume;
+      const contacts = [
+        r.location ? `<span>${esc(r.location)}</span>` : '',
+        r.phone ? `<span>${esc(r.phone)}</span>` : '',
+        r.email ? `<a href="mailto:${esc(r.email)}" class="rp-link">${esc(r.email)}</a>` : '',
+        r.linkedin ? `<a href="${cleanUrl(r.linkedin)}" target="_blank" rel="noopener" class="rp-link">${esc(r.linkedin)}</a>` : '',
+        r.github ? `<a href="${cleanUrl(r.github)}" target="_blank" rel="noopener" class="rp-link">${esc(r.github)}</a>` : '',
+        r.portfolio ? `<a href="${cleanUrl(r.portfolio)}" target="_blank" rel="noopener" class="rp-link">${esc(r.portfolio)}</a>` : ''
+      ].filter(Boolean);
+
+      return `
+        <div class="resume-paper" id="resumePaper">
+          <!-- Header -->
+          <header class="rp-header">
+            <h1 class="rp-name">${esc(r.fullName || 'YOUR NAME')}</h1>
+            ${r.title ? `<div class="rp-title">${esc(r.title)}</div>` : ''}
+            <div class="rp-contact">${contacts.join(' <span class="rp-sep">•</span> ')}</div>
+          </header>
+
+          <!-- Summary -->
+          ${r.summary ? `
+            <section class="rp-section">
+              <h2 class="rp-section-title">PROFESSIONAL SUMMARY</h2>
+              <p class="rp-summary-text">${esc(r.summary)}</p>
+            </section>
+          ` : ''}
+
+          <!-- Education -->
+          ${r.education && r.education.length ? `
+            <section class="rp-section">
+              <h2 class="rp-section-title">EDUCATION</h2>
+              ${r.education.map(edu => `
+                <div class="rp-item">
+                  <div class="rp-item-row">
+                    <span class="rp-bold">${esc(edu.institution || 'University Name')}</span>
+                    <span class="rp-right">${esc(edu.location || '')}</span>
+                  </div>
+                  <div class="rp-item-row">
+                    <span class="rp-sub">${esc(edu.degree || 'Degree')}${edu.score ? ` — <strong>${esc(edu.score)}</strong>` : ''}</span>
+                    <span class="rp-right">${esc(edu.year || '')}</span>
+                  </div>
+                  ${edu.coursework ? `<div class="rp-coursework"><strong>Relevant Coursework:</strong> ${esc(edu.coursework)}</div>` : ''}
+                </div>
+              `).join('')}
+            </section>
+          ` : ''}
+
+          <!-- Technical Skills -->
+          <section class="rp-section">
+            <h2 class="rp-section-title">TECHNICAL SKILLS</h2>
+            <div class="rp-skills-table">
+              ${r.skills?.languages ? `<div class="rp-skill-line"><strong>Languages:</strong> ${esc(r.skills.languages)}</div>` : ''}
+              ${r.skills?.frameworks ? `<div class="rp-skill-line"><strong>Frameworks &amp; Libraries:</strong> ${esc(r.skills.frameworks)}</div>` : ''}
+              ${r.skills?.databases ? `<div class="rp-skill-line"><strong>Databases &amp; Cloud:</strong> ${esc(r.skills.databases)}</div>` : ''}
+              ${r.skills?.tools ? `<div class="rp-skill-line"><strong>Developer Tools:</strong> ${esc(r.skills.tools)}</div>` : ''}
+              ${r.skills?.concepts ? `<div class="rp-skill-line"><strong>Core Concepts:</strong> ${esc(r.skills.concepts)}</div>` : ''}
+            </div>
+          </section>
+
+          <!-- Projects -->
+          ${r.projects && r.projects.length ? `
+            <section class="rp-section">
+              <h2 class="rp-section-title">TECHNICAL PROJECTS</h2>
+              ${r.projects.map(proj => `
+                <div class="rp-item">
+                  <div class="rp-item-row">
+                    <span>
+                      <strong class="rp-bold">${esc(proj.name || 'Project Name')}</strong>
+                      ${proj.tech ? ` | <span class="rp-italic">${esc(proj.tech)}</span>` : ''}
+                    </span>
+                    ${proj.link ? `<span class="rp-right"><a href="${cleanUrl(proj.link)}" target="_blank" rel="noopener" class="rp-link">${esc(proj.link)}</a></span>` : ''}
+                  </div>
+                  <ul class="rp-bullets">
+                    ${(proj.bullets || []).filter(b => b.trim()).map(b => `<li>${esc(b)}</li>`).join('')}
+                  </ul>
+                </div>
+              `).join('')}
+            </section>
+          ` : ''}
+
+          <!-- Experience -->
+          ${r.experience && r.experience.length ? `
+            <section class="rp-section">
+              <h2 class="rp-section-title">EXPERIENCE &amp; INTERNSHIPS</h2>
+              ${r.experience.map(exp => `
+                <div class="rp-item">
+                  <div class="rp-item-row">
+                    <span>
+                      <strong class="rp-bold">${esc(exp.role || 'Role')}</strong>
+                      ${exp.company ? ` | <span class="rp-italic">${esc(exp.company)}</span>` : ''}
+                    </span>
+                    <span class="rp-right">${esc(exp.period || '')}</span>
+                  </div>
+                  ${exp.location ? `<div class="rp-item-sub"><span class="rp-muted">${esc(exp.location)}</span></div>` : ''}
+                  <ul class="rp-bullets">
+                    ${(exp.bullets || []).filter(b => b.trim()).map(b => `<li>${esc(b)}</li>`).join('')}
+                  </ul>
+                </div>
+              `).join('')}
+            </section>
+          ` : ''}
+
+          <!-- Certifications -->
+          ${r.certifications && r.certifications.length ? `
+            <section class="rp-section">
+              <h2 class="rp-section-title">CERTIFICATIONS &amp; ACHIEVEMENTS</h2>
+              <ul class="rp-bullets">
+                ${r.certifications.filter(c => c.trim()).map(c => `<li>${esc(c)}</li>`).join('')}
+              </ul>
+            </section>
+          ` : ''}
         </div>
-
-        ${resume.summary ? `
-          <div style="margin-bottom:10px;">
-            <h4 style="font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid #cbd5e1; margin-bottom:4px; color:#0f172a;">Summary</h4>
-            <p style="font-size:0.84rem; color:#1e293b; margin:0;">${esc(resume.summary)}</p>
-          </div>
-        ` : ''}
-
-        <div style="margin-bottom:10px;">
-          <h4 style="font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid #cbd5e1; margin-bottom:4px; color:#0f172a;">Education</h4>
-          <div style="display:flex; justify-content:space-between; font-size:0.84rem; font-weight:600; color:#0f172a;">
-            <span>${esc(resume.degree)} — ${esc(resume.college)}</span>
-            <span>${esc(resume.eduYear)}</span>
-          </div>
-          <div style="font-size:0.82rem; color:#334155;">CGPA: ${esc(resume.cgpa)}</div>
-        </div>
-
-        <div style="margin-bottom:10px;">
-          <h4 style="font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid #cbd5e1; margin-bottom:4px; color:#0f172a;">Technical Skills</h4>
-          <div style="font-size:0.84rem; color:#1e293b;">${skillList.map((s) => esc(s)).join(' • ')}</div>
-        </div>
-
-        <div style="margin-bottom:10px;">
-          <h4 style="font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid #cbd5e1; margin-bottom:4px; color:#0f172a;">Projects</h4>
-          <div style="font-size:0.85rem; font-weight:600; color:#0f172a;">${esc(resume.projectTitle)}</div>
-          <div style="font-size:0.78rem; color:#475569; margin-bottom:3px;">Tech Stack: ${esc(resume.projectTech)}</div>
-          <div style="font-size:0.83rem; color:#1e293b; line-height:1.45;">${bulletHtml(resume.projectBullets)}</div>
-        </div>
-
-        ${resume.experience ? `
-          <div style="margin-bottom:10px;">
-            <h4 style="font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid #cbd5e1; margin-bottom:4px; color:#0f172a;">Experience</h4>
-            <div style="font-size:0.83rem; color:#1e293b; line-height:1.45;">${bulletHtml(resume.experience)}</div>
-          </div>
-        ` : ''}
-
-        ${resume.certifications ? `
-          <div>
-            <h4 style="font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid #cbd5e1; margin-bottom:4px; color:#0f172a;">Certifications & Achievements</h4>
-            <div style="font-size:0.83rem; color:#1e293b; line-height:1.45;">${bulletHtml(resume.certifications)}</div>
-          </div>
-        ` : ''}
       `;
     }
 
+    function updateLivePreview() {
+      saveJson(RESUME_STORAGE_KEY, resume);
+      const previewWrap = container.querySelector('#resumePaperWrap');
+      if (previewWrap) {
+        previewWrap.innerHTML = renderPreviewHtml();
+      }
+      updateScoreGauge();
+    }
+
+    function updateScoreGauge() {
+      const { score, tips } = computeAtsScore();
+      const scoreVal = container.querySelector('#atsScoreVal');
+      const scoreBar = container.querySelector('#atsScoreBar');
+      const scoreTips = container.querySelector('#atsScoreTips');
+
+      if (scoreVal) scoreVal.textContent = `${score}%`;
+      if (scoreBar) {
+        scoreBar.style.width = `${score}%`;
+        scoreBar.style.backgroundColor = score >= 85 ? '#10b981' : score >= 65 ? '#f59e0b' : '#ef4444';
+      }
+      if (scoreTips) {
+        if (tips.length === 0) {
+          scoreTips.innerHTML = '<span class="status-safe">✓ Outstanding! Your resume meets all top ATS guidelines.</span>';
+        } else {
+          scoreTips.innerHTML = `<span class="status-warn">💡 Tip: ${esc(tips[0])}</span>`;
+        }
+      }
+    }
+
     function render() {
+      const { score } = computeAtsScore();
+
       container.innerHTML = `
+        <div class="resume-toolbar-wrap no-print">
+          <div class="resume-toolbar">
+            <div class="resume-toolbar-left">
+              <label style="font-weight:600;font-size:0.85rem;color:var(--text-muted);">Template Preset:</label>
+              <select id="resumePresetSelect" class="input" style="width:auto;padding:6px 12px;font-size:0.85rem;">
+                <option value="fullstack">Full Stack Web Developer</option>
+                <option value="python_ai">Python &amp; AI / Data Analyst</option>
+                <option value="core_fresher">Core Software Engineer Fresher</option>
+                <option value="blank">Blank Slate</option>
+              </select>
+            </div>
+            <div class="resume-toolbar-actions">
+              <button id="resumeExportJsonBtn" class="btn btn-outline btn-sm" type="button" title="Download your resume data as JSON">📥 Export JSON</button>
+              <button id="resumeImportJsonBtn" class="btn btn-outline btn-sm" type="button" title="Load resume data from JSON">📤 Import JSON</button>
+              <input type="file" id="resumeFileInput" accept=".json" style="display:none;" />
+              <button id="resumePrintBtn" class="btn btn-primary btn-sm" type="button" title="Print or save as 1-page PDF">🖨️ Print / Save PDF</button>
+            </div>
+          </div>
+        </div>
+
         <div class="resume-builder">
-          <div class="card resume-form-pane">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-              <div class="card-title">ATS Resume Editor</div>
-              <div style="display:flex; gap:8px;">
-                <button type="button" class="btn btn-outline btn-sm" id="resumeResetBtn">Reset Sample</button>
-                <button type="button" class="btn btn-primary btn-sm" id="resumePrintBtn">🖨️ Print / Export PDF</button>
+          <!-- LEFT PANE: INTERACTIVE ATS FORM -->
+          <div class="resume-form-pane no-print">
+            <!-- ATS Score Card -->
+            <div class="card ats-score-card">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <div>
+                  <strong style="font-size:0.95rem;">ATS Optimization Score</strong>
+                  <div style="font-size:0.78rem;color:var(--text-muted);">Tested against standard ATS scanner algorithms</div>
+                </div>
+                <span id="atsScoreVal" class="stat-val" style="font-size:1.3rem;">${score}%</span>
+              </div>
+              <div class="ats-meter-track">
+                <div id="atsScoreBar" class="ats-meter-fill" style="width:${score}%;background-color:${score>=85?'#10b981':score>=65?'#f59e0b':'#ef4444'};"></div>
+              </div>
+              <div id="atsScoreTips" style="margin-top:8px;font-size:0.8rem;"></div>
+            </div>
+
+            <!-- Section 1: Contact Information -->
+            <div class="card resume-section-card">
+              <div class="resume-section-header">
+                <h3>1. Personal &amp; Contact Details</h3>
+              </div>
+              <div class="grid grid-2" style="gap:10px;">
+                <div class="form-group" style="margin-bottom:8px;">
+                  <label>Full Name</label>
+                  <input class="input rf-input" data-path="fullName" value="${esc(resume.fullName || '')}" placeholder="Mohit Gujjar" />
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                  <label>Professional Title</label>
+                  <input class="input rf-input" data-path="title" value="${esc(resume.title || '')}" placeholder="Full Stack Developer | BCA" />
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                  <label>Email Address</label>
+                  <input class="input rf-input" data-path="email" value="${esc(resume.email || '')}" placeholder="name@gmail.com" />
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                  <label>Phone Number</label>
+                  <input class="input rf-input" data-path="phone" value="${esc(resume.phone || '')}" placeholder="+91 98765 43210" />
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                  <label>Location</label>
+                  <input class="input rf-input" data-path="location" value="${esc(resume.location || '')}" placeholder="Bengaluru, India" />
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                  <label>LinkedIn Profile</label>
+                  <input class="input rf-input" data-path="linkedin" value="${esc(resume.linkedin || '')}" placeholder="linkedin.com/in/username" />
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                  <label>GitHub Profile</label>
+                  <input class="input rf-input" data-path="github" value="${esc(resume.github || '')}" placeholder="github.com/username" />
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                  <label>Portfolio / Website</label>
+                  <input class="input rf-input" data-path="portfolio" value="${esc(resume.portfolio || '')}" placeholder="myportfolio.dev" />
+                </div>
               </div>
             </div>
 
-            <div style="display:grid; gap:10px;">
-              <label style="font-size:0.82rem; font-weight:600;">Full Name
-                <input class="input" data-field="fullName" value="${esc(resume.fullName)}" />
-              </label>
-              <div class="grid grid-2" style="gap:10px;">
-                <label style="font-size:0.82rem; font-weight:600;">Email
-                  <input class="input" data-field="email" value="${esc(resume.email)}" />
-                </label>
-                <label style="font-size:0.82rem; font-weight:600;">Phone
-                  <input class="input" data-field="phone" value="${esc(resume.phone)}" />
-                </label>
+            <!-- Section 2: Summary -->
+            <div class="card resume-section-card">
+              <div class="resume-section-header">
+                <h3>2. Professional Summary</h3>
+                <span style="font-size:0.75rem;color:var(--text-muted);">2–3 sentences, 40–80 words</span>
               </div>
-              <div class="grid grid-2" style="gap:10px;">
-                <label style="font-size:0.82rem; font-weight:600;">Location
-                  <input class="input" data-field="location" value="${esc(resume.location)}" />
-                </label>
-                <label style="font-size:0.82rem; font-weight:600;">GitHub / LinkedIn
-                  <input class="input" data-field="links" value="${esc(resume.links)}" />
-                </label>
-              </div>
-              <label style="font-size:0.82rem; font-weight:600;">Career Summary
-                <textarea class="input" rows="2" data-field="summary">${esc(resume.summary)}</textarea>
-              </label>
-              <div class="grid grid-2" style="gap:10px;">
-                <label style="font-size:0.82rem; font-weight:600;">Degree
-                  <input class="input" data-field="degree" value="${esc(resume.degree)}" />
-                </label>
-                <label style="font-size:0.82rem; font-weight:600;">College / University
-                  <input class="input" data-field="college" value="${esc(resume.college)}" />
-                </label>
-              </div>
-              <div class="grid grid-2" style="gap:10px;">
-                <label style="font-size:0.82rem; font-weight:600;">Duration
-                  <input class="input" data-field="eduYear" value="${esc(resume.eduYear)}" />
-                </label>
-                <label style="font-size:0.82rem; font-weight:600;">CGPA / Percentage
-                  <input class="input" data-field="cgpa" value="${esc(resume.cgpa)}" />
-                </label>
-              </div>
-              <label style="font-size:0.82rem; font-weight:600;">Technical Skills (comma-separated)
-                <input class="input" data-field="skills" value="${esc(resume.skills)}" />
-              </label>
+              <textarea class="input rf-input" data-path="summary" rows="3" placeholder="Brief summary showcasing your degree, core skills, and engineering passions...">${esc(resume.summary || '')}</textarea>
+            </div>
 
-              <div style="border-top:1px solid var(--border); padding-top:8px;">
-                <label style="font-size:0.82rem; font-weight:600;">Load Project Template Preset
-                  <select id="projectPresetSelect" style="margin-top:4px;">
-                    <option value="">-- Choose a preset to auto-fill --</option>
-                    ${PROJECT_PRESETS.map((p, i) => `<option value="${i}">${esc(p.label)}</option>`).join('')}
-                  </select>
-                </label>
+            <!-- Section 3: Education -->
+            <div class="card resume-section-card">
+              <div class="resume-section-header">
+                <h3>3. Education</h3>
+                <button type="button" id="addEduBtn" class="btn btn-outline btn-sm">+ Add Education</button>
               </div>
-              <label style="font-size:0.82rem; font-weight:600;">Project Title
-                <input class="input" data-field="projectTitle" value="${esc(resume.projectTitle)}" />
-              </label>
-              <label style="font-size:0.82rem; font-weight:600;">Project Tech Stack
-                <input class="input" data-field="projectTech" value="${esc(resume.projectTech)}" />
-              </label>
-              <label style="font-size:0.82rem; font-weight:600;">Project Impact Bullets
-                <textarea class="input" rows="3" data-field="projectBullets">${esc(resume.projectBullets)}</textarea>
-              </label>
-              <label style="font-size:0.82rem; font-weight:600;">Experience / Internships
-                <textarea class="input" rows="3" data-field="experience">${esc(resume.experience)}</textarea>
-              </label>
-              <label style="font-size:0.82rem; font-weight:600;">Certifications & Achievements
-                <textarea class="input" rows="3" data-field="certifications">${esc(resume.certifications)}</textarea>
-              </label>
+              <div id="eduList">
+                ${(resume.education || []).map((edu, idx) => `
+                  <div class="resume-entry-card" data-edu-idx="${idx}">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                      <strong style="font-size:0.85rem;">Degree #${idx + 1}</strong>
+                      <button type="button" class="btn btn-ghost btn-sm remove-edu-btn" data-idx="${idx}" style="color:var(--danger);padding:2px 8px;">✕ Remove</button>
+                    </div>
+                    <div class="grid grid-2" style="gap:8px;">
+                      <input class="input rf-edu-input" data-idx="${idx}" data-field="degree" value="${esc(edu.degree || '')}" placeholder="Degree (e.g. Bachelor of Computer Applications)" />
+                      <input class="input rf-edu-input" data-idx="${idx}" data-field="institution" value="${esc(edu.institution || '')}" placeholder="College / University" />
+                      <input class="input rf-edu-input" data-idx="${idx}" data-field="year" value="${esc(edu.year || '')}" placeholder="Year (e.g. 2023 – 2026)" />
+                      <input class="input rf-edu-input" data-idx="${idx}" data-field="score" value="${esc(edu.score || '')}" placeholder="CGPA / Marks (e.g. CGPA: 8.9 / 10.0)" />
+                      <input class="input rf-edu-input" data-idx="${idx}" data-field="location" value="${esc(edu.location || '')}" placeholder="Location (e.g. Tumakuru, India)" style="grid-column: span 2;" />
+                      <input class="input rf-edu-input" data-idx="${idx}" data-field="coursework" value="${esc(edu.coursework || '')}" placeholder="Relevant Coursework (e.g. Data Structures, DBMS, OS, Networks)" style="grid-column: span 2;" />
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Section 4: Technical Skills -->
+            <div class="card resume-section-card">
+              <div class="resume-section-header">
+                <h3>4. Categorized Technical Skills</h3>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div class="form-group" style="margin-bottom:4px;">
+                  <label>Programming Languages</label>
+                  <input class="input rf-skill-input" data-field="languages" value="${esc(resume.skills?.languages || '')}" placeholder="Java, Python, C++, JavaScript, TypeScript, SQL" />
+                </div>
+                <div class="form-group" style="margin-bottom:4px;">
+                  <label>Frameworks &amp; Libraries</label>
+                  <input class="input rf-skill-input" data-field="frameworks" value="${esc(resume.skills?.frameworks || '')}" placeholder="React.js, Node.js, Express.js, Next.js, Tailwind CSS" />
+                </div>
+                <div class="form-group" style="margin-bottom:4px;">
+                  <label>Databases &amp; Cloud</label>
+                  <input class="input rf-skill-input" data-field="databases" value="${esc(resume.skills?.databases || '')}" placeholder="PostgreSQL, MongoDB, MySQL, Firebase, AWS S3" />
+                </div>
+                <div class="form-group" style="margin-bottom:4px;">
+                  <label>Developer Tools</label>
+                  <input class="input rf-skill-input" data-field="tools" value="${esc(resume.skills?.tools || '')}" placeholder="Git, GitHub, Docker, Postman, Linux Command Line, VS Code" />
+                </div>
+                <div class="form-group" style="margin-bottom:4px;">
+                  <label>Core CS Concepts</label>
+                  <input class="input rf-skill-input" data-field="concepts" value="${esc(resume.skills?.concepts || '')}" placeholder="Data Structures, Algorithms, OOP, REST APIs, Agile" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 5: Technical Projects -->
+            <div class="card resume-section-card">
+              <div class="resume-section-header">
+                <h3>5. Technical Projects</h3>
+                <button type="button" id="addProjBtn" class="btn btn-outline btn-sm">+ Add Project</button>
+              </div>
+              <div id="projList">
+                ${(resume.projects || []).map((proj, idx) => `
+                  <div class="resume-entry-card" data-proj-idx="${idx}">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                      <strong style="font-size:0.85rem;">Project #${idx + 1}</strong>
+                      <button type="button" class="btn btn-ghost btn-sm remove-proj-btn" data-idx="${idx}" style="color:var(--danger);padding:2px 8px;">✕ Remove</button>
+                    </div>
+                    <div class="grid grid-2" style="gap:8px;margin-bottom:8px;">
+                      <input class="input rf-proj-input" data-idx="${idx}" data-field="name" value="${esc(proj.name || '')}" placeholder="Project Title" />
+                      <input class="input rf-proj-input" data-idx="${idx}" data-field="link" value="${esc(proj.link || '')}" placeholder="GitHub / Live Link" />
+                      <input class="input rf-proj-input" data-idx="${idx}" data-field="tech" value="${esc(proj.tech || '')}" placeholder="Tech Stack (e.g. React, Node.js, PostgreSQL)" style="grid-column:span 2;" />
+                    </div>
+                    <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:4px;">Bullet Points (Action Verb + Tech + Metric)</label>
+                    <textarea class="input rf-proj-bullets" data-idx="${idx}" rows="3" placeholder="• Architected full-stack portal handling 1,000+ student queries&#10;• Reduced latency by 35% with caching">${(proj.bullets || []).join('\n')}</textarea>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Section 6: Experience -->
+            <div class="card resume-section-card">
+              <div class="resume-section-header">
+                <h3>6. Experience &amp; Internships</h3>
+                <button type="button" id="addExpBtn" class="btn btn-outline btn-sm">+ Add Experience</button>
+              </div>
+              <div id="expList">
+                ${(resume.experience || []).map((exp, idx) => `
+                  <div class="resume-entry-card" data-exp-idx="${idx}">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                      <strong style="font-size:0.85rem;">Role #${idx + 1}</strong>
+                      <button type="button" class="btn btn-ghost btn-sm remove-exp-btn" data-idx="${idx}" style="color:var(--danger);padding:2px 8px;">✕ Remove</button>
+                    </div>
+                    <div class="grid grid-2" style="gap:8px;margin-bottom:8px;">
+                      <input class="input rf-exp-input" data-idx="${idx}" data-field="role" value="${esc(exp.role || '')}" placeholder="Role / Title" />
+                      <input class="input rf-exp-input" data-idx="${idx}" data-field="company" value="${esc(exp.company || '')}" placeholder="Company / Organization" />
+                      <input class="input rf-exp-input" data-idx="${idx}" data-field="period" value="${esc(exp.period || '')}" placeholder="Dates (e.g. Jun 2025 – Aug 2025)" />
+                      <input class="input rf-exp-input" data-idx="${idx}" data-field="location" value="${esc(exp.location || '')}" placeholder="Location (e.g. Bengaluru, India)" />
+                    </div>
+                    <textarea class="input rf-exp-bullets" data-idx="${idx}" rows="2" placeholder="• Developed 10+ reusable components accelerating delivery by 20%">${(exp.bullets || []).join('\n')}</textarea>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Section 7: Certifications -->
+            <div class="card resume-section-card">
+              <div class="resume-section-header">
+                <h3>7. Certifications &amp; Achievements</h3>
+                <span style="font-size:0.75rem;color:var(--text-muted);">One per line</span>
+              </div>
+              <textarea id="rfCerts" class="input" rows="3" placeholder="Meta Front-End Developer — Coursera&#10;AWS Certified Cloud Practitioner&#10;Harvard CS50x Certificate">${(resume.certifications || []).join('\n')}</textarea>
             </div>
           </div>
 
-          <div class="card resume-preview" id="resumePreviewPane"></div>
+          <!-- RIGHT PANE: LIVE ATS PREVIEW PAPER (1-PAGE A4 STANDARD) -->
+          <div class="resume-preview-pane">
+            <div class="resume-preview-header no-print">
+              <div>
+                <strong style="font-size:0.9rem;">Live ATS Resume Preview</strong>
+                <span class="badge badge-free" style="margin-left:6px;">1-Page Harvard Format</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="window.print()" type="button">🖨️ Print / Save PDF</button>
+            </div>
+            <div id="resumePaperWrap">
+              ${renderPreviewHtml()}
+            </div>
+          </div>
         </div>
       `;
 
-      updatePreviewOnly();
+      updateScoreGauge();
+      bindEvents();
+    }
 
-      container.querySelectorAll('[data-field]').forEach((el) => {
-        el.addEventListener('input', () => {
-          const field = el.getAttribute('data-field');
-          resume[field] = el.value;
-          updatePreviewOnly();
+    function bindEvents() {
+      // General top inputs
+      container.querySelectorAll('.rf-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const path = e.target.dataset.path;
+          resume[path] = e.target.value;
+          updateLivePreview();
         });
       });
 
-      const presetSel = container.querySelector('#projectPresetSelect');
-      if (presetSel) {
-        presetSel.addEventListener('change', () => {
-          const idx = presetSel.value;
-          if (idx === '') return;
-          const preset = PROJECT_PRESETS[Number(idx)];
-          if (!preset) return;
-          resume.projectTitle = preset.title;
-          resume.projectTech = preset.tech;
-          resume.projectBullets = preset.bullets;
-          render();
+      // Education inputs
+      container.querySelectorAll('.rf-edu-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const idx = parseInt(e.target.dataset.idx, 10);
+          const field = e.target.dataset.field;
+          if (resume.education[idx]) {
+            resume.education[idx][field] = e.target.value;
+            updateLivePreview();
+          }
+        });
+      });
+
+      // Skill inputs
+      container.querySelectorAll('.rf-skill-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const field = e.target.dataset.field;
+          resume.skills[field] = e.target.value;
+          updateLivePreview();
+        });
+      });
+
+      // Project inputs
+      container.querySelectorAll('.rf-proj-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const idx = parseInt(e.target.dataset.idx, 10);
+          const field = e.target.dataset.field;
+          if (resume.projects[idx]) {
+            resume.projects[idx][field] = e.target.value;
+            updateLivePreview();
+          }
+        });
+      });
+
+      container.querySelectorAll('.rf-proj-bullets').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const idx = parseInt(e.target.dataset.idx, 10);
+          if (resume.projects[idx]) {
+            resume.projects[idx].bullets = e.target.value.split('\n');
+            updateLivePreview();
+          }
+        });
+      });
+
+      // Experience inputs
+      container.querySelectorAll('.rf-exp-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const idx = parseInt(e.target.dataset.idx, 10);
+          const field = e.target.dataset.field;
+          if (resume.experience[idx]) {
+            resume.experience[idx][field] = e.target.value;
+            updateLivePreview();
+          }
+        });
+      });
+
+      container.querySelectorAll('.rf-exp-bullets').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const idx = parseInt(e.target.dataset.idx, 10);
+          if (resume.experience[idx]) {
+            resume.experience[idx].bullets = e.target.value.split('\n');
+            updateLivePreview();
+          }
+        });
+      });
+
+      // Certifications input
+      const certsInput = container.querySelector('#rfCerts');
+      if (certsInput) {
+        certsInput.addEventListener('input', (e) => {
+          resume.certifications = e.target.value.split('\n').filter(Boolean);
+          updateLivePreview();
         });
       }
 
-      const resetBtn = container.querySelector('#resumeResetBtn');
-      if (resetBtn) {
-        resetBtn.addEventListener('click', () => {
-          resume = Object.assign({}, DEFAULT_RESUME);
+      // Add/Remove buttons
+      const addEduBtn = container.querySelector('#addEduBtn');
+      if (addEduBtn) {
+        addEduBtn.addEventListener('click', () => {
+          resume.education.push({ degree: '', institution: '', year: '', score: '', location: '', coursework: '' });
           saveJson(RESUME_STORAGE_KEY, resume);
           render();
         });
       }
 
+      container.querySelectorAll('.remove-edu-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt(e.target.dataset.idx, 10);
+          resume.education.splice(idx, 1);
+          saveJson(RESUME_STORAGE_KEY, resume);
+          render();
+        });
+      });
+
+      const addProjBtn = container.querySelector('#addProjBtn');
+      if (addProjBtn) {
+        addProjBtn.addEventListener('click', () => {
+          resume.projects.push({ name: '', tech: '', link: '', bullets: [''] });
+          saveJson(RESUME_STORAGE_KEY, resume);
+          render();
+        });
+      }
+
+      container.querySelectorAll('.remove-proj-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt(e.target.dataset.idx, 10);
+          resume.projects.splice(idx, 1);
+          saveJson(RESUME_STORAGE_KEY, resume);
+          render();
+        });
+      });
+
+      const addExpBtn = container.querySelector('#addExpBtn');
+      if (addExpBtn) {
+        addExpBtn.addEventListener('click', () => {
+          resume.experience.push({ role: '', company: '', period: '', location: '', bullets: [''] });
+          saveJson(RESUME_STORAGE_KEY, resume);
+          render();
+        });
+      }
+
+      container.querySelectorAll('.remove-exp-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt(e.target.dataset.idx, 10);
+          resume.experience.splice(idx, 1);
+          saveJson(RESUME_STORAGE_KEY, resume);
+          render();
+        });
+      });
+
+      // Preset selector
+      const presetSelect = container.querySelector('#resumePresetSelect');
+      if (presetSelect) {
+        presetSelect.addEventListener('change', (e) => {
+          const key = e.target.value;
+          if (PRESETS[key]) {
+            resume = JSON.parse(JSON.stringify(PRESETS[key]));
+            saveJson(RESUME_STORAGE_KEY, resume);
+            render();
+          }
+        });
+      }
+
+      // Print button
       const printBtn = container.querySelector('#resumePrintBtn');
       if (printBtn) {
         printBtn.addEventListener('click', () => window.print());
+      }
+
+      // Export JSON
+      const exportBtn = container.querySelector('#resumeExportJsonBtn');
+      if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+          const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(resume, null, 2));
+          const dlAnchor = document.createElement('a');
+          dlAnchor.setAttribute('href', dataStr);
+          dlAnchor.setAttribute('download', `${(resume.fullName || 'ScholarGrid_Resume').replace(/\s+/g, '_')}_ATS_Resume.json`);
+          dlAnchor.click();
+        });
+      }
+
+      // Import JSON
+      const importBtn = container.querySelector('#resumeImportJsonBtn');
+      const fileInput = container.querySelector('#resumeFileInput');
+      if (importBtn && fileInput) {
+        importBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            try {
+              const loaded = JSON.parse(evt.target.result);
+              resume = loaded;
+              saveJson(RESUME_STORAGE_KEY, resume);
+              render();
+            } catch (err) {
+              alert('Invalid resume JSON file: ' + err.message);
+            }
+          };
+          reader.readAsText(file);
+        });
       }
     }
 
     render();
   }
 
-  /* ==========================================================================
-     6. Timed Core CS & Aptitude MCQ Quiz
-     ========================================================================== */
-  function renderMcqQuiz(container) {
+
+function renderMcqQuiz(container) {
     if (!container) return;
     const bank = DATA.mcqBank || {};
     const categories = Object.keys(bank);
@@ -1150,8 +1332,6 @@ sys.stderr = _sg_stderr
   window.SCHOLAR_TOOLS = {
     renderSgpaCalculator,
     renderAttendanceTracker,
-    renderCodePlayground,
-    renderFormulaSheets,
     renderResumeBuilder,
     renderMcqQuiz
   };

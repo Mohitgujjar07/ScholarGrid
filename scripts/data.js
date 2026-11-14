@@ -62,9 +62,7 @@ window.SCHOLAR_DATA = {
     { id: 'notices', icon: '🏛️', title: 'Campus Notices & Updates', desc: 'Program structures, Academic Calendar 2026–27 & Holiday List.', badge: '4 PDFs', type: 'cards' },
     { id: 'sgpa-calculator', icon: '🧮', title: 'SGPA & CGPA Calculator', desc: 'Pre-loaded Sem I–VI credits, internal marks & instant GPA calculation.', badge: 'Tool', type: 'tool' },
     { id: 'attendance-tracker', icon: '📅', title: 'Attendance & IA Tracker', desc: 'Track 75% mandatory attendance, safe-to-miss buffer & IA marks.', badge: 'Tool', type: 'tool' },
-    { id: 'code-playground', icon: '⚡', title: 'Code Playground & Viva', desc: 'C, Java, Python & SQL lab programs, live Python runner & Top 10 Viva Q&As.', badge: 'Interactive', type: 'tool' },
-    { id: 'formula-sheets', icon: '📐', title: 'Formula & Cheat Sheets', desc: '1-page condensed revision sheets for Discrete Math, COLD, DAA & AI.', badge: 'Revision', type: 'tool' },
-    { id: 'resume-builder', icon: '📄', title: 'ATS Resume Builder', desc: 'Live single-page ATS resume builder with project presets & PDF export.', badge: 'Career', type: 'tool' },
+    { id: 'resume-builder', icon: '📄', title: 'ATS Resume Builder', desc: 'Harvard/Tech format single-page resume builder with instant PDF export.', badge: 'Career', type: 'tool' },
     { id: 'mcq-quiz', icon: '🎯', title: 'MCQ & Aptitude Quiz', desc: 'Timed Core CS (DBMS, OS, CN) & Aptitude quizzes with explanations.', badge: 'Practice', type: 'tool' }
   ],
 
