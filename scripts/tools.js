@@ -1215,18 +1215,93 @@
 function renderMcqQuiz(container) {
     if (!container) return;
     const bank = DATA.mcqBank || {};
-    const categories = Object.keys(bank);
-    if (!categories.length) {
+
+    // Filter categories to main display categories (excluding duplicate aliases)
+    const allCatKeys = Object.keys(bank);
+    const hiddenAliases = new Set(['DBMS', 'OS', 'CN', 'Aptitude']);
+    const primaryCategories = allCatKeys.filter(c => !hiddenAliases.has(c));
+    const categories = ['🎯 Daily 5 Challenge', ...primaryCategories];
+
+    if (!primaryCategories.length) {
       container.innerHTML = '<div class="card">No MCQ questions available.</div>';
       return;
     }
 
-    let activeCat = categories[0];
+    // Check URL parameters for initial category or daily flag
+    const urlParams = new URLSearchParams(window.location.search);
+    const hash = window.location.hash || '';
+    let initialCat = categories[1] || primaryCategories[0];
+    if (hash.includes('daily=1') || urlParams.get('daily') === '1') {
+      initialCat = '🎯 Daily 5 Challenge';
+    }
+
+    // State
+    let activeCat = initialCat;
+    let mode = 'practice'; // 'practice' (Instant Feedback) or 'mock' (Timed Exam)
+    let negativeMarking = true; // -0.25 penalty per incorrect answer in Mock mode
     let currentQ = 0;
-    let answers = {};
+    let answers = {}; // { qIndex: optIndex }
+    let reviewFlags = new Set(); // Set of qIndices marked for review
+    let visited = new Set([0]); // Set of visited qIndices
     let submitted = false;
-    let secondsLeft = (bank[activeCat] || []).length * 60;
+    let showingReview = false; // Post-submit "Review All Solutions" toggle
+    let isRetakeOnly = false; // Whether running in "Retake Incorrect Only" mode
+    let retakeQuestions = null; // Subset of questions for retake
     let timerId = null;
+    let totalSeconds = 900; // 15 minutes default for mock
+    let secondsLeft = 900;
+    let startTime = Date.now();
+
+    // Helper: generate or retrieve today's Daily 5 questions
+    function getDaily5Questions() {
+      const todayStr = new Date().toISOString().slice(0, 10);
+      try {
+        const cached = localStorage.getItem('scholargrid_daily_5_' + todayStr);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed) && parsed.length >= 5) return parsed;
+        }
+      } catch (e) {}
+
+      // Pick 5 high-yield questions across diverse domains
+      const pool = [];
+      const domainKeys = [
+        'DSA: Data Structures & Algorithms',
+        'OOPs & Java / C++',
+        'Code Output & Pseudo-Code',
+        'DBMS & SQL',
+        'Quantitative Aptitude'
+      ];
+      domainKeys.forEach(dk => {
+        const list = bank[dk] || [];
+        if (list.length) {
+          const picked = list[Math.floor(Math.random() * list.length)];
+          pool.push({ ...picked, topic: dk.split(':')[0] });
+        }
+      });
+      // Fallback if less than 5
+      while (pool.length < 5) {
+        const anyKey = primaryCategories[Math.floor(Math.random() * primaryCategories.length)];
+        const list = bank[anyKey] || [];
+        if (list.length) {
+          pool.push({ ...list[Math.floor(Math.random() * list.length)], topic: anyKey.split(':')[0] });
+        }
+      }
+      try {
+        localStorage.setItem('scholargrid_daily_5_' + todayStr, JSON.stringify(pool));
+      } catch (e) {}
+      return pool;
+    }
+
+    function getActiveQuestions() {
+      if (isRetakeOnly && retakeQuestions && retakeQuestions.length) {
+        return retakeQuestions;
+      }
+      if (activeCat === '🎯 Daily 5 Challenge') {
+        return getDaily5Questions();
+      }
+      return bank[activeCat] || [];
+    }
 
     function stopTimer() {
       if (timerId) {
@@ -1236,13 +1311,15 @@ function renderMcqQuiz(container) {
     }
 
     function formatTime(sec) {
-      const m = Math.floor(sec / 60);
-      const s = sec % 60;
-      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      const s = Math.max(0, Math.floor(sec));
+      const m = Math.floor(s / 60);
+      const rem = s % 60;
+      return `${String(m).padStart(2, '0')}:${String(rem).padStart(2, '0')}`;
     }
 
     function startTimer() {
       stopTimer();
+      if (mode !== 'mock') return;
       timerId = setInterval(() => {
         if (!document.body.contains(container)) {
           stopTimer();
@@ -1250,152 +1327,678 @@ function renderMcqQuiz(container) {
         }
         secondsLeft -= 1;
         const timerEl = container.querySelector('#quizTimerEl');
-        if (timerEl) timerEl.textContent = formatTime(Math.max(0, secondsLeft));
+        const warnEl = container.querySelector('#quizWarningBanner');
+        if (timerEl) timerEl.textContent = formatTime(secondsLeft);
+        if (warnEl) {
+          if (secondsLeft <= 120 && secondsLeft > 0) {
+            warnEl.style.display = 'flex';
+          } else {
+            warnEl.style.display = 'none';
+          }
+        }
         if (secondsLeft <= 0) {
           stopTimer();
           submitted = true;
+          recordQuizCompletion();
           render();
         }
       }, 1000);
     }
 
-    function resetQuiz(cat) {
-      activeCat = cat;
+    function recordQuizCompletion() {
+      const questions = getActiveQuestions();
+      let correct = 0;
+      let wrong = 0;
+      let unattempted = 0;
+
+      questions.forEach((q, idx) => {
+        if (answers[idx] === undefined) {
+          unattempted++;
+        } else if (answers[idx] === q.answer) {
+          correct++;
+        } else {
+          wrong++;
+        }
+      });
+
+      const penalties = (mode === 'mock' && negativeMarking) ? (wrong * 0.25) : 0;
+      const netMarks = Math.max(0, correct - penalties);
+      const elapsedSec = Math.round((Date.now() - startTime) / 1000);
+
+      // Save to quiz history in localStorage
+      try {
+        const histKey = 'scholargrid_quiz_history';
+        const history = JSON.parse(localStorage.getItem(histKey) || '[]');
+        history.unshift({
+          date: new Date().toISOString(),
+          category: activeCat,
+          mode,
+          total: questions.length,
+          correct,
+          wrong,
+          unattempted,
+          netMarks: Number(netMarks.toFixed(2)),
+          timeSpentSec: elapsedSec
+        });
+        if (history.length > 25) history.length = 25;
+        localStorage.setItem(histKey, JSON.stringify(history));
+      } catch (e) {}
+
+      // If Daily 5 Challenge, record streak
+      if (activeCat === '🎯 Daily 5 Challenge') {
+        try {
+          const streakKey = 'scholargrid_placement_streak';
+          const todayStr = new Date().toISOString().slice(0, 10);
+          const streakData = JSON.parse(localStorage.getItem(streakKey) || '{"count":0,"lastDate":""}');
+          
+          if (streakData.lastDate !== todayStr) {
+            const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+            if (streakData.lastDate === yesterday) {
+              streakData.count = (streakData.count || 0) + 1;
+            } else {
+              streakData.count = 1;
+            }
+            streakData.lastDate = todayStr;
+            localStorage.setItem(streakKey, JSON.stringify(streakData));
+            window.dispatchEvent(new CustomEvent('scholargrid:streak-updated', { detail: streakData }));
+          }
+        } catch (e) {}
+      }
+    }
+
+    function resetQuiz(newCat, newMode) {
+      stopTimer();
+      if (newCat) activeCat = newCat;
+      if (newMode) mode = newMode;
       currentQ = 0;
       answers = {};
+      reviewFlags.clear();
+      visited.clear();
+      visited.add(0);
       submitted = false;
-      secondsLeft = (bank[activeCat] || []).length * 60;
-      startTimer();
+      showingReview = false;
+      isRetakeOnly = false;
+      retakeQuestions = null;
+
+      const questions = getActiveQuestions();
+      totalSeconds = Math.max(300, questions.length * 90); // 1.5 min per question
+      secondsLeft = totalSeconds;
+      startTime = Date.now();
+
+      if (mode === 'mock') {
+        startTimer();
+      }
+      render();
+    }
+
+    function startRetake(missedQuestions) {
+      stopTimer();
+      isRetakeOnly = true;
+      retakeQuestions = missedQuestions;
+      currentQ = 0;
+      answers = {};
+      reviewFlags.clear();
+      visited.clear();
+      visited.add(0);
+      submitted = false;
+      showingReview = false;
+      mode = 'practice'; // Run retakes in Practice mode for instant clarity
       render();
     }
 
     function render() {
-      const questions = bank[activeCat] || [];
+      const questions = getActiveQuestions();
       if (!questions.length) {
-        container.innerHTML = '<div class="card">No questions in this category.</div>';
+        container.innerHTML = '<div class="card">No questions available in this category.</div>';
         return;
       }
 
+      visited.add(currentQ);
       const answeredCount = Object.keys(answers).length;
-      const correctCount = questions.reduce((acc, q, idx) => acc + (answers[idx] === q.answer ? 1 : 0), 0);
+      const reviewCount = reviewFlags.size;
+      const unattemptedCount = questions.length - answeredCount;
 
+      // -------------------------------------------------------------
+      // SUBMITTED: SCORECARD & PERFORMANCE ANALYTICS VIEW
+      // -------------------------------------------------------------
       if (submitted) {
         stopTimer();
-        const pct = Math.round((correctCount / questions.length) * 100);
+        let correctCount = 0;
+        let wrongCount = 0;
+        const missedQuestions = [];
+        const topicStats = {};
+
+        questions.forEach((q, idx) => {
+          const chosen = answers[idx];
+          const isCorrect = chosen === q.answer;
+          const topic = q.topic || activeCat.split(':')[0];
+          if (!topicStats[topic]) topicStats[topic] = { total: 0, correct: 0 };
+          topicStats[topic].total++;
+
+          if (isCorrect) {
+            correctCount++;
+            topicStats[topic].correct++;
+          } else {
+            if (chosen !== undefined) wrongCount++;
+            missedQuestions.push(q);
+          }
+        });
+
+        const penalty = (mode === 'mock' && negativeMarking) ? (wrongCount * 0.25) : 0;
+        const netMarks = Math.max(0, correctCount - penalty);
+        const netPct = Math.round((netMarks / questions.length) * 100);
+        const accuracyPct = (correctCount + wrongCount) > 0 ? Math.round((correctCount / (correctCount + wrongCount)) * 100) : 0;
+        const timeTakenFormatted = formatTime(Math.max(1, (Date.now() - startTime) / 1000));
+
+        // Topic mastery breakdown
+        const strongTopics = [];
+        const weakTopics = [];
+        Object.keys(topicStats).forEach(t => {
+          const rate = Math.round((topicStats[t].correct / topicStats[t].total) * 100);
+          if (rate >= 80) strongTopics.push(`${t} (${rate}%)`);
+          else weakTopics.push(`${t} (${rate}%)`);
+        });
+
         container.innerHTML = `
-          <div class="tabs" role="tablist" aria-label="Quiz Categories">
+          <!-- Category Tabs -->
+          <div class="tabs" role="tablist" aria-label="Quiz Categories" style="margin-bottom:16px; overflow-x:auto; flex-wrap:nowrap;">
             ${categories.map((cat) => `
               <button type="button" class="tab-btn ${cat === activeCat ? 'active' : ''}" data-cat="${esc(cat)}">${esc(cat)}</button>
             `).join('')}
           </div>
 
-          <div class="card" style="margin-bottom:16px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <!-- Comprehensive Exam Scorecard -->
+          <div class="card" style="margin-bottom:20px; border-top: 4px solid var(--primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
               <div>
-                <div class="card-title">${esc(activeCat)} Quiz Complete!</div>
-                <div class="card-desc">Score: <strong>${correctCount} / ${questions.length}</strong> (${pct}%)</div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span class="badge ${netPct >= 70 ? 'badge-free' : 'badge-freemium'}" style="font-size:0.85rem;">
+                    ${netPct >= 70 ? '🎉 Exam Qualified' : '📖 Revision Recommended'}
+                  </span>
+                  <span style="font-size:0.85rem; color:var(--text-muted);">${mode === 'mock' ? 'Mock Placement Exam' : 'Practice Mode'}</span>
+                </div>
+                <h2 style="margin:6px 0 2px; font-size:1.4rem;">${esc(activeCat)} Scorecard</h2>
+                <p style="margin:0; font-size:0.88rem; color:var(--text-muted);">
+                  Performance summary, accuracy analytics & syllabus mastery.
+                </p>
               </div>
-              <button type="button" class="btn btn-primary btn-sm" id="quizRestartBtn">↻ Retake ${esc(activeCat)} Quiz</button>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                ${missedQuestions.length > 0 ? `
+                  <button type="button" class="btn btn-primary btn-sm" id="quizRetakeIncorrectBtn">
+                    🔄 Retake Incorrect Only (${missedQuestions.length})
+                  </button>
+                ` : ''}
+                <button type="button" class="btn btn-outline btn-sm" id="quizToggleSolutionsBtn">
+                  ${showingReview ? '▲ Hide Solutions' : '📖 Review All Solutions'}
+                </button>
+                <button type="button" class="btn btn-outline btn-sm" id="quizRestartBtn">
+                  🔁 Start New Quiz
+                </button>
+              </div>
+            </div>
+
+            <!-- Scorecard Metrics Grid -->
+            <div class="grid grid-4" style="gap:12px; margin-bottom:16px;">
+              <div class="card" style="padding:14px; text-align:center; background:var(--bg-elevated); border:1px solid var(--border);">
+                <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); font-weight:600;">Net Marks</div>
+                <div style="font-size:1.6rem; font-weight:800; color:var(--primary); margin:4px 0;">${netMarks.toFixed(2)} <span style="font-size:0.95rem; font-weight:500; color:var(--text-muted);">/ ${questions.length}</span></div>
+                <div style="font-size:0.8rem; color:var(--text-muted);">${netPct}% Overall</div>
+              </div>
+
+              <div class="card" style="padding:14px; text-align:center; background:var(--bg-elevated); border:1px solid var(--border);">
+                <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); font-weight:600;">Accuracy</div>
+                <div style="font-size:1.6rem; font-weight:800; color:${accuracyPct >= 75 ? 'var(--success)' : 'var(--warning)'}; margin:4px 0;">${accuracyPct}%</div>
+                <div style="font-size:0.8rem; color:var(--text-muted);">${correctCount} of ${correctCount + wrongCount} attempted</div>
+              </div>
+
+              <div class="card" style="padding:14px; text-align:center; background:var(--bg-elevated); border:1px solid var(--border);">
+                <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); font-weight:600;">Penalties (${negativeMarking && mode === 'mock' ? '-0.25' : 'None'})</div>
+                <div style="font-size:1.6rem; font-weight:800; color:${penalty > 0 ? 'var(--danger)' : 'var(--text-muted)'}; margin:4px 0;">-${penalty.toFixed(2)}</div>
+                <div style="font-size:0.8rem; color:var(--text-muted);">${wrongCount} Wrong, ${questions.length - answeredCount} Skipped</div>
+              </div>
+
+              <div class="card" style="padding:14px; text-align:center; background:var(--bg-elevated); border:1px solid var(--border);">
+                <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); font-weight:600;">Time Spent</div>
+                <div style="font-size:1.6rem; font-weight:800; color:var(--text); margin:4px 0;">${timeTakenFormatted}</div>
+                <div style="font-size:0.8rem; color:var(--text-muted);">Pace: ${(Math.max(1, (Date.now() - startTime) / 1000) / Math.max(1, answeredCount)).toFixed(0)}s / question</div>
+              </div>
+            </div>
+
+            <!-- Topic Mastery Breakdown -->
+            <div style="display:flex; flex-wrap:wrap; gap:16px; padding:12px; background:var(--bg); border-radius:12px; border:1px solid var(--border);">
+              <div style="flex:1; min-width:240px;">
+                <div style="font-size:0.85rem; font-weight:700; color:var(--success); margin-bottom:6px;">
+                  🟢 Strong Mastery (≥ 80%)
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                  ${strongTopics.length ? strongTopics.map(t => `
+                    <span class="badge" style="background:rgba(5, 150, 105, 0.1); color:var(--success); font-weight:600;">${esc(t)}</span>
+                  `).join('') : '<span style="font-size:0.82rem; color:var(--text-muted);">None yet — keep practicing!</span>'}
+                </div>
+              </div>
+
+              <div style="flex:1; min-width:240px;">
+                <div style="font-size:0.85rem; font-weight:700; color:var(--danger); margin-bottom:6px;">
+                  🔴 Needs Revision (< 80%)
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                  ${weakTopics.length ? weakTopics.map(t => `
+                    <span class="badge" style="background:rgba(220, 38, 38, 0.1); color:var(--danger); font-weight:600;">${esc(t)}</span>
+                  `).join('') : '<span style="font-size:0.82rem; color:var(--text-muted);">All topics mastered! 🚀</span>'}
+                </div>
+              </div>
             </div>
           </div>
 
-          <div style="display:grid; gap:12px;">
+          <!-- Solutions Expansion -->
+          <div id="solutionsContainer" style="${showingReview ? 'display:grid;' : 'display:none;'} gap:16px; margin-top:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <h3 style="margin:0; font-size:1.15rem;">Question Solutions & Step-by-Step Explanations</h3>
+              <span style="font-size:0.85rem; color:var(--text-muted);">${questions.length} Questions</span>
+            </div>
             ${questions.map((q, idx) => {
               const chosen = answers[idx];
               const isCorrect = chosen === q.answer;
+              const isSkipped = chosen === undefined;
               return `
-                <div class="card">
-                  <div style="display:flex; justify-content:space-between; gap:8px;">
-                    <strong>Q${idx + 1}. ${esc(q.q)}</strong>
-                    <span class="${isCorrect ? 'status-safe' : 'status-warn'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+                <div class="card" style="border-left: 4px solid ${isCorrect ? 'var(--success)' : (isSkipped ? 'var(--warning)' : 'var(--danger)')};">
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                    <div>
+                      <span class="badge" style="font-size:0.75rem; margin-bottom:4px;">Q${idx + 1}</span>
+                      <strong style="display:block; font-size:0.95rem; line-height:1.4;">${esc(q.q)}</strong>
+                    </div>
+                    <span class="badge ${isCorrect ? 'badge-free' : (isSkipped ? 'badge-freemium' : 'badge-paid')}">
+                      ${isCorrect ? '✓ Correct (+1.0)' : (isSkipped ? '○ Skipped (0.0)' : `✕ Wrong (${negativeMarking && mode === 'mock' ? '-0.25' : '0.0'})`)}
+                    </span>
                   </div>
-                  <div style="display:grid; gap:6px; margin-top:6px;">
+
+                  ${q.snippet ? `
+                    <pre class="quiz-snippet" style="margin:10px 0; padding:10px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-family:'Fira Code', 'Courier New', monospace; font-size:0.85rem; overflow-x:auto;"><code>${esc(q.snippet)}</code></pre>
+                  ` : ''}
+
+                  <div style="display:grid; gap:8px; margin-top:10px;">
                     ${q.options.map((opt, oIdx) => {
                       let cls = 'quiz-option';
-                      if (oIdx === q.answer) cls += ' correct';
-                      else if (oIdx === chosen && chosen !== q.answer) cls += ' wrong';
-                      return `<div class="${cls}">${esc(opt)}</div>`;
+                      let statusText = '';
+                      if (oIdx === q.answer) {
+                        cls += ' correct';
+                        statusText = ' (Correct Answer)';
+                      } else if (oIdx === chosen) {
+                        cls += ' wrong';
+                        statusText = ' (Your Answer)';
+                      }
+                      return `
+                        <div class="${cls}" style="padding:10px 14px; font-size:0.88rem;">
+                          <strong>${String.fromCharCode(65 + oIdx)}.</strong> ${esc(opt)}${statusText}
+                        </div>
+                      `;
                     }).join('')}
                   </div>
-                  <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">
-                    <strong>Explanation:</strong> ${esc(q.explanation)}
+
+                  <div style="margin-top:10px; padding:10px 12px; background:rgba(79, 70, 229, 0.05); border:1px solid rgba(79, 70, 229, 0.15); border-radius:8px; font-size:0.86rem; color:var(--text);">
+                    <strong style="color:var(--primary);">💡 Explanation:</strong> ${esc(q.explanation)}
                   </div>
                 </div>
               `;
             }).join('')}
           </div>
         `;
-      } else {
-        const q = questions[currentQ];
-        const chosen = answers[currentQ];
 
-        container.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-            <div class="tabs" role="tablist" aria-label="Quiz Categories" style="margin-bottom:0;">
-              ${categories.map((cat) => `
-                <button type="button" class="tab-btn ${cat === activeCat ? 'active' : ''}" data-cat="${esc(cat)}">${esc(cat)}</button>
-              `).join('')}
-            </div>
-            <div class="quiz-timer">⏱ <span id="quizTimerEl">${formatTime(secondsLeft)}</span></div>
-          </div>
-
-          <div class="card">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-              <span class="badge">Question ${currentQ + 1} of ${questions.length}</span>
-              <span style="font-size:0.84rem; color:var(--text-muted);">Answered: ${answeredCount}/${questions.length}</span>
-            </div>
-
-            <div class="card-title" style="margin-top:6px;">${esc(q.q)}</div>
-
-            <div style="display:grid; gap:8px; margin-top:6px;">
-              ${q.options.map((opt, oIdx) => `
-                <button type="button" class="quiz-option ${chosen === oIdx ? 'selected' : ''}" data-opt-idx="${oIdx}" style="text-align:left;">
-                  <strong>${String.fromCharCode(65 + oIdx)}.</strong> ${esc(opt)}
-                </button>
-              `).join('')}
-            </div>
-
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:12px;">
-              <div style="display:flex; gap:8px;">
-                <button type="button" class="btn btn-outline btn-sm" id="quizPrevBtn" ${currentQ === 0 ? 'disabled' : ''}>← Prev</button>
-                <button type="button" class="btn btn-outline btn-sm" id="quizNextBtn" ${currentQ === questions.length - 1 ? 'disabled' : ''}>Next →</button>
-              </div>
-              <button type="button" class="btn btn-primary btn-sm" id="quizSubmitBtn">Submit Quiz</button>
-            </div>
-          </div>
-        `;
+        // Bind Post-Submit Events
+        container.querySelectorAll('.tab-btn[data-cat]').forEach(btn => {
+          btn.addEventListener('click', () => resetQuiz(btn.getAttribute('data-cat')));
+        });
+        const restartBtn = container.querySelector('#quizRestartBtn');
+        if (restartBtn) restartBtn.addEventListener('click', () => resetQuiz(activeCat));
+        const toggleSolBtn = container.querySelector('#quizToggleSolutionsBtn');
+        if (toggleSolBtn) {
+          toggleSolBtn.addEventListener('click', () => {
+            showingReview = !showingReview;
+            render();
+          });
+        }
+        const retakeBtn = container.querySelector('#quizRetakeIncorrectBtn');
+        if (retakeBtn) {
+          retakeBtn.addEventListener('click', () => startRetake(missedQuestions));
+        }
+        return;
       }
 
-      container.querySelectorAll('.tab-btn[data-cat]').forEach((btn) => {
+      // -------------------------------------------------------------
+      // ACTIVE QUIZ INTERFACE: PRACTICE OR MOCK EXAM MODE
+      // -------------------------------------------------------------
+      const q = questions[currentQ];
+      const chosen = answers[currentQ];
+      const isReviewed = reviewFlags.has(currentQ);
+      const isAnswered = chosen !== undefined;
+
+      container.innerHTML = `
+        <!-- Top Category Tabs -->
+        <div class="tabs" role="tablist" aria-label="Quiz Categories" style="margin-bottom:14px; overflow-x:auto; flex-wrap:nowrap;">
+          ${categories.map((cat) => `
+            <button type="button" class="tab-btn ${cat === activeCat ? 'active' : ''}" data-cat="${esc(cat)}">${esc(cat)}</button>
+          `).join('')}
+        </div>
+
+        <!-- Mode & Controls Header Bar -->
+        <div class="card" style="padding:12px 16px; margin-bottom:14px; background:var(--bg-elevated); border:1px solid var(--border);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <!-- Mode Selector Switch -->
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:0.84rem; font-weight:600; color:var(--text-muted);">Mode:</span>
+              <div style="display:inline-flex; border:1px solid var(--border); border-radius:999px; padding:2px; background:var(--bg);">
+                <button type="button" class="btn btn-sm ${mode === 'practice' ? 'btn-primary' : 'btn-outline'}" id="quizModePracticeBtn" style="border-radius:999px; padding:4px 12px; font-size:0.8rem; border:none;">
+                  🟢 Practice (Instant Feedback)
+                </button>
+                <button type="button" class="btn btn-sm ${mode === 'mock' ? 'btn-primary' : 'btn-outline'}" id="quizModeMockBtn" style="border-radius:999px; padding:4px 12px; font-size:0.8rem; border:none;">
+                  🔴 Mock Exam (Placement Timed)
+                </button>
+              </div>
+            </div>
+
+            <!-- Negative Marking & Timer Info -->
+            <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+              ${mode === 'mock' ? `
+                <label style="display:inline-flex; align-items:center; gap:6px; font-size:0.82rem; color:var(--text-muted); cursor:pointer;">
+                  <input type="checkbox" id="negativeMarkingToggle" ${negativeMarking ? 'checked' : ''} style="accent-color:var(--primary);" />
+                  Negative Marking (-0.25)
+                </label>
+                <div class="quiz-timer" style="background:rgba(220, 38, 38, 0.08); border-color:rgba(220, 38, 38, 0.25); color:var(--danger);">
+                  ⏱ <span id="quizTimerEl">${formatTime(secondsLeft)}</span>
+                </div>
+              ` : `
+                <span class="badge badge-free" style="font-size:0.8rem;">Untimed Self-Paced Practice</span>
+              `}
+            </div>
+          </div>
+
+          <!-- Time Warning Banner (< 2 mins) -->
+          <div id="quizWarningBanner" style="display:${(mode === 'mock' && secondsLeft <= 120 && secondsLeft > 0) ? 'flex' : 'none'}; align-items:center; gap:8px; margin-top:10px; padding:8px 12px; background:rgba(220, 38, 38, 0.1); border:1px solid var(--danger); border-radius:8px; color:var(--danger); font-size:0.85rem; font-weight:600;">
+            ⚠️ <strong>Time Alert:</strong> Less than 2 minutes remaining! Review marked questions before automated submission.
+          </div>
+        </div>
+
+        <!-- Main Question & Palette Layout -->
+        <div style="display:grid; grid-template-columns: 1fr ${mode === 'mock' ? '300px' : '260px'}; gap:16px; align-items:start;" class="quiz-layout-grid">
+          
+          <!-- LEFT / MAIN: Question Card -->
+          <div class="card" style="padding:20px; border-top: 4px solid var(--primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="badge" style="font-size:0.82rem;">Question ${currentQ + 1} of ${questions.length}</span>
+                ${isReviewed ? '<span class="badge" style="background:rgba(147, 51, 234, 0.1); color:#7c3aed; border:1px solid rgba(147, 51, 234, 0.3);">★ Marked for Review</span>' : ''}
+              </div>
+              <span style="font-size:0.82rem; color:var(--text-muted);">
+                Answered: <strong>${answeredCount}</strong> / ${questions.length}
+              </span>
+            </div>
+
+            <!-- Question Statement -->
+            <h3 style="margin:0 0 12px; font-size:1.05rem; line-height:1.5; color:var(--text);">
+              ${esc(q.q)}
+            </h3>
+
+            <!-- Monospace Code Snippet Block (if present) -->
+            ${q.snippet ? `
+              <pre class="quiz-snippet" style="margin:12px 0 16px; padding:12px 16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; font-family:'Fira Code', 'Courier New', monospace; font-size:0.88rem; overflow-x:auto; line-height:1.45; color:#0f172a;"><code>${esc(q.snippet)}</code></pre>
+            ` : ''}
+
+            <!-- Options List -->
+            <div style="display:grid; gap:10px; margin:16px 0;">
+              ${q.options.map((opt, oIdx) => {
+                let cls = 'quiz-option';
+                if (mode === 'practice') {
+                  if (chosen !== undefined) {
+                    if (oIdx === q.answer) cls += ' correct';
+                    else if (oIdx === chosen) cls += ' wrong';
+                  }
+                } else {
+                  if (chosen === oIdx) cls += ' selected';
+                }
+                return `
+                  <button type="button" class="${cls}" data-opt-idx="${oIdx}" style="text-align:left; justify-content:flex-start;">
+                    <strong style="width:24px; height:24px; border-radius:50%; display:inline-grid; place-items:center; background:rgba(0,0,0,0.04); font-size:0.82rem; flex-shrink:0;">
+                      ${String.fromCharCode(65 + oIdx)}
+                    </strong>
+                    <span style="flex:1;">${esc(opt)}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            <!-- Practice Mode Instant Explanation -->
+            ${mode === 'practice' && chosen !== undefined ? `
+              <div style="margin-top:16px; padding:14px; background:rgba(79, 70, 229, 0.05); border:1px solid rgba(79, 70, 229, 0.2); border-radius:10px; font-size:0.88rem;">
+                <div style="font-weight:700; color:var(--primary); margin-bottom:4px;">
+                  ${chosen === q.answer ? '✅ Correct Answer!' : '❌ Incorrect Selection'}
+                </div>
+                <div><strong>Explanation:</strong> ${esc(q.explanation)}</div>
+              </div>
+            ` : ''}
+
+            <!-- Action Buttons Toolbar -->
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+              <div style="display:flex; gap:8px;">
+                <button type="button" class="btn btn-outline btn-sm" id="quizPrevBtn" ${currentQ === 0 ? 'disabled' : ''}>
+                  ← Prev
+                </button>
+                <button type="button" class="btn btn-outline btn-sm" id="quizNextBtn" ${currentQ === questions.length - 1 ? 'disabled' : ''}>
+                  Next →
+                </button>
+              </div>
+
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                ${chosen !== undefined ? `
+                  <button type="button" class="btn btn-outline btn-sm" id="quizClearChoiceBtn" style="font-size:0.8rem; color:var(--text-muted);">
+                    Clear Choice
+                  </button>
+                ` : ''}
+                <button type="button" class="btn btn-outline btn-sm" id="quizMarkReviewBtn" style="font-size:0.8rem; color:#7c3aed; border-color:rgba(147, 51, 234, 0.4);">
+                  ${isReviewed ? '★ Unmark Review' : '☆ Mark for Review'}
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" id="quizSubmitBtn">
+                  Finish & Submit
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Professional TCS/GATE Style Question Palette -->
+          <div class="card" style="padding:16px; background:var(--bg-elevated); border:1px solid var(--border); position:sticky; top:80px;">
+            <div style="font-size:0.9rem; font-weight:700; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+              <span>Question Palette</span>
+              <span class="badge" style="font-size:0.75rem;">${questions.length} Items</span>
+            </div>
+
+            <!-- Legend -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:0.75rem; color:var(--text-muted); margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--border);">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="width:12px; height:12px; border-radius:3px; background:#16a34a; display:inline-block;"></span>
+                <span>Answered (${answeredCount})</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="width:12px; height:12px; border-radius:3px; background:#ea580c; display:inline-block;"></span>
+                <span>Unanswered</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="width:12px; height:12px; border-radius:3px; background:#7c3aed; display:inline-block;"></span>
+                <span>Review (${reviewCount})</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="width:12px; height:12px; border-radius:3px; background:#cbd5e1; display:inline-block;"></span>
+                <span>Not Visited</span>
+              </div>
+            </div>
+
+            <!-- Number Palette Grid -->
+            <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:6px;">
+              ${questions.map((_, idx) => {
+                const ans = answers[idx] !== undefined;
+                const rev = reviewFlags.has(idx);
+                const vis = visited.has(idx);
+                const isCur = idx === currentQ;
+
+                let bg = '#f1f5f9';
+                let col = '#475569';
+                let border = '#cbd5e1';
+
+                if (rev) {
+                  bg = '#7c3aed';
+                  col = '#ffffff';
+                  border = '#6b21a8';
+                } else if (ans) {
+                  bg = '#16a34a';
+                  col = '#ffffff';
+                  border = '#15803d';
+                } else if (vis) {
+                  bg = '#ea580c';
+                  col = '#ffffff';
+                  border = '#c2410c';
+                }
+
+                return `
+                  <button type="button" class="palette-q-btn" data-q-idx="${idx}" style="
+                    aspect-ratio:1;
+                    border-radius:8px;
+                    border:2px solid ${isCur ? 'var(--primary)' : border};
+                    background:${bg};
+                    color:${col};
+                    font-weight:700;
+                    font-size:0.82rem;
+                    cursor:pointer;
+                    display:grid;
+                    place-items:center;
+                    box-shadow:${isCur ? '0 0 0 2px rgba(79, 70, 229, 0.35)' : 'none'};
+                    transition:transform 0.1s ease;
+                  ">
+                    ${idx + 1}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            <!-- Quick Jump Footer -->
+            <div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--border); text-align:center;">
+              <button type="button" class="btn btn-primary btn-sm" id="quizPaletteSubmitBtn" style="width:100%;">
+                Submit Quiz (${answeredCount}/${questions.length})
+              </button>
+            </div>
+          </div>
+
+        </div>
+      `;
+
+      // -------------------------------------------------------------
+      // EVENT LISTENERS BINDING
+      // -------------------------------------------------------------
+      // Category Switching
+      container.querySelectorAll('.tab-btn[data-cat]').forEach(btn => {
         btn.addEventListener('click', () => {
           resetQuiz(btn.getAttribute('data-cat'));
         });
       });
 
-      container.querySelectorAll('.quiz-option[data-opt-idx]').forEach((btn) => {
+      // Mode Switching
+      const practiceBtn = container.querySelector('#quizModePracticeBtn');
+      if (practiceBtn) {
+        practiceBtn.addEventListener('click', () => {
+          if (mode !== 'practice') resetQuiz(activeCat, 'practice');
+        });
+      }
+      const mockBtn = container.querySelector('#quizModeMockBtn');
+      if (mockBtn) {
+        mockBtn.addEventListener('click', () => {
+          if (mode !== 'mock') resetQuiz(activeCat, 'mock');
+        });
+      }
+
+      // Negative Marking Toggle
+      const negToggle = container.querySelector('#negativeMarkingToggle');
+      if (negToggle) {
+        negToggle.addEventListener('change', () => {
+          negativeMarking = negToggle.checked;
+        });
+      }
+
+      // Option Selection
+      container.querySelectorAll('.quiz-option[data-opt-idx]').forEach(btn => {
         btn.addEventListener('click', () => {
           answers[currentQ] = Number(btn.getAttribute('data-opt-idx'));
           render();
         });
       });
 
-      const prevBtn = container.querySelector('#quizPrevBtn');
-      if (prevBtn) prevBtn.addEventListener('click', () => { if (currentQ > 0) { currentQ -= 1; render(); } });
+      // Clear Choice
+      const clearBtn = container.querySelector('#quizClearChoiceBtn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          delete answers[currentQ];
+          render();
+        });
+      }
 
+      // Mark for Review
+      const reviewBtn = container.querySelector('#quizMarkReviewBtn');
+      if (reviewBtn) {
+        reviewBtn.addEventListener('click', () => {
+          if (reviewFlags.has(currentQ)) reviewFlags.delete(currentQ);
+          else reviewFlags.add(currentQ);
+          render();
+        });
+      }
+
+      // Navigation Prev / Next
+      const prevBtn = container.querySelector('#quizPrevBtn');
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          if (currentQ > 0) {
+            currentQ -= 1;
+            render();
+          }
+        });
+      }
       const nextBtn = container.querySelector('#quizNextBtn');
-      if (nextBtn) nextBtn.addEventListener('click', () => { if (currentQ < questions.length - 1) { currentQ += 1; render(); } });
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          if (currentQ < questions.length - 1) {
+            currentQ += 1;
+            render();
+          }
+        });
+      }
+
+      // Jump via Palette
+      container.querySelectorAll('.palette-q-btn[data-q-idx]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentQ = Number(btn.getAttribute('data-q-idx'));
+          render();
+        });
+      });
+
+      // Submission
+      const doSubmit = () => {
+        if (mode === 'mock') {
+          const unans = questions.length - Object.keys(answers).length;
+          const rev = reviewFlags.size;
+          let msg = 'Are you ready to submit your exam?\n';
+          if (unans > 0) msg += `\n• You have ${unans} unanswered question(s).`;
+          if (rev > 0) msg += `\n• You have ${rev} question(s) marked for review.`;
+          if (!confirm(msg + '\n\nClick OK to finalize your submission.')) return;
+        }
+        submitted = true;
+        recordQuizCompletion();
+        render();
+      };
 
       const submitBtn = container.querySelector('#quizSubmitBtn');
-      if (submitBtn) submitBtn.addEventListener('click', () => { submitted = true; render(); });
-
-      const restartBtn = container.querySelector('#quizRestartBtn');
-      if (restartBtn) restartBtn.addEventListener('click', () => resetQuiz(activeCat));
+      if (submitBtn) submitBtn.addEventListener('click', doSubmit);
+      const palSubmitBtn = container.querySelector('#quizPaletteSubmitBtn');
+      if (palSubmitBtn) palSubmitBtn.addEventListener('click', doSubmit);
     }
 
-    startTimer();
+    if (mode === 'mock') startTimer();
     render();
   }
-
   window.SCHOLAR_TOOLS = {
     renderSgpaCalculator,
     renderAttendanceTracker,
