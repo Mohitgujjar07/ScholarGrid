@@ -198,6 +198,10 @@
           <span class="sidebar-link-icon">${getIcon('home')}</span>
           <span class="sidebar-link-text">Dashboard</span>
         </a>
+        <a href="landing.html" class="sidebar-link">
+          <span class="sidebar-link-icon">✨</span>
+          <span class="sidebar-link-text">Overview &amp; Features</span>
+        </a>
 
         ${navSections.map(sec => `
           <div class="sidebar-section-label">${sec.title}</div>
@@ -505,21 +509,27 @@
         const firstName = (user.displayName || 'Scholar').split(' ')[0];
         const initials = (user.displayName || 'S').substring(0, 2).toUpperCase();
         const sem = profile?.semester || getSemFocus();
+        const isAdmin = window.ScholarFirebase?.auth?.isAdmin(user);
 
         slot.innerHTML = `
           <div class="user-pill-container" id="userPillContainer">
             <button type="button" id="userPillBtn" class="user-pill-btn" aria-haspopup="true" aria-expanded="false" title="Account settings & sync status">
               ${user.photoURL ? `<img class="user-avatar" src="${escHtml(user.photoURL)}" alt="Avatar" referrerpolicy="no-referrer" />` : `<div class="user-avatar-initials">${escHtml(initials)}</div>`}
               <span class="user-name">${escHtml(firstName)}</span>
-              <span class="user-badge">${escHtml(sem !== 'All' ? sem : 'BCA')}</span>
+              <span class="user-badge">${isAdmin ? '🛡️ Admin' : escHtml(sem !== 'All' ? sem : 'BCA')}</span>
               <span style="font-size:0.7rem;color:var(--text-muted);margin-left:2px;">▼</span>
             </button>
             <div class="user-dropdown-menu" id="userDropdownMenu" role="menu">
               <div class="user-dropdown-header">
-                <div class="name">${escHtml(user.displayName || 'BCA Scholar')}</div>
+                <div class="name">${escHtml(user.displayName || 'BCA Scholar')} ${isAdmin ? '<span class="badge badge-free" style="font-size:0.7rem;margin-left:4px;">Admin</span>' : ''}</div>
                 <div class="email">${escHtml(user.email || '')}</div>
                 <div class="meta-tag">🏛️ ${escHtml(profile?.college || 'Tumkur University')}</div>
               </div>
+              ${isAdmin ? `
+                <a href="admin.html" class="user-dropdown-item" style="color:var(--primary);font-weight:700;background:var(--primary-soft);border-radius:8px;margin-bottom:4px;">
+                  <span>🛡️</span> Admin Console
+                </a>
+              ` : ''}
               <button type="button" class="user-dropdown-item" id="menuEditProfileBtn">
                 <span>🎯</span> Edit Profile &amp; Goals
               </button>
@@ -1192,6 +1202,7 @@
       <div class="container footer-inner">
         <div><strong>${DATA.brand.name}</strong> — Modern Ad-Free Academic Workspace</div>
         <div class="footer-links">
+          <a href="landing.html">✨ Features</a>
           <a href="index.html">Dashboard</a>
           <a href="resource.html#notes">Notes</a>
           <a href="resource.html#lab-manuals">Labs</a>
@@ -1260,8 +1271,28 @@
     modal.addEventListener('click', (e) => {
       if (e.target === modal) modal.classList.remove('open');
     });
-    document.getElementById('helpForm').addEventListener('submit', (e) => {
+    document.getElementById('helpForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+      const topicEl = document.getElementById('helpTopic');
+      const detailsEl = document.getElementById('helpDetails');
+      const topic = topicEl ? topicEl.value : 'General';
+      const details = detailsEl ? detailsEl.value.trim() : '';
+      const user = window.ScholarFirebase?.auth?.getCurrentUser();
+
+      if (window.ScholarFirebase?.admin?.submitFeedback && details) {
+        try {
+          await window.ScholarFirebase.admin.submitFeedback({
+            name: user?.displayName || 'Student User',
+            email: user?.email || 'unregistered@student',
+            category: topic === 'notes' ? 'Missing Notes' : (topic === 'ebook' ? 'E-Book Request' : (topic === 'tutorial' ? 'Video Tutorial' : 'Contribution')),
+            subject: `Student Request (${topic})`,
+            message: details
+          });
+        } catch (err) {
+          console.warn('Feedback submit notice:', err);
+        }
+      }
+
       document.getElementById('helpAlert').classList.add('show');
       e.target.reset();
     });
@@ -1517,20 +1548,41 @@
     });
 
     if (noticesList) {
-      noticesList.innerHTML = DATA.noticesFeed.map((n) => `
-        <a href="${n.url}" target="_blank" rel="noopener noreferrer" class="card card-interactive">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-            <span class="badge badge-subtle" style="font-weight:700;">${n.tag}</span>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="font-size:0.75rem;color:var(--text-muted);">${n.date}</span>
-              ${renderPinButton(n.url, n.title, n.url, n.tag)}
+      async function renderNoticesWithAdminAnnouncements() {
+        let broadcastAnnouncements = [];
+        if (window.ScholarFirebase?.admin?.getAnnouncements) {
+          try {
+            broadcastAnnouncements = await window.ScholarFirebase.admin.getAnnouncements();
+          } catch {}
+        }
+
+        const customNotices = (broadcastAnnouncements || []).map(ann => ({
+          title: ann.title,
+          summary: ann.body,
+          tag: ann.tag || 'Notice',
+          date: ann.createdAt ? new Date(ann.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }) : 'Today',
+          url: 'resource.html#notices',
+          urgent: !!ann.urgent
+        }));
+
+        const mergedNotices = [...customNotices, ...DATA.noticesFeed];
+
+        noticesList.innerHTML = mergedNotices.map((n) => `
+          <a href="${n.url}" ${n.url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''} class="card card-interactive" ${n.urgent ? 'style="border-left:4px solid var(--danger);background:rgba(220,38,38,0.02);"' : ''}>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+              <span class="badge ${n.urgent ? 'badge-paid' : 'badge-subtle'}" style="font-weight:700;">${n.tag}</span>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:0.75rem;color:var(--text-muted);">${n.date}</span>
+                ${renderPinButton(n.url, n.title, n.url, n.tag)}
+              </div>
             </div>
-          </div>
-          <div class="card-title">${n.title}</div>
-          <div class="card-desc">${n.summary}</div>
-          <div class="card-meta"><span>Open Notice ↗</span></div>
-        </a>
-      `).join('');
+            <div class="card-title">${n.title}</div>
+            <div class="card-desc">${n.summary}</div>
+            <div class="card-meta"><span>Open Notice ↗</span></div>
+          </a>
+        `).join('');
+      }
+      renderNoticesWithAdminAnnouncements();
     }
 
     renderRecentUploads(focusSem);

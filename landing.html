@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScholarGrid — The Modern Academic OS for BCA Students</title>
+  <meta name="description" content="Stop begging seniors for notes. 173+ verified offline PDFs, smart SGPA & attendance engines, placement simulators, and 1-page ATS resumes — 100% free and open-access." />
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg" />
+  <link rel="apple-touch-icon" href="assets/logo.jpg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4f46e5" />
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/landing.css" />
+</head>
+<body class="landing-body">
+  <div class="landing-bg-mesh" aria-hidden="true"></div>
+
+  <!-- Navigation Bar -->
+  <header class="landing-nav">
+    <div class="landing-container">
+      <div class="landing-nav-inner">
+        <a href="landing.html" class="landing-brand">
+          <img src="assets/logo.jpg" alt="ScholarGrid" class="landing-brand-img" />
+          <div class="landing-brand-text">
+            <span class="landing-brand-title">
+              ScholarGrid
+              <span class="landing-brand-pill">Academic OS</span>
+            </span>
+            <span class="landing-brand-subtitle">Built for BCA Students</span>
+          </div>
+        </a>
+
+        <nav class="landing-nav-links" aria-label="Main Navigation">
+          <a href="#tools" class="landing-nav-link">Productivity Tools</a>
+          <a href="#contrast" class="landing-nav-link">Why ScholarGrid</a>
+          <a href="#vault" class="landing-nav-link">173+ PDF Vault</a>
+          <a href="#reviews" class="landing-nav-link">Student Vibe</a>
+        </nav>
+
+        <div class="landing-nav-cta">
+          <a href="index.html" class="btn-landing-primary">
+            <span>⚡ Launch Workspace</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="landing-hero">
+      <div class="landing-container">
+        <!-- Floating Eyebrow Pill -->
+        <div class="hero-eyebrow-badge">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span>Built by students, for students • 100% Free &amp; Open-Access</span>
+        </div>
+
+        <h1 class="landing-hero-title">
+          Stop Begging Seniors for Notes.<br />
+          <span class="hero-title-gradient">The All-in-One Academic OS for BCA.</span>
+        </h1>
+
+        <p class="landing-hero-subtitle">
+          Forget 47 chaotic WhatsApp groups and broken Google Drive links. Get 173+ verified offline PDFs, smart SGPA &amp; attendance engines, placement simulators, and 1-page ATS resumes — in one single tab.
+        </p>
+
+        <!-- Action CTAs -->
+        <div class="landing-hero-actions">
+          <a href="index.html" class="btn-landing-primary" style="font-size:1.02rem;padding:12px 28px;">
+            <span>⚡ Open Full Workspace</span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="resource.html#mcq-quiz?daily=1" class="btn-landing-secondary" style="font-size:1.02rem;padding:12px 24px;">
+            <span>🎯 Try Daily 5 MCQ</span>
+          </a>
+        </div>
+
+        <!-- Sub Perks -->
+        <div class="hero-sub-badges">
+          <div class="hero-sub-badge-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>No Sign-up Wall</span>
+          </div>
+          <div class="hero-sub-badge-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>100% Free Forever</span>
+          </div>
+          <div class="hero-sub-badge-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Works 100% Offline</span>
+          </div>
+          <div class="hero-sub-badge-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Zero Popups or Ads</span>
+          </div>
+        </div>
+
+        <!-- Hero Interactive App Showcase -->
+        <div class="hero-preview-window">
+          <!-- Top Window Bar -->
+          <div class="preview-window-topbar">
+            <div class="window-dots">
+              <span class="window-dot red"></span>
+              <span class="window-dot yellow"></span>
+              <span class="window-dot green"></span>
+            </div>
+            <div class="window-search-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span>Quick search: "DBMS Normalization", "SGPA Calculator", "TCS NQT"...</span>
+            </div>
+            <div class="window-status-pill">
+              <span>● Workspace Active</span>
+            </div>
+          </div>
+
+          <!-- Preview Tabs Navigation -->
+          <div class="preview-tabs-nav" role="tablist">
+            <button type="button" class="preview-tab-btn active" data-tab="tab-sgpa">
+              <span>🧮 Smart SGPA Engine</span>
+            </button>
+            <button type="button" class="preview-tab-btn" data-tab="tab-attendance">
+              <span>📅 Attendance Lifesaver</span>
+            </button>
+            <button type="button" class="preview-tab-btn" data-tab="tab-mcq">
+              <span>🎯 Placement MCQ Simulator</span>
+            </button>
+            <button type="button" class="preview-tab-btn" data-tab="tab-resume">
+              <span>📄 1-Page ATS Resume</span>
+            </button>
+          </div>
+
+          <!-- Tab Bodies -->
+          <div class="preview-tab-body">
+            <!-- TAB 1: SGPA Engine Demo -->
+            <div id="tab-sgpa" class="preview-pane active">
+              <div class="mini-grid-2">
+                <div class="mini-interactive-card">
+                  <span class="mini-label">Interactive SGPA Estimator</span>
+                  <div class="mini-input-group">
+                    <label class="mini-label" for="demoSemSelect">Semester Syllabus</label>
+                    <select id="demoSemSelect" class="mini-input">
+                      <option value="Sem III" selected>Sem III (DBMS, Java, OS - 24 Credits)</option>
+                      <option value="Sem IV">Sem IV (CN, Python, SWE - 24 Credits)</option>
+                      <option value="Sem V">Sem V (Web Tech, AI/ML - 24 Credits)</option>
+                    </select>
+                  </div>
+                  <div class="mini-input-group">
+                    <label class="mini-label" for="demoGradeO">Core Subject Grades Expected</label>
+                    <div style="display:flex;gap:8px;">
+                      <select id="demoGrade1" class="mini-input" style="flex:1;">
+                        <option value="10" selected>DBMS: O (10 pts)</option>
+                        <option value="9">DBMS: A+ (9 pts)</option>
+                        <option value="8">DBMS: A (8 pts)</option>
+                      </select>
+                      <select id="demoGrade2" class="mini-input" style="flex:1;">
+                        <option value="10">Java: O (10 pts)</option>
+                        <option value="9" selected>Java: A+ (9 pts)</option>
+                        <option value="8">Java: A (8 pts)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div style="font-size:0.75rem;color:#64748b;">
+                    ⚡ Auto-weights internal marks &amp; university credits accurately.
+                  </div>
+                </div>
+
+                <div class="mini-result-box">
+                  <span class="mini-label">Estimated Result</span>
+                  <div id="demoSgpaOutput" class="mini-result-value">9.25</div>
+                  <div id="demoPercentageOutput" style="font-weight:700;color:#0f172a;margin-bottom:8px;">Approx: 87.5% Marks</div>
+                  <span class="mini-result-tag">★ Outstanding Distinction</span>
+                  <div style="margin-top:16px;">
+                    <a href="resource.html#sgpa-calculator" class="btn-landing-primary" style="font-size:0.84rem;padding:8px 16px;">
+                      Open Full 6-Semester Calculator →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 2: Attendance Lifesaver Demo -->
+            <div id="tab-attendance" class="preview-pane">
+              <div class="mini-grid-2">
+                <div class="mini-interactive-card">
+                  <span class="mini-label">Safe-to-Miss Buffer Calculator</span>
+                  <div class="mini-input-group">
+                    <label class="mini-label" for="demoHeld">Total Classes Held</label>
+                    <input id="demoHeld" type="number" class="mini-input" value="45" min="1" />
+                  </div>
+                  <div class="mini-input-group">
+                    <label class="mini-label" for="demoAttended">Classes You Attended</label>
+                    <input id="demoAttended" type="number" class="mini-input" value="38" min="0" />
+                  </div>
+                  <div style="font-size:0.75rem;color:#64748b;">
+                    Calculates exact buffer to maintain 75% university eligibility.
+                  </div>
+                </div>
+
+                <div class="mini-result-box">
+                  <span class="mini-label">Your Attendance Status</span>
+                  <div id="demoAttPct" class="mini-result-value" style="color:#059669;">84.4%</div>
+                  <div id="demoAttMessage" style="font-weight:700;color:#0f172a;margin-bottom:8px;">
+                    Safe to bunk <strong>5 more classes</strong> without falling below 75%!
+                  </div>
+                  <span id="demoAttTag" class="mini-result-tag">Safe Zone 🛡️</span>
+                  <div style="margin-top:16px;">
+                    <a href="resource.html#attendance-tracker" class="btn-landing-primary" style="font-size:0.84rem;padding:8px 16px;">
+                      Track All Subject Attendances →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 3: MCQ Teaser Demo -->
+            <div id="tab-mcq" class="preview-pane">
+              <div class="mini-interactive-card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                  <span class="mini-label" style="margin-bottom:0;">Core CS Placement Teaser (TCS / Infosys Standard)</span>
+                  <span class="badge badge-subtle" style="font-size:0.75rem;">Java Tricky Operators</span>
+                </div>
+                <div class="mini-mcq-question">What is the exact output of the following Java code snippet?</div>
+                <div class="mini-mcq-snippet">int a = 5;
+System.out.println(a++ + ++a);</div>
+                
+                <div class="mini-mcq-options">
+                  <button type="button" class="mini-mcq-btn" data-ans="0">A) 10</button>
+                  <button type="button" class="mini-mcq-btn" data-ans="1">B) 11</button>
+                  <button type="button" class="mini-mcq-btn" data-ans="2">C) 12 (Correct)</button>
+                  <button type="button" class="mini-mcq-btn" data-ans="3">D) 13</button>
+                </div>
+
+                <div id="demoMcqFeedback" class="mini-mcq-feedback">
+                  <strong>Explanation:</strong> <code>a++</code> evaluates to 5 and post-increments <code>a</code> to 6. Then <code>++a</code> pre-increments <code>a</code> to 7 and evaluates to 7. Result: <code>5 + 7 = 12</code>!
+                </div>
+
+                <div style="margin-top:12px;display:flex;justify-content:flex-end;">
+                  <a href="resource.html#mcq-quiz" class="btn-landing-primary" style="font-size:0.84rem;padding:8px 16px;">
+                    Launch Full Placement Arena (200+ MCQs) →
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 4: Resume Teaser Demo -->
+            <div id="tab-resume" class="preview-pane">
+              <div class="mini-grid-2">
+                <div class="mini-interactive-card">
+                  <span class="mini-label">Harvard-Style 1-Page ATS Engine</span>
+                  <div style="font-size:0.95rem;font-weight:700;color:#0f172a;margin-bottom:12px;">
+                    Pre-filled with battle-tested technical presets
+                  </div>
+                  <p style="font-size:0.85rem;color:#475569;line-height:1.5;margin-bottom:16px;">
+                    Built to pass automated Application Tracking Systems (ATS) used by TCS, Infosys, Wipro, and high-growth startups. Zero awkward 2-page overflows.
+                  </p>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <span class="badge badge-subtle">Full-Stack Dev Preset</span>
+                    <span class="badge badge-subtle">Python / AI Preset</span>
+                    <span class="badge badge-subtle">Fresher Core CS</span>
+                  </div>
+                </div>
+
+                <div class="mini-result-box">
+                  <span class="mini-label">Recruiter ATS Score</span>
+                  <div class="mini-result-value" style="color:#059669;">96/100</div>
+                  <div style="font-weight:700;color:#0f172a;margin-bottom:8px;">Ready for Single-Page A4 PDF Export</div>
+                  <span class="mini-result-tag">Harvard Single-Column Standard</span>
+                  <div style="margin-top:16px;">
+                    <a href="resource.html#resume-builder" class="btn-landing-primary" style="font-size:0.84rem;padding:8px 16px;">
+                      Build Your Resume in 3 Minutes →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Struggle vs. ScholarGrid (Contrast Section) -->
+    <section id="contrast" class="landing-contrast-section">
+      <div class="landing-container">
+        <div style="text-align:center;">
+          <span class="section-tag">The Reality Check</span>
+          <h2 class="section-head-title">The College Chaos vs. The ScholarGrid Way</h2>
+          <p class="section-head-sub" style="margin-left:auto;margin-right:auto;">
+            Why thousands of BCA students stopped surviving on messy WhatsApp forwards and switched to a clean academic operating system.
+          </p>
+        </div>
+
+        <div class="contrast-grid">
+          <!-- The Chaos -->
+          <div class="contrast-card contrast-chaos">
+            <span class="contrast-badge-top badge-chaos">😫 The Usual College Chaos</span>
+            <h3 class="contrast-title">Scattered, Frustrating &amp; Stressful</h3>
+            <ul class="contrast-list">
+              <li class="contrast-item">
+                <span class="contrast-icon-cross">✕</span>
+                <span>Digging through 47 WhatsApp groups with dead Google Drive links and blurry photos of handwritten notebooks.</span>
+              </li>
+              <li class="contrast-item">
+                <span class="contrast-icon-cross">✕</span>
+                <span>Calculating 75% attendance on the back of a notebook during exam week and panicking about detention.</span>
+              </li>
+              <li class="contrast-item">
+                <span class="contrast-icon-cross">✕</span>
+                <span>Fighting with Microsoft Word margins at 2 AM trying to make a resume that overflows onto an ugly second page.</span>
+              </li>
+              <li class="contrast-item">
+                <span class="contrast-icon-cross">✕</span>
+                <span>Searching random YouTube channels for tricky TCS / Infosys pseudo-code questions without verified solutions.</span>
+              </li>
+              <li class="contrast-item">
+                <span class="contrast-icon-cross">✕</span>
+                <span>Slow, heavy university portals plastered with ads that crash the moment semester results are announced.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- The ScholarGrid Way -->
+          <div class="contrast-card contrast-solution">
+            <span class="contrast-badge-top badge-solution">⚡ The ScholarGrid Way</span>
+            <h3 class="contrast-title">Fast, Structured &amp; Distraction-Free</h3>
+            <ul class="contrast-list">
+              <li class="contrast-item">
+                <span class="contrast-icon-check">✓</span>
+                <span><strong>1-Click Semester Focus:</strong> 173 authentic, verified PDFs categorized cleanly by subject, unit, and lab.</span>
+              </li>
+              <li class="contrast-item">
+                <span class="contrast-icon-check">✓</span>
+                <span><strong>Attendance Lifesaver:</strong> Real-time safe-to-miss lecture buffer calculator with early warning detentions alerts.</span>
+              </li>
+              <li class="contrast-item">
+                <span class="contrast-icon-check">✓</span>
+                <span><strong>Harvard 1-Page ATS Resume:</strong> Pre-filled technical presets that export directly into crisp A4 PDF.</span>
+              </li>
+              <li class="contrast-item">
+                <span class="contrast-icon-check">✓</span>
+                <span><strong>Placement Arena:</strong> Timed 15-minute exam simulator with -0.25 negative marking and GATE/TCS question palette.</span>
+              </li>
+              <li class="contrast-item">
+                <span class="contrast-icon-check">✓</span>
+                <span><strong>100% Free &amp; Offline:</strong> Zero subscription walls, zero ads, instant caching in your browser local storage.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bento Grid: The 4 Productivity Engines -->
+    <section id="tools" class="landing-bento-section">
+      <div class="landing-container">
+        <div style="text-align:center;">
+          <span class="section-tag">Power Tools</span>
+          <h2 class="section-head-title">Everything You Need to Ace College</h2>
+          <p class="section-head-sub" style="margin-left:auto;margin-right:auto;">
+            Four specialized student productivity tools built to eliminate manual calculations and placement anxiety.
+          </p>
+        </div>
+
+        <div class="bento-grid-modern">
+          <!-- BENTO 1: Smart SGPA & CGPA Engine -->
+          <div class="bento-card bento-col-7">
+            <div>
+              <div class="bento-icon-box">🧮</div>
+              <span class="bento-tag">NEP 2020 BCA Syllabus</span>
+              <h3 class="bento-title">Smart SGPA &amp; CGPA Calculator</h3>
+              <p class="bento-desc">
+                Pre-configured with official credit weights for Semesters I through VI. Automatically factors internal assessments, theory marks, and practical credits to calculate your exact SGPA, CGPA, and equivalent percentage.
+              </p>
+            </div>
+            <div class="bento-preview-snippet">
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;color:#475569;">
+                <span>Current Credits: <strong>24 / 24</strong></span>
+                <span style="color:#059669;font-weight:700;">Formula: (Σ C × G) / Σ C</span>
+              </div>
+            </div>
+            <a href="resource.html#sgpa-calculator" class="bento-cta-link">
+              <span>Open SGPA Engine</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <!-- BENTO 2: Attendance Lifesaver -->
+          <div class="bento-card bento-col-5">
+            <div>
+              <div class="bento-icon-box">📅</div>
+              <span class="bento-tag">Zero Detentions</span>
+              <h3 class="bento-title">Attendance Lifesaver</h3>
+              <p class="bento-desc">
+                Know exactly how many lectures you can safely skip while staying above 75%, or how many consecutive classes you must attend to recover.
+              </p>
+            </div>
+            <div class="bento-preview-snippet">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:12px;height:12px;border-radius:50%;background:#059669;"></div>
+                <span style="font-size:0.85rem;font-weight:600;color:#0f172a;">81.2% Attendance (Safe Buffer: 3 classes)</span>
+              </div>
+            </div>
+            <a href="resource.html#attendance-tracker" class="bento-cta-link">
+              <span>Track Attendance</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <!-- BENTO 3: Dual-Mode Placement Arena -->
+          <div class="bento-card bento-col-5">
+            <div>
+              <div class="bento-icon-box">🎯</div>
+              <span class="bento-tag">TCS NQT • Infosys • Accenture</span>
+              <h3 class="bento-title">Campus Placement Arena</h3>
+              <p class="bento-desc">
+                Dual quiz modes: Practice Mode with instant explanations, or Mock Exam Mode with 15-minute countdown, -0.25 negative penalties, and TCS-style question palette.
+              </p>
+            </div>
+            <div class="bento-preview-snippet">
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <span class="badge badge-subtle" style="font-size:0.75rem;">DSA &amp; Trees</span>
+                <span class="badge badge-subtle" style="font-size:0.75rem;">OOPs &amp; Java</span>
+                <span class="badge badge-subtle" style="font-size:0.75rem;">DBMS &amp; OS</span>
+                <span class="badge badge-subtle" style="font-size:0.75rem;">Aptitude</span>
+              </div>
+            </div>
+            <a href="resource.html#mcq-quiz" class="bento-cta-link">
+              <span>Start Placement Quiz</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <!-- BENTO 4: Harvard 1-Page ATS Resume Builder -->
+          <div class="bento-card bento-col-7">
+            <div>
+              <div class="bento-icon-box">📄</div>
+              <span class="bento-tag">Recruiter Approved</span>
+              <h3 class="bento-title">Harvard 1-Page ATS Resume Builder</h3>
+              <p class="bento-desc">
+                Engineered specifically for campus recruitment. Comes loaded with Full-Stack, Python/AI, and Fresher presets, real-time ATS scoring, and strict single-page print formatting.
+              </p>
+            </div>
+            <div class="bento-preview-snippet">
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;color:#475569;">
+                <span>ATS Compatibility: <strong style="color:#059669;">96% Passing Score</strong></span>
+                <span>Export: <strong>Clean A4 PDF</strong></span>
+              </div>
+            </div>
+            <a href="resource.html#resume-builder" class="bento-cta-link">
+              <span>Build ATS Resume</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The 173+ Resource Vault Showcase -->
+    <section id="vault" class="landing-vault-section">
+      <div class="landing-container">
+        <div style="text-align:center;">
+          <span class="section-tag">Offline Vault</span>
+          <h2 class="section-head-title">173+ Authentic Verified PDFs</h2>
+          <p class="section-head-sub" style="margin-left:auto;margin-right:auto;">
+            Organized systematically across all six BCA semesters. Full unit lecture notes, solved lab manuals, syllabus regulations, and past examination papers.
+          </p>
+        </div>
+
+        <!-- 4 Metric Cards -->
+        <div class="vault-metrics-grid">
+          <div class="vault-metric-card">
+            <div class="vault-metric-num">173+</div>
+            <div class="vault-metric-label">Verified Offline PDFs</div>
+          </div>
+          <div class="vault-metric-card">
+            <div class="vault-metric-num">6</div>
+            <div class="vault-metric-label">Full BCA Semesters</div>
+          </div>
+          <div class="vault-metric-card">
+            <div class="vault-metric-num">0</div>
+            <div class="vault-metric-label">Ads or Trackers</div>
+          </div>
+          <div class="vault-metric-card">
+            <div class="vault-metric-num">100%</div>
+            <div class="vault-metric-label">Free &amp; Open Access</div>
+          </div>
+        </div>
+
+        <!-- Interactive Semester Navigator -->
+        <div class="sem-nav-pills" role="tablist" aria-label="Curriculum Semester Explorer">
+          <button type="button" class="sem-pill-btn active" data-sem="Sem I">Semester I</button>
+          <button type="button" class="sem-pill-btn" data-sem="Sem II">Semester II</button>
+          <button type="button" class="sem-pill-btn" data-sem="Sem III">Semester III</button>
+          <button type="button" class="sem-pill-btn" data-sem="Sem IV">Semester IV</button>
+          <button type="button" class="sem-pill-btn" data-sem="Sem V">Semester V</button>
+          <button type="button" class="sem-pill-btn" data-sem="Sem VI">Semester VI</button>
+        </div>
+
+        <!-- Dynamic Subject Cards Container -->
+        <div id="semDisplayGrid" class="sem-cards-display">
+          <!-- Populated by simple JS below -->
+        </div>
+
+        <div style="text-align:center;margin-top:36px;">
+          <a href="index.html" class="btn-landing-primary" style="padding:12px 28px;">
+            <span>Browse Complete Resource Directory (20 Modules)</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Student Testimonials / Vibe Check -->
+    <section id="reviews" class="landing-testimonials-section">
+      <div class="landing-container">
+        <div style="text-align:center;">
+          <span class="section-tag">Student Vibe</span>
+          <h2 class="section-head-title">Built by Students, Loved by Batches</h2>
+          <p class="section-head-sub" style="margin-left:auto;margin-right:auto;">
+            Here is how ScholarGrid is helping BCA students survive exams and land dream placements.
+          </p>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <p class="testimonial-quote">
+              "The safe-to-miss attendance calculator literally saved me from detention in 3rd semester. Knowing I had a 3-class buffer allowed me to focus on my hackathon without stress."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">AS</div>
+              <div>
+                <div class="author-name">Aryan Sharma</div>
+                <div class="author-sem">BCA Sem IV • Web Dev Lead</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <p class="testimonial-quote">
+              "Cleared my TCS NQT mock test on the very first try. The 15-minute exam mode with the question palette and -0.25 negative marking feels identical to the actual recruitment software."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar" style="background:#fef3c7;color:#d97706;">SK</div>
+              <div>
+                <div class="author-name">Sneha Kulkarni</div>
+                <div class="author-sem">BCA Sem VI • Placed at Wipro</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <p class="testimonial-quote">
+              "No more fighting with Microsoft Word at 2 AM. Loaded the Full-Stack Developer preset in the Resume Builder, tweaked my project links, and exported a perfect 1-page PDF."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar" style="background:#ecfdf5;color:#059669;">RM</div>
+              <div>
+                <div class="author-name">Rahul Mehta</div>
+                <div class="author-sem">BCA Sem V • Cloud Intern</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA Giant Banner -->
+    <section class="landing-bottom-cta">
+      <div class="landing-container">
+        <div class="cta-banner-card">
+          <h2 class="cta-banner-title">Ready to Lock In Your Semester?</h2>
+          <p class="cta-banner-subtitle">
+            Zero sign-up walls, zero subscriptions, zero spam. Just an authentic, lightning-fast workspace crafted to take you from Sem 1 to placement day.
+          </p>
+
+          <div class="cta-banner-actions">
+            <a href="index.html" class="btn-cta-giant">
+              <span>🚀 Launch ScholarGrid Now — Free Forever</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <div class="cta-perks-list">
+            <span>✓ Instant Access (No Password Needed)</span>
+            <span>✓ 173+ Verified PDFs</span>
+            <span>✓ Offline Storage Ready</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modern Minimalist Footer -->
+  <footer class="landing-footer">
+    <div class="landing-container">
+      <div class="footer-top-grid">
+        <div>
+          <a href="landing.html" class="landing-brand">
+            <img src="assets/logo.jpg" alt="ScholarGrid" class="landing-brand-img" />
+            <div class="landing-brand-text">
+              <span class="landing-brand-title">ScholarGrid</span>
+              <span class="landing-brand-subtitle">Academic Operating System</span>
+            </div>
+          </a>
+          <p class="footer-brand-bio">
+            An open-access academic workspace designed specifically for BCA students. Notes, lab manuals, GPA calculators, and placement simulators.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-column-title">Academics</div>
+          <ul class="footer-nav-list">
+            <li class="footer-nav-item"><a href="resource.html#notes">Notes Library</a></li>
+            <li class="footer-nav-item"><a href="resource.html#lab-manuals">Lab Manuals</a></li>
+            <li class="footer-nav-item"><a href="resource.html#previous-papers">Question Papers</a></li>
+            <li class="footer-nav-item"><a href="resource.html#important-questions">Important Sets</a></li>
+            <li class="footer-nav-item"><a href="resource.html#syllabus">Syllabus Regulations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-column-title">Productivity Tools</div>
+          <ul class="footer-nav-list">
+            <li class="footer-nav-item"><a href="resource.html#sgpa-calculator">SGPA &amp; CGPA Engine</a></li>
+            <li class="footer-nav-item"><a href="resource.html#attendance-tracker">Attendance Lifesaver</a></li>
+            <li class="footer-nav-item"><a href="resource.html#resume-builder">1-Page ATS Resume</a></li>
+            <li class="footer-nav-item"><a href="resource.html#mcq-quiz">Placement MCQ Arena</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-column-title">Career &amp; Tech</div>
+          <ul class="footer-nav-list">
+            <li class="footer-nav-item"><a href="resource.html#roadmaps">Developer Roadmaps</a></li>
+            <li class="footer-nav-item"><a href="resource.html#certifications">Free Certifications</a></li>
+            <li class="footer-nav-item"><a href="resource.html#ai-tools">AI Tools Hub</a></li>
+            <li class="footer-nav-item"><a href="resource.html#placement-cell">Placement Cell</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div>&copy; 2026 ScholarGrid • Open-Access Student Project • Made for BCA Students</div>
+        <div>
+          <a href="index.html" style="color:#4f46e5;font-weight:700;">Open Workspace Dashboard →</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript for Landing Page Demos -->
+  <script>
+    (function() {
+      // 1. Hero Preview Tab Switcher
+      const tabBtns = document.querySelectorAll('.preview-tab-btn');
+      const tabPanes = document.querySelectorAll('.preview-pane');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.tab;
+          tabBtns.forEach(b => b.classList.remove('active'));
+          tabPanes.forEach(p => p.classList.remove('active'));
+
+          btn.classList.add('active');
+          const activePane = document.getElementById(target);
+          if (activePane) activePane.classList.add('active');
+        });
+      });
+
+      // 2. Interactive SGPA Calculator Demo
+      const grade1 = document.getElementById('demoGrade1');
+      const grade2 = document.getElementById('demoGrade2');
+      const sgpaOut = document.getElementById('demoSgpaOutput');
+      const pctOut = document.getElementById('demoPercentageOutput');
+
+      function updateSgpa() {
+        if (!grade1 || !grade2 || !sgpaOut || !pctOut) return;
+        const g1 = parseFloat(grade1.value) || 10;
+        const g2 = parseFloat(grade2.value) || 9;
+        const avgGrade = (g1 * 4 + g2 * 4 + 9.5 * 16) / 24;
+        const finalSgpa = avgGrade.toFixed(2);
+        sgpaOut.textContent = finalSgpa;
+        const pct = ((avgGrade - 0.75) * 10).toFixed(1);
+        pctOut.textContent = 'Approx: ' + pct + '% Marks';
+      }
+
+      if (grade1 && grade2) {
+        grade1.addEventListener('change', updateSgpa);
+        grade2.addEventListener('change', updateSgpa);
+      }
+
+      // 3. Interactive Attendance Calculator Demo
+      const heldInput = document.getElementById('demoHeld');
+      const attendedInput = document.getElementById('demoAttended');
+      const attPctOut = document.getElementById('demoAttPct');
+      const attMsgOut = document.getElementById('demoAttMessage');
+      const attTag = document.getElementById('demoAttTag');
+
+      function updateAttendance() {
+        if (!heldInput || !attendedInput || !attPctOut || !attMsgOut || !attTag) return;
+        const held = parseInt(heldInput.value, 10) || 0;
+        const attended = parseInt(attendedInput.value, 10) || 0;
+
+        if (held <= 0) {
+          attPctOut.textContent = '100%';
+          attMsgOut.textContent = 'No classes held yet.';
+          return;
+        }
+
+        const pct = ((attended / held) * 100);
+        attPctOut.textContent = pct.toFixed(1) + '%';
+
+        if (pct >= 75) {
+          attPctOut.style.color = '#059669';
+          const safeBunk = Math.floor((attended - 0.75 * held) / 0.75);
+          attTag.className = 'mini-result-tag';
+          attTag.style.background = 'rgba(5, 150, 105, 0.1)';
+          attTag.style.color = '#059669';
+          attTag.textContent = 'Safe Zone 🛡️';
+          attMsgOut.innerHTML = 'Safe to bunk <strong>' + Math.max(0, safeBunk) + ' more classes</strong> without falling below 75%!';
+        } else {
+          attPctOut.style.color = '#dc2626';
+          const needed = Math.ceil((0.75 * held - attended) / 0.25);
+          attTag.className = 'mini-result-tag';
+          attTag.style.background = 'rgba(220, 38, 38, 0.1)';
+          attTag.style.color = '#dc2626';
+          attTag.textContent = 'Attendance Warning ⚠️';
+          attMsgOut.innerHTML = 'Must attend next <strong>' + Math.max(1, needed) + ' consecutive classes</strong> to reach 75%!';
+        }
+      }
+
+      if (heldInput && attendedInput) {
+        heldInput.addEventListener('input', updateAttendance);
+        attendedInput.addEventListener('input', updateAttendance);
+      }
+
+      // 4. Interactive MCQ Demo
+      const mcqBtns = document.querySelectorAll('.mini-mcq-btn');
+      const mcqFeedback = document.getElementById('demoMcqFeedback');
+
+      mcqBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          mcqBtns.forEach(b => {
+            b.classList.remove('correct', 'wrong');
+            b.disabled = true;
+          });
+          const ans = btn.dataset.ans;
+          if (ans === '2') {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+            const correctBtn = document.querySelector('.mini-mcq-btn[data-ans="2"]');
+            if (correctBtn) correctBtn.classList.add('correct');
+          }
+          if (mcqFeedback) mcqFeedback.style.display = 'block';
+        });
+      });
+
+      // 5. Interactive Semester Curriculum Navigator
+      const semSubjectsData = {
+        'Sem I': [
+          { code: 'BCAT 101', title: 'Discrete Mathematics', meta: '3 Unit Notes • Solved Examples' },
+          { code: 'BCAT 102', title: 'Computer Organization & Logic Design', meta: 'Logic Gates • Karnaugh Maps • Flip Flops' },
+          { code: 'BCAT 103', title: 'Principles of Programming Languages (C)', meta: 'Unit 1–5 Complete Lecture Notes' },
+          { code: 'BCAP 101', title: 'C Programming Lab Manual', meta: '22 Programs with Solved Vivas' },
+          { code: 'BCAP 102', title: 'Digital Electronics Lab Manual', meta: 'Truth Tables & Circuit Diagrams' },
+          { code: 'BCAT 104', title: 'English & Communication Skills', meta: 'Grammar & Professional Writing' }
+        ],
+        'Sem II': [
+          { code: 'BCAT 201', title: 'Data Structures using C', meta: 'Arrays, Stacks, Queues, Trees, Graphs' },
+          { code: 'BCAT 202', title: 'Object Oriented Programming with C++', meta: 'Classes, Inheritance, Polymorphism' },
+          { code: 'BCAT 203', title: 'Database Management Systems (DBMS)', meta: 'ER Models, SQL Queries, Normalization' },
+          { code: 'BCAP 201', title: 'Data Structures Lab Manual', meta: 'Linked Lists & Sorting Implementations' },
+          { code: 'BCAP 202', title: 'DBMS SQL & PL/SQL Lab Manual', meta: 'Queries, Triggers & Stored Procedures' },
+          { code: 'BCAT 204', title: 'Environmental Studies (EVS)', meta: 'Ecosystems & Sustainable Development' }
+        ],
+        'Sem III': [
+          { code: 'BCAT 301', title: 'Operating Systems (OS)', meta: 'Process Scheduling, Deadlocks, Memory' },
+          { code: 'BCAT 302', title: 'Java Programming', meta: 'JVM, Multithreading, Exception Handling' },
+          { code: 'BCAT 303', title: 'Software Engineering (SE)', meta: 'SDLC Models, Agile, Testing, SRS' },
+          { code: 'BCAP 301', title: 'Java Programming Lab Manual', meta: 'Core Java & GUI Applications' },
+          { code: 'BCAP 302', title: 'OS Shell Scripting Lab Manual', meta: 'Bash Scripting & UNIX System Calls' },
+          { code: 'BCAT 304', title: 'Constitution of India & Human Rights', meta: 'Fundamental Rights & NEP Framework' }
+        ],
+        'Sem IV': [
+          { code: 'BCAT 401', title: 'Computer Networks (CN)', meta: 'OSI 7 Layers, TCP/IP, Routing & Subnetting' },
+          { code: 'BCAT 402', title: 'Python Programming', meta: 'Data Analysis, File Handling, RegEx' },
+          { code: 'BCAT 403', title: 'Design & Analysis of Algorithms (DAA)', meta: 'Greedy, Dynamic Programming, NP-Complete' },
+          { code: 'BCAP 401', title: 'Python Programming Lab Manual', meta: 'NumPy, Pandas & Scripting' },
+          { code: 'BCAP 402', title: 'Networks Simulation Lab Manual', meta: 'Packet Tracer & Socket Programming' },
+          { code: 'BCAT 404', title: 'Indian Constitution & Cyber Law', meta: 'IT Act 2000 & Digital Security' }
+        ],
+        'Sem V': [
+          { code: 'BCAT 501', title: 'Artificial Intelligence & Machine Learning', meta: 'Search Algorithms, Neural Nets, Scikit' },
+          { code: 'BCAT 502', title: 'Web Technologies (HTML, CSS, JS, PHP)', meta: 'Full-Stack Web Development Notes' },
+          { code: 'BCAT 503', title: 'Cloud Computing & DevOps', meta: 'AWS, Virtualization, Containers' },
+          { code: 'BCAP 501', title: 'AI & ML Lab Manual', meta: 'Model Training & Evaluation Scripts' },
+          { code: 'BCAP 502', title: 'Web Development Lab Manual', meta: 'Responsive Web Design & Backend APIs' },
+          { code: 'BCAT 504', title: 'Final Project Viva Preparation', meta: 'SRS & Architecture Blueprints' }
+        ],
+        'Sem VI': [
+          { code: 'BCAT 601', title: 'Information & Cyber Security', meta: 'Cryptography, RSA, Firewalls, Hashing' },
+          { code: 'BCAT 602', title: 'Big Data Analytics', meta: 'Hadoop, MapReduce, Spark Fundamentals' },
+          { code: 'BCAT 603', title: 'Mobile Application Development', meta: 'Android Studio, Flutter & React Native' },
+          { code: 'BCAP 601', title: 'Mobile App Lab Manual', meta: 'Layouts, SQLite & REST API Integration' },
+          { code: 'BCAT 604', title: 'Major Final Year Project', meta: 'Documentation & Presentation Guide' },
+          { code: 'CAREER', title: 'Campus Placement & NQT Preparation', meta: 'Aptitude, Core CS & Mock Simulations' }
+        ]
+      };
+
+      const semDisplayGrid = document.getElementById('semDisplayGrid');
+      const semPills = document.querySelectorAll('.sem-pill-btn');
+
+      function renderSemesterSubjects(sem) {
+        if (!semDisplayGrid) return;
+        const subjects = semSubjectsData[sem] || semSubjectsData['Sem I'];
+        semDisplayGrid.innerHTML = subjects.map(s => `
+          <div class="sem-subject-card">
+            <span class="subject-code-badge">${s.code}</span>
+            <div class="subject-card-title">${s.title}</div>
+            <div class="subject-card-meta">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>${s.meta}</span>
+            </div>
+            <div style="margin-top:12px;">
+              <a href="resource.html#notes" style="font-size:0.8rem;color:#4f46e5;font-weight:700;">View in Notes Library →</a>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      semPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          semPills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          renderSemesterSubjects(pill.dataset.sem);
+        });
+      });
+
+      // Initial render
+      renderSemesterSubjects('Sem I');
+    })();
+  </script>
+</body>
+</html>

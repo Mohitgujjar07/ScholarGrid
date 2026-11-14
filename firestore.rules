@@ -8,14 +8,15 @@ service cloud.firestore {
     // Tumkur University / NEP BCA Academic Workspace
     //
     // Security Architecture:
-    // 1. Strict Authentication & Partitioning: Only authenticated users can
-    //    access data, restricted exclusively to /users/{userId} where userId == request.auth.uid.
-    // 2. Default Deny: All unmatched paths and cross-tenant access are strictly denied.
-    // 3. Validator Function Pattern: Every write (create and update) enforces
-    //    CEL type safety, range bounds, string length caps, and schema constraints.
-    // 4. Update Immutability: Protected fields (ownership pointers, creation timestamps)
+    // 1. Strict Authentication & Partitioning: User data is strictly isolated
+    //    under /users/{userId} where userId == request.auth.uid.
+    // 2. Role-Based Administration: Whitelisted admin accounts manage global
+    //    announcements, platform system stats, and triage student feedback.
+    // 3. Default Deny: All unmatched paths and cross-tenant access are strictly denied.
+    // 4. Validator Function Pattern: Every user write enforces CEL type safety,
+    //    range bounds, string length caps, and schema constraints.
+    // 5. Update Immutability: Protected fields (ownership pointers, creation timestamps)
     //    are strictly immutable across all documents.
-    // 5. Query Alignment: Rules align with scoped collection queries under /users/{userId}.
     // ========================================================================
 
     // ------------------------------------------------------------------------
@@ -30,6 +31,12 @@ service cloud.firestore {
     // Verify if caller owns the document partition
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Verify if caller is an administrator via whitelisted email
+    function isAdmin() {
+      return isAuthenticated() && 
+             request.auth.token.email in ['mohitjgujjar7@gmail.com', 'lalithulalu@gmail.com'];
     }
 
     // Optional string validator with length boundaries
@@ -300,7 +307,7 @@ service cloud.firestore {
     }
 
     // ------------------------------------------------------------------------
-    // Collection Match Blocks
+    // User Collection & Scoped Subcollections
     // ------------------------------------------------------------------------
 
     match /users/{userId} {
@@ -378,6 +385,28 @@ service cloud.firestore {
                          isValidRoadmapProgressDocUpdate(resource.data, request.resource.data);
         allow delete: if isOwner(userId);
       }
+    }
+
+    // ------------------------------------------------------------------------
+    // Global Admin-Managed Collections
+    // ------------------------------------------------------------------------
+
+    // Announcements collection: public read, admin-only write
+    match /announcements/{announcementId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Feedback collection: authenticated users can submit; admin-only read/manage
+    match /feedback/{feedbackId} {
+      allow create: if isAuthenticated();
+      allow read, update, delete: if isAdmin();
+    }
+
+    // System stats collection: public read, admin-only write
+    match /system_stats/{statId} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
     // ------------------------------------------------------------------------

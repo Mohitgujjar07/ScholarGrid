@@ -24,6 +24,14 @@
 
   const PROFILE_STORAGE_KEY = 'scholargrid_user_profile';
   const DEMO_USER_KEY = 'scholargrid_demo_user';
+  const ANNOUNCEMENTS_KEY = 'scholargrid_announcements';
+  const FEEDBACK_KEY = 'scholargrid_feedback_list';
+
+  // Whitelisted Admin Email Accounts (Strict Access)
+  const ADMIN_EMAILS = [
+    'mohitjgujjar7@gmail.com',
+    'lalithulalu@gmail.com'
+  ];
 
   // Always use the real live credentials for scholargrid-65385
   try {
@@ -87,6 +95,17 @@
     resetToDefaultConfig() {
       localStorage.removeItem(CUSTOM_CONFIG_KEY);
       window.location.reload();
+    },
+
+    isAdmin(user = null) {
+      const u = user || this.getCurrentUser();
+      if (!u || !u.email) return false;
+      const email = String(u.email).trim().toLowerCase();
+      return ADMIN_EMAILS.includes(email);
+    },
+
+    getAdminEmails() {
+      return [...ADMIN_EMAILS];
     },
 
     getCurrentUser() {
@@ -162,10 +181,10 @@
 
     signInWithDemo() {
       const demoUser = {
-        uid: 'demo_google_student_' + Math.random().toString(36).substring(2, 9),
-        displayName: 'Mohit Gujjar',
-        email: 'mohit.gujjar@gmail.com',
-        photoURL: 'https://api.dicebear.com/7.x/bottts/svg?seed=ScholarStudent',
+        uid: 'demo_admin_' + Math.random().toString(36).substring(2, 9),
+        displayName: 'Mohit J Gujjar',
+        email: 'mohitjgujjar7@gmail.com',
+        photoURL: 'https://api.dicebear.com/7.x/bottts/svg?seed=MohitAdmin',
         isDemo: true
       };
       localStorage.setItem(DEMO_USER_KEY, JSON.stringify(demoUser));
@@ -491,9 +510,207 @@
     }
   };
 
+  // =========================================================================
+  // ScholarAdmin: Announcements, Student Feedback & System Stats
+  // =========================================================================
+  const ScholarAdmin = {
+    async getAnnouncements() {
+      if (db && ScholarAuth.isConfigured()) {
+        try {
+          const snap = await db.collection('announcements').orderBy('createdAt', 'desc').limit(20).get();
+          if (!snap.empty) {
+            const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            localStorage.setItem(ANNOUNCEMENTS_KEY, JSON.stringify(list));
+            return list;
+          }
+        } catch (e) {
+          console.warn('Firestore announcements read fallback to local cache:', e);
+        }
+      }
+      try {
+        const raw = localStorage.getItem(ANNOUNCEMENTS_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch {}
+      return [
+        {
+          id: 'default-ann-1',
+          title: 'Tumkur University NEP BCA Odd Semester Exam Time-Table Declared',
+          body: 'Final theory examinations commence from December 15. Download official schedule from the Exam Announcements module.',
+          tag: 'Examination',
+          urgent: true,
+          author: 'mohitjgujjar7@gmail.com',
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: 'default-ann-2',
+          title: 'Campus Recruitment Prep: New Technical MCQ Engine Active',
+          body: 'Practice 200+ solved TCS NQT, Infosys, and Accenture aptitude & coding questions in Practice or Mock mode.',
+          tag: 'Placement',
+          urgent: false,
+          author: 'mohitjgujjar7@gmail.com',
+          createdAt: new Date().toISOString()
+        }
+      ];
+    },
+
+    async createAnnouncement({ title, body, tag = 'General', urgent = false }) {
+      const user = ScholarAuth.getCurrentUser();
+      const newAnn = {
+        title: String(title || '').trim(),
+        body: String(body || '').trim(),
+        tag: String(tag || 'General').trim(),
+        urgent: !!urgent,
+        author: user?.email || 'mohitjgujjar7@gmail.com',
+        createdAt: new Date().toISOString()
+      };
+
+      if (db && ScholarAuth.isConfigured() && ScholarAuth.isAdmin()) {
+        try {
+          const docRef = await db.collection('announcements').add({
+            ...newAnn,
+            serverTimestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          newAnn.id = docRef.id;
+        } catch (e) {
+          console.warn('Failed to post announcement to Firestore:', e);
+          newAnn.id = 'ann_' + Date.now();
+        }
+      } else {
+        newAnn.id = 'ann_' + Date.now();
+      }
+
+      const current = await this.getAnnouncements();
+      const updated = [newAnn, ...current.filter(a => a.id !== newAnn.id)];
+      localStorage.setItem(ANNOUNCEMENTS_KEY, JSON.stringify(updated));
+      return newAnn;
+    },
+
+    async deleteAnnouncement(id) {
+      if (db && ScholarAuth.isConfigured() && ScholarAuth.isAdmin()) {
+        try {
+          await db.collection('announcements').doc(id).delete();
+        } catch (e) {
+          console.warn('Failed to delete announcement from Firestore:', e);
+        }
+      }
+      const current = await this.getAnnouncements();
+      const updated = current.filter(a => a.id !== id);
+      localStorage.setItem(ANNOUNCEMENTS_KEY, JSON.stringify(updated));
+      return true;
+    },
+
+    async getFeedback() {
+      if (db && ScholarAuth.isConfigured() && ScholarAuth.isAdmin()) {
+        try {
+          const snap = await db.collection('feedback').orderBy('createdAt', 'desc').limit(50).get();
+          if (!snap.empty) {
+            const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            localStorage.setItem(FEEDBACK_KEY, JSON.stringify(list));
+            return list;
+          }
+        } catch (e) {
+          console.warn('Firestore feedback fetch notice:', e);
+        }
+      }
+      try {
+        const raw = localStorage.getItem(FEEDBACK_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch {}
+      return [
+        {
+          id: 'fb-demo-1',
+          name: 'Priya Sharma',
+          email: 'priya.tu@gmail.com',
+          category: 'Notes Request',
+          subject: 'Need Sem V Cloud Computing handwritten notes',
+          message: 'Please add Unit 3 and 4 notes for AWS & Azure architectures if available.',
+          status: 'pending',
+          createdAt: new Date(Date.now() - 3600000 * 5).toISOString()
+        },
+        {
+          id: 'fb-demo-2',
+          name: 'Kiran Kumar',
+          email: 'kiran.k@gmail.com',
+          category: 'Feedback',
+          subject: 'Loved the SGPA calculator & Placement MCQ mode!',
+          message: 'The negative marking feature in Mock mode matches TCS NQT perfectly. Thank you!',
+          status: 'resolved',
+          createdAt: new Date(Date.now() - 3600000 * 24).toISOString()
+        }
+      ];
+    },
+
+    async submitFeedback({ name, email, category, subject, message }) {
+      const user = ScholarAuth.getCurrentUser();
+      const item = {
+        name: name || user?.displayName || 'Anonymous Student',
+        email: email || user?.email || 'unregistered@student',
+        category: category || 'General',
+        subject: subject || 'Feedback',
+        message: message || '',
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      };
+
+      if (db && ScholarAuth.isConfigured()) {
+        try {
+          const docRef = await db.collection('feedback').add({
+            ...item,
+            userId: user?.uid || null,
+            serverTimestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          item.id = docRef.id;
+        } catch (e) {
+          console.warn('Failed to submit feedback to Firestore:', e);
+          item.id = 'fb_' + Date.now();
+        }
+      } else {
+        item.id = 'fb_' + Date.now();
+      }
+
+      const list = await this.getFeedback();
+      const updated = [item, ...list];
+      localStorage.setItem(FEEDBACK_KEY, JSON.stringify(updated));
+      return item;
+    },
+
+    async updateFeedbackStatus(id, newStatus = 'resolved') {
+      if (db && ScholarAuth.isConfigured() && ScholarAuth.isAdmin()) {
+        try {
+          await db.collection('feedback').doc(id).update({
+            status: newStatus,
+            resolvedAt: new Date().toISOString()
+          });
+        } catch (e) {
+          console.warn('Failed to update feedback status in Firestore:', e);
+        }
+      }
+      const list = await this.getFeedback();
+      const updated = list.map(item => item.id === id ? { ...item, status: newStatus } : item);
+      localStorage.setItem(FEEDBACK_KEY, JSON.stringify(updated));
+      return true;
+    },
+
+    async deleteFeedback(id) {
+      if (db && ScholarAuth.isConfigured() && ScholarAuth.isAdmin()) {
+        try {
+          await db.collection('feedback').doc(id).delete();
+        } catch (e) {
+          console.warn('Failed to delete feedback in Firestore:', e);
+        }
+      }
+      const list = await this.getFeedback();
+      const updated = list.filter(item => item.id !== id);
+      localStorage.setItem(FEEDBACK_KEY, JSON.stringify(updated));
+      return true;
+    }
+  };
+
   window.ScholarFirebase = {
     auth: ScholarAuth,
     sync: ScholarSync,
+    admin: ScholarAdmin,
+    ADMIN_EMAILS: [...ADMIN_EMAILS],
     get rawAuth() { return auth; },
     get rawDb() { return db; },
     get rawApp() { return app; }
