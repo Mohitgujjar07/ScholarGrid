@@ -1,0 +1,391 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ========================================================================
+    // ScholarGrid Academic Web Application — Cloud Firestore Security Rules
+    // Tumkur University / NEP BCA Academic Workspace
+    //
+    // Security Architecture:
+    // 1. Strict Authentication & Partitioning: Only authenticated users can
+    //    access data, restricted exclusively to /users/{userId} where userId == request.auth.uid.
+    // 2. Default Deny: All unmatched paths and cross-tenant access are strictly denied.
+    // 3. Validator Function Pattern: Every write (create and update) enforces
+    //    CEL type safety, range bounds, string length caps, and schema constraints.
+    // 4. Update Immutability: Protected fields (ownership pointers, creation timestamps)
+    //    are strictly immutable across all documents.
+    // 5. Query Alignment: Rules align with scoped collection queries under /users/{userId}.
+    // ========================================================================
+
+    // ------------------------------------------------------------------------
+    // Core Helper Functions
+    // ------------------------------------------------------------------------
+
+    // Verify if caller is authenticated with Firebase Auth
+    function isAuthenticated() {
+      return request.auth != null && request.auth.uid != null;
+    }
+
+    // Verify if caller owns the document partition
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Optional string validator with length boundaries
+    function optionalString(data, field, minLen, maxLen) {
+      return !(field in data) || (data[field] is string && data[field].size() >= minLen && data[field].size() <= maxLen);
+    }
+
+    // Required string validator with length boundaries
+    function requiredString(data, field, minLen, maxLen) {
+      return field in data && data[field] is string && data[field].size() >= minLen && data[field].size() <= maxLen;
+    }
+
+    // Optional number validator (int or float) with numeric range boundaries
+    function optionalNumber(data, field, minVal, maxVal) {
+      return !(field in data) || ((data[field] is int || data[field] is float) && data[field] >= minVal && data[field] <= maxVal);
+    }
+
+    // Optional boolean validator
+    function optionalBool(data, field) {
+      return !(field in data) || data[field] is bool;
+    }
+
+    // Optional timestamp validator
+    function optionalTimestamp(data, field) {
+      return !(field in data) || data[field] is timestamp;
+    }
+
+    // Optional map validator with bounded key count (DoS mitigation)
+    function optionalMap(data, field, maxKeys) {
+      return !(field in data) || (data[field] is map && data[field].keys().size() <= maxKeys);
+    }
+
+    // Optional list validator with bounded item count (DoS mitigation)
+    function optionalList(data, field, maxSize) {
+      return !(field in data) || (data[field] is list && data[field].size() <= maxSize);
+    }
+
+    // Ownership verification for internal document payload fields
+    function validOwnerReference(data, expectedUserId) {
+      return (!( 'userId' in data ) || ( data.userId is string && data.userId == expectedUserId )) &&
+             (!( 'uid' in data ) || ( data.uid is string && data.uid == expectedUserId ));
+    }
+
+    // Field immutability helper: prevents tampering or removing protected fields during update
+    function notModified(field, prev, next) {
+      return !(field in prev) || (field in next && next[field] == prev[field]);
+    }
+
+    // ------------------------------------------------------------------------
+    // Root User Document: users/{userId}
+    // ------------------------------------------------------------------------
+    function isValidUserDoc(data, userId) {
+      return data.keys().hasOnly([
+        'uid', 'userId', 'email', 'displayName', 'photoURL',
+        'semester', 'college', 'careerPath', 'targetSGPA', 'minAttendanceGoal',
+        'onboardingCompleted', 'createdAt', 'updatedAt', 'lastLoginAt'
+      ]) &&
+      validOwnerReference(data, userId) &&
+      optionalString(data, 'email', 3, 320) &&
+      optionalString(data, 'displayName', 1, 120) &&
+      optionalString(data, 'photoURL', 1, 2048) &&
+      optionalString(data, 'semester', 1, 30) &&
+      optionalString(data, 'college', 1, 200) &&
+      optionalString(data, 'careerPath', 1, 100) &&
+      optionalNumber(data, 'targetSGPA', 0, 10) &&
+      optionalNumber(data, 'minAttendanceGoal', 0, 100) &&
+      optionalBool(data, 'onboardingCompleted') &&
+      optionalTimestamp(data, 'createdAt') &&
+      optionalTimestamp(data, 'updatedAt') &&
+      optionalTimestamp(data, 'lastLoginAt');
+    }
+
+    function isValidUserDocUpdate(prev, next) {
+      return notModified('uid', prev, next) &&
+             notModified('userId', prev, next) &&
+             notModified('createdAt', prev, next);
+    }
+
+    // ------------------------------------------------------------------------
+    // Subcollection: profile
+    // Onboarding answers, semester, college, target SGPA, career path
+    // ------------------------------------------------------------------------
+    function isValidProfileDoc(data, userId) {
+      return data.keys().hasOnly([
+        'userId', 'uid', 'fullName', 'displayName', 'email', 'phone',
+        'semester', 'college', 'university', 'registerNumber', 'degree',
+        'careerPath', 'targetSGPA', 'minAttendanceGoal',
+        'onboardingAnswers', 'preferences', 'createdAt', 'updatedAt'
+      ]) &&
+      validOwnerReference(data, userId) &&
+      optionalString(data, 'fullName', 1, 120) &&
+      optionalString(data, 'displayName', 1, 120) &&
+      optionalString(data, 'email', 3, 320) &&
+      optionalString(data, 'phone', 5, 30) &&
+      optionalString(data, 'semester', 1, 30) &&
+      optionalString(data, 'college', 1, 200) &&
+      optionalString(data, 'university', 1, 200) &&
+      optionalString(data, 'registerNumber', 1, 50) &&
+      optionalString(data, 'degree', 1, 100) &&
+      optionalString(data, 'careerPath', 1, 100) &&
+      optionalNumber(data, 'targetSGPA', 0, 10) &&
+      optionalNumber(data, 'minAttendanceGoal', 0, 100) &&
+      optionalMap(data, 'onboardingAnswers', 50) &&
+      optionalMap(data, 'preferences', 50) &&
+      optionalTimestamp(data, 'createdAt') &&
+      optionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidProfileDocUpdate(prev, next) {
+      return notModified('userId', prev, next) &&
+             notModified('uid', prev, next) &&
+             notModified('createdAt', prev, next);
+    }
+
+    // ------------------------------------------------------------------------
+    // Subcollection: attendance
+    // Subject attendance logs, total/attended classes, 75% target, IA marks
+    // ------------------------------------------------------------------------
+    function isValidAttendanceDoc(data, userId) {
+      return data.keys().hasOnly([
+        'userId', 'uid', 'semester', 'subjectCode', 'subjectName',
+        'attended', 'total', 'ia', 'target', 'notes',
+        'subjects', 'records', 'history', 'createdAt', 'updatedAt'
+      ]) &&
+      validOwnerReference(data, userId) &&
+      optionalString(data, 'semester', 1, 30) &&
+      optionalString(data, 'subjectCode', 1, 50) &&
+      optionalString(data, 'subjectName', 1, 150) &&
+      optionalNumber(data, 'attended', 0, 1000) &&
+      optionalNumber(data, 'total', 0, 1000) &&
+      optionalNumber(data, 'ia', 0, 40) &&
+      optionalNumber(data, 'target', 0, 100) &&
+      optionalString(data, 'notes', 0, 1000) &&
+      optionalMap(data, 'subjects', 50) &&
+      optionalMap(data, 'records', 50) &&
+      optionalList(data, 'history', 500) &&
+      optionalTimestamp(data, 'createdAt') &&
+      optionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidAttendanceDocUpdate(prev, next) {
+      return notModified('userId', prev, next) &&
+             notModified('uid', prev, next) &&
+             notModified('createdAt', prev, next);
+    }
+
+    // ------------------------------------------------------------------------
+    // Subcollection: sgpa_calculator
+    // Semester marks, credits, SGPA / CGPA calculations and history
+    // ------------------------------------------------------------------------
+    function isValidSgpaDoc(data, userId) {
+      return data.keys().hasOnly([
+        'userId', 'uid', 'semester', 'sgpa', 'cgpa',
+        'totalCredits', 'weightedPoints', 'percentage',
+        'subjects', 'semesters', 'history', 'createdAt', 'updatedAt'
+      ]) &&
+      validOwnerReference(data, userId) &&
+      optionalString(data, 'semester', 1, 30) &&
+      optionalNumber(data, 'sgpa', 0, 10) &&
+      optionalNumber(data, 'cgpa', 0, 10) &&
+      optionalNumber(data, 'totalCredits', 0, 300) &&
+      optionalNumber(data, 'weightedPoints', 0, 3000) &&
+      optionalNumber(data, 'percentage', 0, 100) &&
+      optionalMap(data, 'subjects', 50) &&
+      optionalMap(data, 'semesters', 20) &&
+      optionalList(data, 'history', 50) &&
+      optionalTimestamp(data, 'createdAt') &&
+      optionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidSgpaDocUpdate(prev, next) {
+      return notModified('userId', prev, next) &&
+             notModified('uid', prev, next) &&
+             notModified('createdAt', prev, next);
+    }
+
+    // ------------------------------------------------------------------------
+    // Subcollection: resume
+    // ATS Single-page Resume form data (Harvard/Tech standard)
+    // ------------------------------------------------------------------------
+    function isValidResumeDoc(data, userId) {
+      return data.keys().hasOnly([
+        'userId', 'uid', 'title', 'fullName', 'email', 'phone',
+        'location', 'github', 'linkedin', 'portfolio', 'summary',
+        'education', 'skills', 'projects', 'experience',
+        'certifications', 'template', 'createdAt', 'updatedAt'
+      ]) &&
+      validOwnerReference(data, userId) &&
+      optionalString(data, 'title', 1, 150) &&
+      optionalString(data, 'fullName', 1, 120) &&
+      optionalString(data, 'email', 3, 320) &&
+      optionalString(data, 'phone', 5, 30) &&
+      optionalString(data, 'location', 1, 150) &&
+      optionalString(data, 'github', 1, 250) &&
+      optionalString(data, 'linkedin', 1, 250) &&
+      optionalString(data, 'portfolio', 1, 250) &&
+      optionalString(data, 'summary', 0, 3000) &&
+      optionalList(data, 'education', 20) &&
+      optionalList(data, 'projects', 30) &&
+      optionalList(data, 'experience', 30) &&
+      optionalList(data, 'certifications', 50) &&
+      optionalString(data, 'template', 1, 50) &&
+      (!( 'skills' in data ) || ( data.skills is map && data.skills.keys().size() <= 30 ) || ( data.skills is list && data.skills.size() <= 100 )) &&
+      optionalTimestamp(data, 'createdAt') &&
+      optionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidResumeDocUpdate(prev, next) {
+      return notModified('userId', prev, next) &&
+             notModified('uid', prev, next) &&
+             notModified('createdAt', prev, next);
+    }
+
+    // ------------------------------------------------------------------------
+    // Subcollection: bookmarks
+    // Pinned notes, subjects, question papers, and resource links
+    // ------------------------------------------------------------------------
+    function isValidBookmarkDoc(data, userId) {
+      return data.keys().hasOnly([
+        'userId', 'uid', 'id', 'title', 'url', 'meta',
+        'type', 'category', 'semester', 'pins',
+        'createdAt', 'updatedAt'
+      ]) &&
+      validOwnerReference(data, userId) &&
+      optionalString(data, 'id', 1, 100) &&
+      optionalString(data, 'title', 1, 300) &&
+      optionalString(data, 'url', 1, 2048) &&
+      optionalString(data, 'meta', 0, 200) &&
+      optionalString(data, 'type', 1, 50) &&
+      optionalString(data, 'category', 1, 100) &&
+      optionalString(data, 'semester', 1, 30) &&
+      optionalList(data, 'pins', 200) &&
+      optionalTimestamp(data, 'createdAt') &&
+      optionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidBookmarkDocUpdate(prev, next) {
+      return notModified('userId', prev, next) &&
+             notModified('uid', prev, next) &&
+             notModified('createdAt', prev, next);
+    }
+
+    // ------------------------------------------------------------------------
+    // Subcollection: roadmap_progress
+    // Career roadmap checklist progress and skill milestones
+    // ------------------------------------------------------------------------
+    function isValidRoadmapProgressDoc(data, userId) {
+      return data.keys().hasOnly([
+        'userId', 'uid', 'roadmapId', 'title', 'progress',
+        'checklist', 'completedSkills', 'saved',
+        'createdAt', 'updatedAt'
+      ]) &&
+      validOwnerReference(data, userId) &&
+      optionalString(data, 'roadmapId', 1, 100) &&
+      optionalString(data, 'title', 1, 200) &&
+      optionalNumber(data, 'progress', 0, 100) &&
+      optionalMap(data, 'checklist', 200) &&
+      optionalList(data, 'completedSkills', 200) &&
+      optionalMap(data, 'saved', 200) &&
+      optionalTimestamp(data, 'createdAt') &&
+      optionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidRoadmapProgressDocUpdate(prev, next) {
+      return notModified('userId', prev, next) &&
+             notModified('uid', prev, next) &&
+             notModified('createdAt', prev, next);
+    }
+
+    // ------------------------------------------------------------------------
+    // Collection Match Blocks
+    // ------------------------------------------------------------------------
+
+    match /users/{userId} {
+      // Root user profile document access
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId) &&
+                       isValidUserDoc(request.resource.data, userId);
+      allow update: if isOwner(userId) &&
+                       isValidUserDoc(request.resource.data, userId) &&
+                       isValidUserDocUpdate(resource.data, request.resource.data);
+      allow delete: if isOwner(userId);
+
+      // 1. Profile subcollection
+      match /profile/{profileId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) &&
+                         isValidProfileDoc(request.resource.data, userId);
+        allow update: if isOwner(userId) &&
+                         isValidProfileDoc(request.resource.data, userId) &&
+                         isValidProfileDocUpdate(resource.data, request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      // 2. Attendance subcollection
+      match /attendance/{attendanceId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) &&
+                         isValidAttendanceDoc(request.resource.data, userId);
+        allow update: if isOwner(userId) &&
+                         isValidAttendanceDoc(request.resource.data, userId) &&
+                         isValidAttendanceDocUpdate(resource.data, request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      // 3. SGPA Calculator subcollection
+      match /sgpa_calculator/{sgpaId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) &&
+                         isValidSgpaDoc(request.resource.data, userId);
+        allow update: if isOwner(userId) &&
+                         isValidSgpaDoc(request.resource.data, userId) &&
+                         isValidSgpaDocUpdate(resource.data, request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      // 4. Resume Builder subcollection
+      match /resume/{resumeId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) &&
+                         isValidResumeDoc(request.resource.data, userId);
+        allow update: if isOwner(userId) &&
+                         isValidResumeDoc(request.resource.data, userId) &&
+                         isValidResumeDocUpdate(resource.data, request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      // 5. Bookmarks subcollection
+      match /bookmarks/{bookmarkId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) &&
+                         isValidBookmarkDoc(request.resource.data, userId);
+        allow update: if isOwner(userId) &&
+                         isValidBookmarkDoc(request.resource.data, userId) &&
+                         isValidBookmarkDocUpdate(resource.data, request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      // 6. Roadmap Progress subcollection
+      match /roadmap_progress/{progressId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) &&
+                         isValidRoadmapProgressDoc(request.resource.data, userId);
+        allow update: if isOwner(userId) &&
+                         isValidRoadmapProgressDoc(request.resource.data, userId) &&
+                         isValidRoadmapProgressDocUpdate(resource.data, request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // Root Default Deny
+    // Strictly block reads/writes to any collection or path not explicitly allowed
+    // ------------------------------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

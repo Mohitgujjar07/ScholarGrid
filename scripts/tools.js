@@ -37,7 +37,19 @@
   function saveJson(key, value) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
-    } catch {}
+      if (window.ScholarFirebase && window.ScholarFirebase.auth && window.ScholarFirebase.sync) {
+        const user = window.ScholarFirebase.auth.getCurrentUser();
+        if (user && user.uid) {
+          if (key === RESUME_STORAGE_KEY) {
+            window.ScholarFirebase.sync.saveSection(user.uid, 'resume', value);
+          } else if (key === ATTENDANCE_STORAGE_KEY) {
+            window.ScholarFirebase.sync.saveSection(user.uid, 'attendance', value);
+          } else if (key === SGPA_STORAGE_KEY) {
+            window.ScholarFirebase.sync.saveSection(user.uid, 'sgpa_calculator', value);
+          }
+        }
+      }
+    } catch (e) {}
   }
 
   function getActiveSemesterDefault(semList) {
@@ -256,28 +268,39 @@
       });
     }
 
+    function getAttendanceGoal() {
+      try {
+        const raw = localStorage.getItem('scholargrid_user_profile');
+        if (raw) {
+          const p = JSON.parse(raw);
+          if (p && p.minAttendanceGoal) return Number(p.minAttendanceGoal);
+        }
+      } catch {}
+      return 75;
+    }
+
     function calcStatus(attended, total) {
       const a = Math.max(0, Number(attended) || 0);
       const t = Math.max(0, Number(total) || 0);
+      const goal = getAttendanceGoal();
+      const ratio = goal / 100;
       if (t === 0) {
         return { pct: 100, safe: true, text: 'No classes logged yet' };
       }
       const pct = (a / t) * 100;
-      if (pct >= 75) {
-        // Max consecutive absences x while maintaining a / (t + x) >= 0.75 => x <= (a / 0.75) - t
-        const canMiss = Math.floor(a / 0.75 - t);
+      if (pct >= goal) {
+        const canMiss = Math.floor(a / ratio - t);
         return {
           pct,
           safe: true,
-          text: canMiss > 0 ? `Safe to miss ${canMiss} class${canMiss === 1 ? '' : 'es'}` : 'On the 75% boundary — attend next class'
+          text: canMiss > 0 ? `Safe to miss ${canMiss} class${canMiss === 1 ? '' : 'es'}` : `On the ${goal}% boundary — attend next class`
         };
       }
-      // Consecutive classes needed x: (a + x) / (t + x) >= 0.75 => x >= 3*t - 4*a
-      const needed = Math.max(1, Math.ceil(3 * t - 4 * a));
+      const needed = Math.max(1, Math.ceil((ratio * t - a) / (1 - ratio)));
       return {
         pct,
         safe: false,
-        text: `Attend next ${needed} class${needed === 1 ? '' : 'es'} for 75%`
+        text: `Attend next ${needed} class${needed === 1 ? '' : 'es'} for ${goal}%`
       };
     }
 
@@ -479,8 +502,39 @@
 
     const PRESETS = window.SCHOLAR_TOOLS_DATA?.resumePresets || {};
     let resume = loadJson(RESUME_STORAGE_KEY, null);
+    let userProfile = null;
+    try {
+      const rawProf = localStorage.getItem('scholargrid_user_profile');
+      if (rawProf) userProfile = JSON.parse(rawProf);
+    } catch {}
+
     if (!resume) {
-      resume = JSON.parse(JSON.stringify(PRESETS.fullstack || {}));
+      // Pick preset based on user career goal
+      let chosenPreset = 'fullstack';
+      if (userProfile && userProfile.careerPath) {
+        const cp = userProfile.careerPath.toLowerCase();
+        if (cp.includes('ai') || cp.includes('python') || cp.includes('data')) {
+          chosenPreset = 'python_ai';
+        } else if (cp.includes('placement') || cp.includes('core') || cp.includes('higher') || cp.includes('rank')) {
+          chosenPreset = 'core_fresher';
+        }
+      }
+      resume = JSON.parse(JSON.stringify(PRESETS[chosenPreset] || PRESETS.fullstack || {}));
+    }
+
+    // Auto-populate user contact & education if present in profile and resume fields are default
+    if (userProfile) {
+      if ((!resume.fullName || resume.fullName === 'YOUR NAME' || resume.fullName === 'Mohit Gujjar') && (userProfile.fullName || userProfile.displayName)) {
+        resume.fullName = userProfile.fullName || userProfile.displayName;
+      }
+      if (!resume.email && userProfile.email) {
+        resume.email = userProfile.email;
+      }
+      if (userProfile.college && resume.education && resume.education[0]) {
+        if (!resume.education[0].institution || resume.education[0].institution === 'University Name' || resume.education[0].institution === 'Tumkur University') {
+          resume.education[0].institution = userProfile.college;
+        }
+      }
     }
 
     // Ensure array structures

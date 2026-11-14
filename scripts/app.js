@@ -171,6 +171,7 @@
           ${SEMESTERS.map((s) => `<option value="${s}" ${currentSem === s ? 'selected' : ''}>My Semester: ${s}</option>`).join('')}
         </select>
         ${showBackButton ? '<a href="index.html" class="btn btn-outline btn-sm">← Dashboard</a>' : ''}
+        <div id="topbarAuthSlot"></div>
       </div>
     `;
 
@@ -183,6 +184,7 @@
     }
 
     initMobileSidebar();
+    mountTopbarAuth(onSemChange);
   }
 
   function initMobileSidebar() {
@@ -212,6 +214,528 @@
       }
     });
   }
+
+  // ==========================================================================
+  // Firebase Google Auth, User Pill & Cloud Sync Hooks
+  // ==========================================================================
+
+  function showToast(message, duration = 3500) {
+    let toast = document.getElementById('syncToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'syncToast';
+      toast.className = 'sync-toast';
+      document.body.appendChild(toast);
+    }
+    toast.innerHTML = `<span>${escHtml(message)}</span>`;
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, duration);
+  }
+
+  function mountTopbarAuth(onSemChange) {
+    const slot = document.getElementById('topbarAuthSlot');
+    if (!slot) return;
+
+    function renderAuthUI(user, profile) {
+      if (!user) {
+        slot.innerHTML = `
+          <button id="googleSignInBtn" class="google-signin-btn" type="button" title="Sign in with Google">
+            <svg class="google-icon" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+              <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+            </svg>
+            <span>Sign in with Google</span>
+          </button>
+        `;
+
+        const btn = document.getElementById('googleSignInBtn');
+        if (btn) {
+          btn.addEventListener('click', async () => {
+            try {
+              btn.disabled = true;
+              btn.innerHTML = '<span>Signing in...</span>';
+              const { user: signedUser, isNewUser } = await window.ScholarFirebase.auth.signInWithGoogle();
+              btn.disabled = false;
+              const curProf = window.ScholarFirebase.auth.getUserProfile();
+              if (isNewUser || !curProf) {
+                openOnboardingModal(signedUser, false, () => {
+                  if (typeof onSemChange === 'function') onSemChange(getSemFocus());
+                });
+              } else {
+                applyPersonalization(curProf);
+                showToast(`☁️ Welcome back, ${signedUser.displayName?.split(' ')[0] || 'Scholar'}! Workspace active.`);
+                if (typeof onSemChange === 'function') onSemChange(getSemFocus());
+              }
+            } catch (err) {
+              console.error('Sign-in failed:', err);
+              btn.disabled = false;
+              renderAuthUI(null, null);
+              alert('Sign-in notice: ' + (err.message || 'Could not complete Google Sign-In'));
+            }
+          });
+        }
+      } else {
+        const firstName = (user.displayName || 'Scholar').split(' ')[0];
+        const initials = (user.displayName || 'S').substring(0, 2).toUpperCase();
+        const sem = profile?.semester || getSemFocus();
+
+        slot.innerHTML = `
+          <div class="user-pill-container" id="userPillContainer">
+            <button type="button" id="userPillBtn" class="user-pill-btn" aria-haspopup="true" aria-expanded="false" title="Account settings & sync status">
+              ${user.photoURL ? `<img class="user-avatar" src="${escHtml(user.photoURL)}" alt="Avatar" referrerpolicy="no-referrer" />` : `<div class="user-avatar-initials">${escHtml(initials)}</div>`}
+              <span class="user-name">${escHtml(firstName)}</span>
+              <span class="user-badge">${escHtml(sem !== 'All' ? sem : 'BCA')}</span>
+              <span style="font-size:0.7rem;color:var(--text-muted);margin-left:2px;">▼</span>
+            </button>
+            <div class="user-dropdown-menu" id="userDropdownMenu" role="menu">
+              <div class="user-dropdown-header">
+                <div class="name">${escHtml(user.displayName || 'BCA Scholar')}</div>
+                <div class="email">${escHtml(user.email || '')}</div>
+                <div class="meta-tag">🏛️ ${escHtml(profile?.college || 'Tumkur University')}</div>
+              </div>
+              <button type="button" class="user-dropdown-item" id="menuEditProfileBtn">
+                <span>🎯</span> Edit Profile &amp; Goals
+              </button>
+              <button type="button" class="user-dropdown-item" id="menuSyncNowBtn">
+                <span class="sync-status-indicator"></span> Sync Status (Cloud Active)
+              </button>
+              <div class="user-dropdown-divider"></div>
+              <button type="button" class="user-dropdown-item danger" id="menuSignOutBtn">
+                <span>🚪</span> Sign Out
+              </button>
+            </div>
+          </div>
+        `;
+
+        const pillBtn = document.getElementById('userPillBtn');
+        const dropdown = document.getElementById('userDropdownMenu');
+        const editBtn = document.getElementById('menuEditProfileBtn');
+        const syncBtn = document.getElementById('menuSyncNowBtn');
+        const signOutBtn = document.getElementById('menuSignOutBtn');
+
+        if (pillBtn && dropdown) {
+          pillBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = dropdown.classList.contains('show');
+            dropdown.classList.toggle('show', !isOpen);
+            pillBtn.classList.toggle('active', !isOpen);
+            pillBtn.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
+          });
+
+          document.addEventListener('click', (e) => {
+            if (!slot.contains(e.target)) {
+              dropdown.classList.remove('show');
+              pillBtn.classList.remove('active');
+              pillBtn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+
+        if (editBtn) {
+          editBtn.addEventListener('click', () => {
+            dropdown.classList.remove('show');
+            openOnboardingModal(user, true, () => {
+              if (typeof onSemChange === 'function') onSemChange(getSemFocus());
+            });
+          });
+        }
+
+        if (syncBtn) {
+          syncBtn.addEventListener('click', async () => {
+            dropdown.classList.remove('show');
+            showToast('☁️ Syncing local workspace with Cloud Firestore...');
+            if (window.ScholarFirebase && window.ScholarFirebase.sync) {
+              await window.ScholarFirebase.sync.syncLocalToCloud(user.uid);
+              showToast('✓ Cloud Firestore sync complete!');
+            }
+          });
+        }
+
+        if (signOutBtn) {
+          signOutBtn.addEventListener('click', async () => {
+            dropdown.classList.remove('show');
+            if (window.ScholarFirebase && window.ScholarFirebase.auth) {
+              await window.ScholarFirebase.auth.signOut();
+              showToast('Logged out. Switched to local Guest Mode.');
+              if (typeof onSemChange === 'function') onSemChange(getSemFocus());
+            }
+          });
+        }
+      }
+    }
+
+    if (window.ScholarFirebase && window.ScholarFirebase.auth) {
+      window.ScholarFirebase.auth.onAuthStateChanged((user, profile) => {
+        renderAuthUI(user, profile);
+      });
+    } else {
+      renderAuthUI(null, null);
+    }
+  }
+
+  // ==========================================================================
+  // 3-Step First-Time Personalized Onboarding Questionnaire Modal
+  // ==========================================================================
+
+  function openOnboardingModal(user, isEditing = false, onComplete) {
+    let existingModal = document.getElementById('onboardingModalOverlay');
+    if (existingModal) existingModal.remove();
+
+    const storedProfile = window.ScholarFirebase?.auth?.getUserProfile() || {};
+    const state = {
+      step: 1,
+      semester: storedProfile.semester || (getSemFocus() !== 'All' ? getSemFocus() : 'Sem III'),
+      college: storedProfile.college || 'Tumkur University',
+      careerPath: storedProfile.careerPath || 'Campus Placements / Core Software Engineer',
+      targetSGPA: storedProfile.targetSGPA || '8.5',
+      minAttendanceGoal: String(storedProfile.minAttendanceGoal || '75')
+    };
+
+    const overlay = document.createElement('div');
+    overlay.id = 'onboardingModalOverlay';
+    overlay.className = 'onboarding-overlay';
+
+    function renderModal() {
+      const stepPct = Math.round((state.step / 3) * 100);
+
+      let stepHtml = '';
+      if (state.step === 1) {
+        stepHtml = `
+          <div>
+            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:8px;">Choose Your Current Semester</label>
+            <div class="onboarding-card-grid cols-3">
+              ${SEMESTERS.map(s => `
+                <div class="onboarding-option-card ${state.semester === s ? 'selected' : ''}" data-sem-choice="${s}">
+                  <div class="onboarding-option-icon">🎓</div>
+                  <div class="onboarding-option-content">
+                    <strong>${s}</strong>
+                    <span>NEP Course Track</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:6px;">Your College / University Name</label>
+            <input type="text" id="obCollegeInput" class="input" list="collegeList" value="${escHtml(state.college)}" placeholder="e.g. Tumkur University, Seshadripuram College..." />
+            <datalist id="collegeList">
+              <option value="Tumkur University, Tumakuru">
+              <option value="Seshadripuram College, Bengaluru">
+              <option value="Bangalore University, Bengaluru">
+              <option value="Christ University, Bengaluru">
+              <option value="Jain University, Bengaluru">
+              <option value="St. Joseph's University, Bengaluru">
+              <option value="Mount Carmel College, Bengaluru">
+              <option value="Dayananda Sagar College, Bengaluru">
+              <option value="BMS College of Commerce and Management">
+            </datalist>
+            <span style="font-size:0.76rem;color:var(--text-muted);margin-top:4px;display:block;">Pre-fills your ATS Resume education details automatically.</span>
+          </div>
+        `;
+      } else if (state.step === 2) {
+        const goals = [
+          {
+            id: 'Campus Placements / Core Software Engineer',
+            icon: '🚀',
+            title: 'Campus Placements & Core SDE',
+            desc: 'Data Structures, Algorithms, Core Java/C++, DBMS, OS & Aptitude tests'
+          },
+          {
+            id: 'Full-Stack Web & App Development',
+            icon: '🌐',
+            title: 'Full-Stack Web & App Engineering',
+            desc: 'Modern JavaScript, React, Node.js, Express, PostgreSQL, REST APIs'
+          },
+          {
+            id: 'AI, Python & Data Analytics',
+            icon: '🤖',
+            title: 'AI, Python & Data Analytics',
+            desc: 'Python programming, Pandas, Machine Learning models & SQL analytics'
+          },
+          {
+            id: 'Semester Top Rank & Academics',
+            icon: '🎓',
+            title: 'Semester Top Rank & Academics',
+            desc: 'Maximum SGPA target, university question banks, and complete theory mastery'
+          },
+          {
+            id: 'Higher Studies / MCA Entrance',
+            icon: '📚',
+            title: 'Higher Studies / MCA Entrance',
+            desc: 'NIMCET, Karnataka PGCET, Discrete Math, Computer Basics & Logical Reasoning'
+          }
+        ];
+
+        stepHtml = `
+          <div>
+            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:8px;">Select Your Primary Focus Area</label>
+            <div class="onboarding-card-grid">
+              ${goals.map(g => `
+                <div class="onboarding-option-card ${state.careerPath === g.id ? 'selected' : ''}" data-goal-choice="${escHtml(g.id)}">
+                  <div class="onboarding-option-icon">${g.icon}</div>
+                  <div class="onboarding-option-content">
+                    <strong>${g.title}</strong>
+                    <span>${g.desc}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      } else if (state.step === 3) {
+        const sgpaOptions = ['7.5', '8.0', '8.5', '9.0+'];
+        stepHtml = `
+          <div>
+            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:8px;">Target Semester SGPA</label>
+            <div class="onboarding-card-grid cols-2" style="grid-template-columns:repeat(4, 1fr);">
+              ${sgpaOptions.map(sg => `
+                <div class="onboarding-option-card ${state.targetSGPA === sg ? 'selected' : ''}" data-sgpa-choice="${sg}" style="text-align:center;justify-content:center;padding:12px 8px;">
+                  <div class="onboarding-option-content">
+                    <strong style="font-size:1.15rem;color:var(--primary);">${sg}</strong>
+                    <span style="font-size:0.72rem;">${sg === '9.0+' ? 'Ranker' : sg === '8.5' ? 'Distinction' : 'First Class'}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:8px;">Minimum Attendance Target</label>
+            <div class="onboarding-card-grid cols-2">
+              <div class="onboarding-option-card ${state.minAttendanceGoal === '75' ? 'selected' : ''}" data-att-choice="75">
+                <div class="onboarding-option-icon">⚠️</div>
+                <div class="onboarding-option-content">
+                  <strong>75% Mandatory</strong>
+                  <span>Standard university minimum attendance rule</span>
+                </div>
+              </div>
+              <div class="onboarding-option-card ${state.minAttendanceGoal === '80' ? 'selected' : ''}" data-att-choice="80">
+                <div class="onboarding-option-icon">🛡️</div>
+                <div class="onboarding-option-content">
+                  <strong>80% Safe Buffer</strong>
+                  <span>Leaves a safety cushion for emergencies &amp; leave</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      overlay.innerHTML = `
+        <div class="onboarding-modal" role="dialog" aria-modal="true">
+          <div class="onboarding-header">
+            <div class="onboarding-top-bar">
+              <span class="onboarding-step-badge">Step ${state.step} of 3</span>
+              ${isEditing ? '<button type="button" id="closeOnboardingBtn" class="close-btn">&times;</button>' : ''}
+            </div>
+            <div class="onboarding-progress-track">
+              <div class="onboarding-progress-fill" style="width:${stepPct}%;"></div>
+            </div>
+            <h2 class="onboarding-title">
+              ${state.step === 1 ? 'Academic Track &amp; College' : state.step === 2 ? 'Career Path &amp; Focus Area' : 'Semester Goals &amp; Benchmarks'}
+            </h2>
+            <p class="onboarding-desc">
+              ${state.step === 1 ? 'Configure your semester focus to highlight current notes, labs, and question papers.' :
+                state.step === 2 ? 'ScholarGrid will align your ATS resume presets and placement quizzes to this goal.' :
+                'Set your benchmarks for attendance alerts and grade point targets.'}
+            </p>
+          </div>
+
+          <div class="onboarding-body">
+            ${stepHtml}
+          </div>
+
+          <div class="onboarding-footer">
+            <div>
+              ${state.step > 1 ? '<button type="button" id="obBackBtn" class="btn btn-outline btn-sm">← Back</button>' : ''}
+            </div>
+            <button type="button" id="obNextBtn" class="btn btn-primary">
+              ${state.step < 3 ? 'Continue →' : (isEditing ? 'Save Changes ✓' : 'Launch My Workspace 🚀')}
+            </button>
+          </div>
+        </div>
+      `;
+
+      bindModalEvents();
+    }
+
+    function bindModalEvents() {
+      // Step 1 choices
+      overlay.querySelectorAll('[data-sem-choice]').forEach(el => {
+        el.addEventListener('click', () => {
+          state.semester = el.getAttribute('data-sem-choice');
+          renderModal();
+        });
+      });
+
+      const collegeInp = overlay.querySelector('#obCollegeInput');
+      if (collegeInp) {
+        collegeInp.addEventListener('input', (e) => {
+          state.college = e.target.value;
+        });
+      }
+
+      // Step 2 choices
+      overlay.querySelectorAll('[data-goal-choice]').forEach(el => {
+        el.addEventListener('click', () => {
+          state.careerPath = el.getAttribute('data-goal-choice');
+          renderModal();
+        });
+      });
+
+      // Step 3 choices
+      overlay.querySelectorAll('[data-sgpa-choice]').forEach(el => {
+        el.addEventListener('click', () => {
+          state.targetSGPA = el.getAttribute('data-sgpa-choice');
+          renderModal();
+        });
+      });
+
+      overlay.querySelectorAll('[data-att-choice]').forEach(el => {
+        el.addEventListener('click', () => {
+          state.minAttendanceGoal = el.getAttribute('data-att-choice');
+          renderModal();
+        });
+      });
+
+      const backBtn = overlay.querySelector('#obBackBtn');
+      if (backBtn) {
+        backBtn.addEventListener('click', () => {
+          if (state.step > 1) {
+            state.step -= 1;
+            renderModal();
+          }
+        });
+      }
+
+      const closeBtn = overlay.querySelector('#closeOnboardingBtn');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          overlay.classList.remove('show');
+          setTimeout(() => overlay.remove(), 250);
+        });
+      }
+
+      const nextBtn = overlay.querySelector('#obNextBtn');
+      if (nextBtn) {
+        nextBtn.addEventListener('click', async () => {
+          if (state.step === 1 && collegeInp) {
+            state.college = collegeInp.value.trim() || 'Tumkur University';
+          }
+
+          if (state.step < 3) {
+            state.step += 1;
+            renderModal();
+          } else {
+            nextBtn.disabled = true;
+            nextBtn.textContent = 'Personalizing...';
+
+            const userProfile = {
+              userId: user.uid,
+              uid: user.uid,
+              fullName: user.displayName || 'BCA Scholar',
+              displayName: user.displayName || 'Scholar',
+              email: user.email || '',
+              semester: state.semester,
+              college: state.college,
+              degree: 'Bachelor of Computer Applications (BCA)',
+              careerPath: state.careerPath,
+              targetSGPA: state.targetSGPA,
+              minAttendanceGoal: state.minAttendanceGoal
+            };
+
+            if (window.ScholarFirebase && window.ScholarFirebase.sync) {
+              await window.ScholarFirebase.sync.saveUserProfile(user.uid, userProfile);
+              await window.ScholarFirebase.sync.syncLocalToCloud(user.uid);
+            }
+
+            applyPersonalization(userProfile);
+
+            overlay.classList.remove('show');
+            setTimeout(() => overlay.remove(), 250);
+
+            showToast(`🎉 Workspace Personalized for ${state.semester}! Cloud sync active.`);
+
+            if (typeof onComplete === 'function') {
+              onComplete(userProfile);
+            }
+          }
+        });
+      }
+    }
+
+    document.body.appendChild(overlay);
+    renderModal();
+    requestAnimationFrame(() => overlay.classList.add('show'));
+  }
+
+  // ==========================================================================
+  // Dynamic Dashboard Personalization Engine
+  // ==========================================================================
+
+  function applyPersonalization(profile) {
+    if (!profile) return;
+
+    // 1. Automatic Focus Mode: Set selected semester
+    if (profile.semester && SEMESTERS.includes(profile.semester)) {
+      setSemFocus(profile.semester);
+      const semSelect = document.getElementById('semFocusSelect');
+      if (semSelect) semSelect.value = profile.semester;
+    }
+
+    // 2. Smart ATS Resume Pre-Fill
+    try {
+      const PRESETS = window.SCHOLAR_TOOLS_DATA?.resumePresets || {};
+      let resume = null;
+      try {
+        const raw = localStorage.getItem('scholargrid_resume_v3');
+        if (raw) resume = JSON.parse(raw);
+      } catch {}
+
+      if (!resume) {
+        let chosen = 'core_fresher';
+        const cp = (profile.careerPath || '').toLowerCase();
+        if (cp.includes('full-stack') || cp.includes('web')) chosen = 'fullstack';
+        else if (cp.includes('ai') || cp.includes('python') || cp.includes('data')) chosen = 'python_ai';
+        resume = JSON.parse(JSON.stringify(PRESETS[chosen] || PRESETS.fullstack || {}));
+      }
+
+      if (profile.fullName && (!resume.fullName || resume.fullName === 'YOUR NAME' || resume.fullName === 'Mohit Gujjar')) {
+        resume.fullName = profile.fullName;
+      }
+      if (profile.email && !resume.email) {
+        resume.email = profile.email;
+      }
+      if (profile.college && resume.education && resume.education[0]) {
+        if (!resume.education[0].institution || resume.education[0].institution === 'University Name') {
+          resume.education[0].institution = profile.college;
+          resume.education[0].degree = 'Bachelor of Computer Applications (BCA)';
+        }
+      }
+
+      localStorage.setItem('scholargrid_resume_v3', JSON.stringify(resume));
+    } catch (e) {
+      console.warn('Resume prefill error:', e);
+    }
+
+    // 3. Attendance Tracker Goal
+    try {
+      let attState = null;
+      const rawAtt = localStorage.getItem('scholargrid_attendance_v1');
+      if (rawAtt) attState = JSON.parse(rawAtt);
+      if (attState && typeof attState === 'object') {
+        attState.minAttendanceGoal = Number(profile.minAttendanceGoal) || 75;
+        localStorage.setItem('scholargrid_attendance_v1', JSON.stringify(attState));
+      }
+    } catch (e) {}
+  }
+
 
   function renderFooter() {
     const footer = document.getElementById('footer');
@@ -319,17 +843,32 @@
         `;
         return;
       }
-      grid.innerHTML = items.map((m) => `
-        <a href="resource.html#${m.id}" class="card card-interactive">
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span class="card-icon">${m.icon}</span>
-            <span class="badge">${m.badge}</span>
-          </div>
-          <div class="card-title">${m.title}</div>
-          <div class="card-desc">${m.desc}</div>
-          <div class="card-meta"><span>Open module →</span></div>
-        </a>
-      `).join('');
+      const userProfile = window.ScholarFirebase?.auth?.getUserProfile();
+      grid.innerHTML = items.map((m) => {
+        let isRec = false;
+        if (userProfile && userProfile.careerPath) {
+          const cp = userProfile.careerPath.toLowerCase();
+          if (m.id === 'placement-quizzes' && (cp.includes('placement') || cp.includes('core') || cp.includes('higher'))) {
+            isRec = true;
+          } else if (m.id === 'ats-resume' && (cp.includes('full-stack') || cp.includes('placement') || cp.includes('ai'))) {
+            isRec = true;
+          } else if (m.id === 'sgpa-calculator' && cp.includes('rank')) {
+            isRec = true;
+          }
+        }
+        return `
+          <a href="resource.html#${m.id}" class="card card-interactive">
+            ${isRec ? '<div class="recommended-badge">★ Recommended for Your Goal</div>' : ''}
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span class="card-icon">${m.icon}</span>
+              <span class="badge">${m.badge}</span>
+            </div>
+            <div class="card-title">${m.title}</div>
+            <div class="card-desc">${m.desc}</div>
+            <div class="card-meta"><span>Open module →</span></div>
+          </a>
+        `;
+      }).join('');
     }
 
     function renderRecentUploads(semFilter) {
