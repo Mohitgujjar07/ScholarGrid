@@ -5,6 +5,38 @@
   const PINS_KEY = 'scholargrid_pins';
   const SEMESTERS = ['Sem I', 'Sem II', 'Sem III', 'Sem IV', 'Sem V', 'Sem VI'];
 
+  // =========================================================================
+  // Clean Modern SVG Icon System (No Emojis)
+  // =========================================================================
+  const SVG_ICONS = {
+    home: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+    notes: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>',
+    'lab-manuals': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+    'previous-papers': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+    'important-questions': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+    'model-papers': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
+    syllabus: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>',
+    ebooks: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+    'video-tutorials': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
+    certifications: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>',
+    'learning-platforms': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+    roadmaps: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>',
+    'ai-tools': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>',
+    'placement-cell': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
+    'career-development': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 16.5-1.5 3 3-1.5"/><path d="m12 15-3-3a9 9 0 0 1 3-13 9 9 0 0 1 13 3 9 9 0 0 1-3 13l-3-3"/><path d="m9 12 2 2"/></svg>',
+    'exam-announcements': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>',
+    notices: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>',
+    'sgpa-calculator': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>',
+    'attendance-tracker': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+    'resume-builder': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>',
+    'mcq-quiz': '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>'
+  };
+
+  function getIcon(key) {
+    return SVG_ICONS[key] || SVG_ICONS['notes'];
+  }
+
+
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js').catch(() => {});
@@ -119,11 +151,33 @@
     `;
   }
 
-  function renderSidebar(activeModuleId) {
+    function renderSidebar(activeModuleId) {
     const sidebar = document.getElementById('sidebar');
     if (!sidebar) return;
 
     const isDashboard = !activeModuleId;
+
+    const navSections = [
+      {
+        title: 'Academics',
+        moduleIds: ['notes', 'lab-manuals', 'previous-papers', 'important-questions', 'model-papers', 'syllabus', 'ebooks']
+      },
+      {
+        title: 'Productivity Tools',
+        moduleIds: ['sgpa-calculator', 'attendance-tracker', 'resume-builder', 'mcq-quiz']
+      },
+      {
+        title: 'Career & Tech',
+        moduleIds: ['roadmaps', 'certifications', 'ai-tools', 'learning-platforms', 'placement-cell', 'career-development', 'video-tutorials']
+      },
+      {
+        title: 'University',
+        moduleIds: ['exam-announcements', 'notices']
+      }
+    ];
+
+    const moduleMap = {};
+    DATA.modules.forEach(m => { moduleMap[m.id] = m; });
 
     sidebar.innerHTML = `
       <div class="sidebar-header">
@@ -131,27 +185,35 @@
           <img src="assets/logo.jpg" alt="ScholarGrid" class="brand-logo-img" />
           <span class="brand-text-wrap">
             <span class="brand-name">${DATA.brand.name}</span>
-            <span class="brand-sub">Academic Companion</span>
+            <span class="brand-sub">Academic Workspace</span>
           </span>
         </a>
       </div>
-      <nav class="sidebar-nav" aria-label="Modules">
+      <nav class="sidebar-nav" aria-label="Navigation">
         <div class="sidebar-section-label">Workspace</div>
         <a href="index.html" class="sidebar-link ${isDashboard ? 'active' : ''}">
-          <span class="sidebar-link-icon">🏠</span>
+          <span class="sidebar-link-icon">${getIcon('home')}</span>
           <span class="sidebar-link-text">Dashboard</span>
         </a>
-        <div class="sidebar-section-label">All ${DATA.modules.length} Modules</div>
-        ${DATA.modules.map((m) => `
-          <a href="resource.html#${m.id}" class="sidebar-link ${activeModuleId === m.id ? 'active' : ''}">
-            <span class="sidebar-link-icon">${m.icon}</span>
-            <span class="sidebar-link-text">${m.title}</span>
-          </a>
+
+        ${navSections.map(sec => `
+          <div class="sidebar-section-label">${sec.title}</div>
+          ${sec.moduleIds.map(id => {
+            const m = moduleMap[id];
+            if (!m) return '';
+            const isActive = activeModuleId === m.id;
+            return `
+              <a href="resource.html#${m.id}" class="sidebar-link ${isActive ? 'active' : ''}">
+                <span class="sidebar-link-icon">${getIcon(m.id)}</span>
+                <span class="sidebar-link-text">${m.title}</span>
+              </a>
+            `;
+          }).join('')}
         `).join('')}
       </nav>
       <div class="sidebar-footer">
-        <span>Zero Ads • Open Access</span>
-        <span class="badge badge-free">${DATA.modules.length} Modules</span>
+        <span style="font-size:0.75rem; color:var(--text-soft);">ScholarGrid • Open Access</span>
+        <span class="badge badge-subtle" style="font-size:0.7rem;">${DATA.modules.length} Modules</span>
       </div>
     `;
   }
@@ -1202,39 +1264,137 @@
     renderSidebar(null);
     renderTopbar('Dashboard', false, (sem) => {
       renderRecentUploads(sem);
+      const badgeEl = document.getElementById('headerSemBadge');
+      if (badgeEl) badgeEl.textContent = sem === 'All' ? 'All Semesters' : sem;
+      const semPills = document.getElementById('heroSemPills');
+      if (semPills) {
+        semPills.querySelectorAll('.segment-btn').forEach(b => {
+          b.classList.toggle('active', b.getAttribute('data-sem') === sem);
+        });
+      }
     });
     renderFooter();
     mountHelpWidget();
     renderPinnedSection();
-    renderDailyStreakWidget();
+    renderToolsBento();
 
     const grid = document.getElementById('modulesGrid');
     const searchInput = document.getElementById('moduleSearch');
     const noticesList = document.getElementById('noticesList');
     const uploadsList = document.getElementById('uploadsList');
+    const semBadge = document.getElementById('headerSemBadge');
 
-    function renderModules(filter = '') {
+    const focusSem = getSemFocus();
+    if (semBadge) semBadge.textContent = focusSem === 'All' ? 'All Semesters' : focusSem;
+
+    // 4 Core Productivity Tools Bento Showcase
+    function renderToolsBento() {
+      const bentoEl = document.getElementById('toolsBentoGrid');
+      if (!bentoEl) return;
+
+      const streakKey = 'scholargrid_placement_streak';
+      let streakData = { count: 0, lastDate: '' };
+      try {
+        streakData = JSON.parse(localStorage.getItem(streakKey) || '{"count":0,"lastDate":""}');
+      } catch (e) {}
+      const todayStr = new Date().toISOString().slice(0, 10);
+      const isDoneToday = streakData.lastDate === todayStr;
+      const streakCount = streakData.count || 0;
+
+      const tools = [
+        {
+          id: 'mcq-quiz',
+          title: 'Placement MCQ Engine',
+          badge: isDoneToday ? `🔥 Day ${streakCount} Done` : (streakCount > 0 ? `🔥 Day ${streakCount} Streak` : 'Daily 5 Practice'),
+          desc: 'Timed TCS NQT &amp; Infosys recruitment mock tests with GATE-style question palette &amp; instant feedback.',
+          action: isDoneToday ? 'Practice More Questions →' : 'Start Daily 5 Questions →',
+          param: isDoneToday ? '' : '?daily=1'
+        },
+        {
+          id: 'sgpa-calculator',
+          title: 'SGPA &amp; CGPA Calculator',
+          badge: 'Instant Math',
+          desc: 'Pre-loaded BCA credits with internal marks entry, grade point estimation, and Firestore cloud sync.',
+          action: 'Calculate SGPA →',
+          param: ''
+        },
+        {
+          id: 'attendance-tracker',
+          title: 'Attendance &amp; IA Tracker',
+          badge: '75% Statutory Alert',
+          desc: 'Track subject attendance, calculate safe-to-miss lecture buffer, and log internal test assessments.',
+          action: 'Track Attendance →',
+          param: ''
+        },
+        {
+          id: 'resume-builder',
+          title: 'ATS Resume Builder',
+          badge: 'Harvard Standard',
+          desc: 'Single-page technical resume builder with pre-configured BCA project templates and instant PDF print.',
+          action: 'Build Resume →',
+          param: ''
+        }
+      ];
+
+      bentoEl.innerHTML = tools.map(t => `
+        <a href="resource.html#${t.id}${t.param}" class="tool-bento-card">
+          <div>
+            <div class="tool-bento-top">
+              <div class="tool-bento-icon">${getIcon(t.id)}</div>
+              <span class="badge badge-subtle">${t.badge}</span>
+            </div>
+            <div class="tool-bento-title" style="margin-top:12px;">${t.title}</div>
+            <div class="tool-bento-desc">${t.desc}</div>
+          </div>
+          <div class="tool-bento-footer">
+            <span>${t.action}</span>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    const categoryModuleMap = {
+      academics: ['notes', 'lab-manuals', 'previous-papers', 'important-questions', 'model-papers', 'syllabus', 'ebooks'],
+      tools: ['sgpa-calculator', 'attendance-tracker', 'resume-builder', 'mcq-quiz'],
+      career: ['roadmaps', 'certifications', 'ai-tools', 'learning-platforms', 'placement-cell', 'career-development', 'video-tutorials'],
+      campus: ['exam-announcements', 'notices']
+    };
+
+    let activeCategoryTab = 'all';
+
+    function renderModules(filter = '', catTab = 'all') {
       const q = filter.trim().toLowerCase();
-      const items = DATA.modules.filter(
-        (m) => m.title.toLowerCase().includes(q) || m.desc.toLowerCase().includes(q) || m.badge.toLowerCase().includes(q)
-      );
+      let items = DATA.modules;
+
+      if (catTab && catTab !== 'all' && categoryModuleMap[catTab]) {
+        const allowed = new Set(categoryModuleMap[catTab]);
+        items = items.filter(m => allowed.has(m.id));
+      }
+
+      if (q) {
+        items = items.filter(
+          (m) => m.title.toLowerCase().includes(q) || m.desc.toLowerCase().includes(q) || m.badge.toLowerCase().includes(q)
+        );
+      }
+
       if (!items.length) {
         grid.innerHTML = `
-          <div class="card" style="grid-column:1 / -1;">
+          <div class="card" style="grid-column:1 / -1; padding:32px; text-align:center;">
             <div class="card-title">No matching modules</div>
-            <div class="card-desc">Try searching for "Notes", "SGPA", "Quiz", "AI", "Lab", or clear the filter.</div>
+            <div class="card-desc">Try clearing the search or switching category tabs.</div>
           </div>
         `;
         return;
       }
+
       const userProfile = window.ScholarFirebase?.auth?.getUserProfile();
       grid.innerHTML = items.map((m) => {
         let isRec = false;
         if (userProfile && userProfile.careerPath) {
           const cp = userProfile.careerPath.toLowerCase();
-          if (m.id === 'placement-quizzes' && (cp.includes('placement') || cp.includes('core') || cp.includes('higher'))) {
+          if (m.id === 'mcq-quiz' && (cp.includes('placement') || cp.includes('core') || cp.includes('higher'))) {
             isRec = true;
-          } else if (m.id === 'ats-resume' && (cp.includes('full-stack') || cp.includes('placement') || cp.includes('ai'))) {
+          } else if (m.id === 'resume-builder' && (cp.includes('full-stack') || cp.includes('placement') || cp.includes('ai'))) {
             isRec = true;
           } else if (m.id === 'sgpa-calculator' && cp.includes('rank')) {
             isRec = true;
@@ -1242,10 +1402,10 @@
         }
         return `
           <a href="resource.html#${m.id}" class="card card-interactive">
-            ${isRec ? '<div class="recommended-badge">★ Recommended for Your Goal</div>' : ''}
+            ${isRec ? '<div class="recommended-badge">★ Recommended for You</div>' : ''}
             <div style="display:flex;justify-content:space-between;align-items:center;">
-              <span class="card-icon">${m.icon}</span>
-              <span class="badge">${m.badge}</span>
+              <span class="card-icon">${getIcon(m.id)}</span>
+              <span class="badge badge-subtle">${m.badge}</span>
             </div>
             <div class="card-title">${m.title}</div>
             <div class="card-desc">${m.desc}</div>
@@ -1264,9 +1424,9 @@
 
       if (!items.length) {
         uploadsList.innerHTML = `
-          <div class="card" style="grid-column:1 / -1;">
+          <div class="card" style="grid-column:1 / -1; padding:24px; text-align:center;">
             <div class="card-title">No recent uploads for ${escHtml(sem)}</div>
-            <div class="card-desc">Switch "My Semester" in the topbar to All Semesters or open Notes Library to browse all units.</div>
+            <div class="card-desc">Switch "My Semester" to All Semesters or open Notes Library to browse all units.</div>
           </div>
         `;
         return;
@@ -1276,8 +1436,8 @@
         <a href="${u.url}" target="_blank" rel="noopener noreferrer" class="card card-interactive">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-              <span class="badge">${u.semester}</span>
-              <span class="badge badge-free">${u.tag}</span>
+              <span class="badge badge-subtle">${u.semester}</span>
+              <span class="badge badge-subtle" style="color:var(--primary);">${u.tag}</span>
             </div>
             ${renderPinButton(u.url, u.title, u.url, `${u.semester} • ${u.tag}`)}
           </div>
@@ -1287,30 +1447,75 @@
       `).join('');
     }
 
+    // Hero Semester Pills Switching
+    const semPills = document.getElementById('heroSemPills');
+    if (semPills) {
+      semPills.querySelectorAll('.segment-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-sem') === focusSem);
+        btn.addEventListener('click', () => {
+          const chosen = btn.getAttribute('data-sem');
+          setSemFocus(chosen);
+          semPills.querySelectorAll('.segment-btn').forEach(b => b.classList.toggle('active', b === btn));
+          const topSelect = document.getElementById('semFocusSelect');
+          if (topSelect) topSelect.value = chosen;
+          if (semBadge) semBadge.textContent = chosen === 'All' ? 'All Semesters' : chosen;
+          renderRecentUploads(chosen);
+        });
+      });
+    }
+
+    // Category Tabs Pill Navigation
+    const catTabs = document.getElementById('categoryTabsNav');
+    if (catTabs) {
+      catTabs.querySelectorAll('.segment-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          catTabs.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeCategoryTab = btn.getAttribute('data-cat-tab');
+          renderModules(searchInput?.value || '', activeCategoryTab);
+        });
+      });
+    }
+
     renderModules();
-    if (searchInput) searchInput.addEventListener('input', (e) => renderModules(e.target.value));
+
+    // Command Search Input & Keyboard Shortcuts
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => renderModules(e.target.value, activeCategoryTab));
+      document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          searchInput.focus();
+        } else if (e.key === '/' && document.activeElement !== searchInput && !['input', 'textarea'].includes(document.activeElement?.tagName?.toLowerCase())) {
+          e.preventDefault();
+          searchInput.focus();
+        }
+      });
+    }
 
     if (noticesList) {
       noticesList.innerHTML = DATA.noticesFeed.map((n) => `
         <a href="${n.url}" target="_blank" rel="noopener noreferrer" class="card card-interactive">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-            <span class="badge badge-new">${n.tag}</span>
+            <span class="badge badge-subtle" style="font-weight:700;">${n.tag}</span>
             <div style="display:flex;align-items:center;gap:8px;">
-              <span style="font-size:0.78rem;color:var(--text-muted);">${n.date}</span>
+              <span style="font-size:0.75rem;color:var(--text-muted);">${n.date}</span>
               ${renderPinButton(n.url, n.title, n.url, n.tag)}
             </div>
           </div>
           <div class="card-title">${n.title}</div>
           <div class="card-desc">${n.summary}</div>
-          <div class="card-meta"><span>Open PDF ↗</span></div>
+          <div class="card-meta"><span>Open Notice ↗</span></div>
         </a>
       `).join('');
     }
 
-    renderRecentUploads(getSemFocus());
+    renderRecentUploads(focusSem);
+    window.addEventListener('scholargrid:streak-updated', renderToolsBento);
   }
 
-  function initResourcePage() {
+
+    function initResourcePage() {
     const params = new URLSearchParams(window.location.search);
     const rawHash = window.location.hash.replace(/^#/, '');
     const hashId = rawHash.split('?')[0].split('&')[0];
@@ -1319,7 +1524,7 @@
     document.title = `${mod.title} — ${DATA.brand.name}`;
 
     renderSidebar(mod.id);
-    renderTopbar(`${mod.icon} ${mod.title}`, true, (sem) => {
+    renderTopbar(`<span style="display:inline-flex;align-items:center;gap:8px;">${getIcon(mod.id)} <span>${mod.title}</span></span>`, true, (sem) => {
       const semMap = {
         'notes': DATA.notesBySemester,
         'lab-manuals': DATA.labsBySemester,
@@ -1338,9 +1543,9 @@
 
     document.getElementById('moduleHeader').innerHTML = `
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-        <span class="card-icon" style="width:52px;height:52px;font-size:1.5rem;">${mod.icon}</span>
+        <span class="card-icon" style="width:48px;height:48px;">${getIcon(mod.id)}</span>
         <div>
-          <span class="badge">${mod.badge}</span>
+          <span class="badge badge-subtle">${mod.badge}</span>
           <h1 style="margin-top:4px;">${mod.title}</h1>
           <p class="section-subtitle">${mod.desc}</p>
         </div>
@@ -1379,16 +1584,6 @@
       TOOLS.renderResumeBuilder(content);
     } else if (mod.id === 'mcq-quiz' && TOOLS.renderMcqQuiz) {
       TOOLS.renderMcqQuiz(content);
-    } else if (mod.id === 'project-hub') {
-      renderProjectHub(content);
-    } else if (mod.id === 'placement-papers') {
-      renderPlacementPapers(content);
-    } else if (mod.id === 'solved-model-papers') {
-      renderSolvedModelPapers(content);
-    } else if (mod.id === 'reference-books') {
-      renderReferenceBooks(content);
-    } else if (mod.id === 'nep-guidelines') {
-      renderNepGuidelines(content);
     } else {
       renderCardDirectory(content, mod.id);
     }
@@ -1620,7 +1815,7 @@
             </div>
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
               <a href="resource.html#mcq-quiz" class="btn btn-outline btn-sm">↻ Practice More MCQs</a>
-              <a href="resource.html#placement-papers" class="btn btn-primary btn-sm">💼 View Placement Papers</a>
+              <a href="resource.html#mcq-quiz" class="btn btn-primary btn-sm">⚡ Practice Placement MCQs</a>
             </div>
           </div>
         </div>
@@ -1656,593 +1851,7 @@
   }
   window.addEventListener('scholargrid:streak-updated', renderDailyStreakWidget);
 
-  // =========================================================================
-  // 5 High-Value Academic Add-On Module Renderers
-  // =========================================================================
-
-  function renderProjectHub(container) {
-    const hub = DATA.projectHub || {};
-    let activeTab = 'srs';
-    let activeBundleId = hub.srsBundles?.[0]?.id || 'hms';
-
-    function draw() {
-      container.innerHTML = `
-        <div class="tabs" style="margin-bottom:16px;">
-          <button type="button" class="tab-btn ${activeTab === 'srs' ? 'active' : ''}" data-tab="srs">📦 5 Complete SRS Bundles</button>
-          <button type="button" class="tab-btn ${activeTab === 'templates' ? 'active' : ''}" data-tab="templates">📋 University Report Template</button>
-          <button type="button" class="tab-btn ${activeTab === 'blueprints' ? 'active' : ''}" data-tab="blueprints">📐 ERD &amp; DFD Blueprints</button>
-          <button type="button" class="tab-btn ${activeTab === 'viva' ? 'active' : ''}" data-tab="viva">🎓 Viva Voce Defense Guide</button>
-        </div>
-        <div id="projectHubContent"></div>
-      `;
-
-      const sub = container.querySelector('#projectHubContent');
-
-      if (activeTab === 'srs') {
-        const bundles = hub.srsBundles || [];
-        const currentBundle = bundles.find(b => b.id === activeBundleId) || bundles[0];
-
-        sub.innerHTML = `
-          <div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:16px;">
-            ${bundles.map(b => `
-              <button type="button" class="btn btn-sm ${b.id === activeBundleId ? 'btn-primary' : 'btn-outline'}" data-bundle-id="${b.id}" style="white-space:nowrap;">
-                ${b.title.split('(')[0]}
-              </button>
-            `).join('')}
-          </div>
-
-          <div class="card" style="border-top:4px solid var(--primary); padding:24px;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
-              <div>
-                <span class="badge badge-free">Sem V–VI BCA Project SRS</span>
-                <h2 style="margin:6px 0 2px; font-size:1.35rem;">${escHtml(currentBundle.title)}</h2>
-                <p style="margin:0; font-size:0.9rem; color:var(--text-muted);">${escHtml(currentBundle.scope)}</p>
-              </div>
-              <button type="button" class="btn btn-outline btn-sm copy-btn-inline" id="copySrsBtn">
-                📋 Copy Complete SRS Markdown
-              </button>
-            </div>
-
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:16px; margin-bottom:16px;">
-              <div class="card" style="padding:14px; background:var(--bg); border:1px solid var(--border);">
-                <strong style="color:var(--primary); font-size:0.85rem; text-transform:uppercase;">User Roles &amp; Actors</strong>
-                <ul style="margin:8px 0 0 18px; padding:0; font-size:0.88rem; color:var(--text);">
-                  ${currentBundle.roles.map(r => `<li>${escHtml(r)}</li>`).join('')}
-                </ul>
-              </div>
-
-              <div class="card" style="padding:14px; background:var(--bg); border:1px solid var(--border);">
-                <strong style="color:var(--primary); font-size:0.85rem; text-transform:uppercase;">Recommended Architecture</strong>
-                <p style="margin:8px 0 0; font-size:0.88rem; line-height:1.5;">${escHtml(currentBundle.techStack)}</p>
-              </div>
-            </div>
-
-            <h3 style="font-size:1rem; margin:16px 0 8px;">Key Functional Requirements</h3>
-            <div style="display:grid; gap:8px; margin-bottom:16px;">
-              ${currentBundle.functional.map((f, i) => `
-                <div style="display:flex; gap:10px; padding:10px 14px; background:var(--bg-elevated); border:1px solid var(--border); border-radius:10px; font-size:0.88rem;">
-                  <span style="font-weight:700; color:var(--primary);">${i + 1}.</span>
-                  <span>${escHtml(f)}</span>
-                </div>
-              `).join('')}
-            </div>
-
-            <h3 style="font-size:1rem; margin:16px 0 8px;">Non-Functional Specifications (NFRs)</h3>
-            <div style="display:grid; gap:8px;">
-              ${currentBundle.nonFunctional.map((nf) => `
-                <div style="display:flex; gap:10px; padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:10px; font-size:0.88rem;">
-                  <span>🔒</span>
-                  <span>${escHtml(nf)}</span>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-
-        sub.querySelectorAll('button[data-bundle-id]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            activeBundleId = btn.getAttribute('data-bundle-id');
-            draw();
-          });
-        });
-
-        const copyBtn = sub.querySelector('#copySrsBtn');
-        if (copyBtn) {
-          copyBtn.addEventListener('click', () => {
-            const mdText = `# Software Requirements Specification (SRS)\n## ${currentBundle.title}\n\n### 1. Scope & Purpose\n${currentBundle.scope}\n\n### 2. User Roles\n${currentBundle.roles.map(r => '- ' + r).join('\n')}\n\n### 3. Functional Requirements\n${currentBundle.functional.map((f, i) => `${i+1}. ${f}`).join('\n')}\n\n### 4. Non-Functional Requirements\n${currentBundle.nonFunctional.map(n => '- ' + n).join('\n')}\n\n### 5. Tech Stack\n${currentBundle.techStack}\n`;
-            navigator.clipboard.writeText(mdText).then(() => {
-              showToast('SRS specification copied to clipboard!');
-            });
-          });
-        }
-
-      } else if (activeTab === 'templates') {
-        const tmpl = hub.reportTemplate || {};
-        sub.innerHTML = `
-          <div class="card" style="padding:24px; border-top:4px solid var(--primary); margin-bottom:20px;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
-              <div>
-                <span class="badge badge-free">University Prescribed Format</span>
-                <h2 style="margin:6px 0 2px; font-size:1.35rem;">${escHtml(tmpl.title)}</h2>
-                <p style="margin:0; font-size:0.9rem; color:var(--text-muted);">
-                  Standard Chapter-wise Project Documentation Skeleton (Cover Page to References).
-                </p>
-              </div>
-              <button type="button" class="btn btn-primary btn-sm copy-btn-inline" id="copyReportSkeletonBtn">
-                📋 Copy Report Markdown Template
-              </button>
-            </div>
-
-            <div style="display:grid; gap:14px;">
-              ${(tmpl.structure || []).map((sec) => `
-                <div class="card" style="padding:16px; background:var(--bg-elevated); border:1px solid var(--border);">
-                  <div style="font-weight:700; font-size:0.95rem; color:var(--primary); margin-bottom:8px;">
-                    ${escHtml(sec.section)}
-                  </div>
-                  <ul style="margin:0 0 0 18px; padding:0; font-size:0.88rem; color:var(--text); line-height:1.6;">
-                    ${sec.items.map(it => `<li>${escHtml(it)}</li>`).join('')}
-                  </ul>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-
-        const copyReportBtn = sub.querySelector('#copyReportSkeletonBtn');
-        if (copyReportBtn) {
-          copyReportBtn.addEventListener('click', () => {
-            let skeleton = `# FINAL YEAR BCA PROJECT REPORT\n\n`;
-            (tmpl.structure || []).forEach(sec => {
-              skeleton += `## ${sec.section}\n`;
-              sec.items.forEach(it => { skeleton += `- [ ] ${it}\n`; });
-              skeleton += `\n`;
-            });
-            navigator.clipboard.writeText(skeleton).then(() => {
-              showToast('Complete report template copied to clipboard!');
-            });
-          });
-        }
-
-      } else if (activeTab === 'blueprints') {
-        const bps = hub.architectureBlueprints || [];
-        sub.innerHTML = `
-          <div style="display:grid; gap:18px;">
-            ${bps.map(bp => `
-              <div class="card" style="padding:20px; border-top:4px solid var(--primary);">
-                <div class="card-title" style="margin-bottom:4px;">${escHtml(bp.title)}</div>
-                <div class="card-desc" style="margin-bottom:12px;">${escHtml(bp.desc)}</div>
-                <pre class="code-blueprint"><code>${escHtml(bp.schemaText.trim())}</code></pre>
-              </div>
-            `).join('')}
-          </div>
-        `;
-
-      } else if (activeTab === 'viva') {
-        const questions = hub.vivaGuide || [];
-        sub.innerHTML = `
-          <div class="card" style="padding:20px; border-top:4px solid var(--primary); margin-bottom:16px;">
-            <div class="card-title">Top Project Defense &amp; Viva Voce Questions</div>
-            <div class="card-desc">Prepare for your university external examiner evaluation with these structured responses.</div>
-          </div>
-          <div style="display:grid; gap:12px;">
-            ${questions.map((vg, idx) => `
-              <div class="card qa-card">
-                <div style="font-weight:700; font-size:0.95rem; color:var(--text); margin-bottom:8px; display:flex; gap:8px;">
-                  <span style="color:var(--primary);">Q${idx + 1}.</span>
-                  <span>${escHtml(vg.q)}</span>
-                </div>
-                <div style="font-size:0.88rem; color:var(--text-muted); line-height:1.5; padding:10px 14px; background:var(--bg); border-radius:8px; border-left:3px solid var(--primary);">
-                  <strong>High-Scoring Answer:</strong> ${escHtml(vg.answer)}
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        `;
-      }
-
-      container.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          activeTab = btn.getAttribute('data-tab');
-          draw();
-        });
-      });
-    }
-
-    draw();
-  }
-
-  function renderPlacementPapers(container) {
-    const data = DATA.placementPapers || {};
-    let activeTab = 'papers';
-    let qFilter = '';
-    let catFilter = 'All';
-
-    function draw() {
-      container.innerHTML = `
-        <div class="tabs" style="margin-bottom:16px;">
-          <button type="button" class="tab-btn ${activeTab === 'papers' ? 'active' : ''}" data-tab="papers">🏢 Company Recruitment Papers</button>
-          <button type="button" class="tab-btn ${activeTab === 'interview' ? 'active' : ''}" data-tab="interview">💡 Top 100 Technical Q&amp;As</button>
-          <button type="button" class="tab-btn ${activeTab === 'links' ? 'active' : ''}" data-tab="links">🎯 Quick Practice &amp; Roadmaps</button>
-        </div>
-        <div id="placementPapersContent"></div>
-      `;
-
-      const sub = container.querySelector('#placementPapersContent');
-
-      if (activeTab === 'papers') {
-        const companies = data.companyPapers || [];
-        sub.innerHTML = `
-          <div style="display:grid; gap:20px;">
-            ${companies.map(cp => `
-              <div class="card" style="padding:22px; border-top:4px solid var(--primary);">
-                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-                  <div>
-                    <span class="badge badge-free">${escHtml(cp.badge)}</span>
-                    <h2 style="margin:6px 0 2px; font-size:1.25rem;">${escHtml(cp.company)}</h2>
-                    <p style="margin:0; font-size:0.86rem; color:var(--text-muted);">${escHtml(cp.pattern)}</p>
-                  </div>
-                  <a href="resource.html#mcq-quiz" class="btn btn-outline btn-sm">⚡ Practice Mock Test</a>
-                </div>
-
-                <div style="display:grid; gap:12px; margin-top:14px;">
-                  ${cp.sampleQuestions.map((sq, i) => `
-                    <div style="padding:14px; background:var(--bg); border:1px solid var(--border); border-radius:10px;">
-                      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <span class="badge" style="font-size:0.75rem;">${escHtml(sq.section)}</span>
-                        <span style="font-size:0.78rem; color:var(--text-muted);">Q${i + 1}</span>
-                      </div>
-                      <div style="font-weight:600; font-size:0.92rem; color:var(--text); margin-bottom:8px;">${escHtml(sq.q)}</div>
-                      <div style="padding:10px 12px; background:var(--bg-elevated); border-radius:8px; border-left:3px solid var(--success); font-size:0.86rem; color:var(--text-muted); line-height:1.5;">
-                        <strong style="color:var(--success);">Step-by-Step Solution:</strong> ${escHtml(sq.solution)}
-                      </div>
-                    </div>
-                  `).join('')}
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        `;
-
-      } else if (activeTab === 'interview') {
-        const allQuestions = data.top100Questions || [];
-        const cats = ['All', ...new Set(allQuestions.map(q => q.category))];
-
-        const filtered = allQuestions.filter(q => {
-          const matchCat = catFilter === 'All' || q.category === catFilter;
-          const matchText = !qFilter || q.q.toLowerCase().includes(qFilter) || q.a.toLowerCase().includes(qFilter);
-          return matchCat && matchText;
-        });
-
-        sub.innerHTML = `
-          <div class="card" style="padding:18px; margin-bottom:16px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
-              <div>
-                <h3 style="margin:0; font-size:1.1rem;">Top Technical Interview Q&amp;As</h3>
-                <p style="margin:2px 0 0; font-size:0.85rem; color:var(--text-muted);">Curated high-frequency questions for campus software roles.</p>
-              </div>
-              <input type="search" id="interviewSearchInput" class="input" placeholder="Search questions (e.g. HashMap, GIL, ACID)..." value="${escHtml(qFilter)}" style="max-width:280px;" />
-            </div>
-
-            <div style="display:flex; gap:6px; overflow-x:auto; padding-bottom:4px;">
-              ${cats.map(c => `
-                <button type="button" class="btn btn-sm ${c === catFilter ? 'btn-primary' : 'btn-outline'}" data-cat-filter="${escHtml(c)}" style="font-size:0.8rem; border-radius:999px;">
-                  ${escHtml(c)}
-                </button>
-              `).join('')}
-            </div>
-          </div>
-
-          <div style="display:grid; gap:12px;">
-            ${filtered.length ? filtered.map((qa, idx) => `
-              <div class="card qa-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                  <span class="badge" style="font-size:0.75rem;">${escHtml(qa.category)}</span>
-                  <span style="font-size:0.78rem; color:var(--text-muted);">#${idx + 1}</span>
-                </div>
-                <div style="font-weight:700; font-size:0.95rem; color:var(--text); margin-bottom:8px;">
-                  ${escHtml(qa.q)}
-                </div>
-                <div style="padding:10px 14px; background:var(--bg); border-radius:8px; font-size:0.88rem; color:var(--text); line-height:1.5; border-left:3px solid var(--primary);">
-                  ${escHtml(qa.a)}
-                </div>
-              </div>
-            `).join('') : '<div class="card">No interview questions matching your search.</div>'}
-          </div>
-        `;
-
-        const sInput = sub.querySelector('#interviewSearchInput');
-        if (sInput) {
-          sInput.addEventListener('input', (e) => {
-            qFilter = e.target.value.trim().toLowerCase();
-            draw();
-          });
-        }
-        sub.querySelectorAll('button[data-cat-filter]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            catFilter = btn.getAttribute('data-cat-filter');
-            draw();
-          });
-        });
-
-      } else if (activeTab === 'links') {
-        sub.innerHTML = `
-          <div class="grid grid-3">
-            <a href="resource.html#mcq-quiz" class="card card-interactive">
-              <span class="card-icon">🎯</span>
-              <div class="card-title">Placement MCQ Engine</div>
-              <div class="card-desc">Timed mock tests with TCS/GATE style question palette and negative marking simulation.</div>
-              <div class="card-meta"><span>Launch Quiz →</span></div>
-            </a>
-            <a href="resource.html#resume-builder" class="card card-interactive">
-              <span class="card-icon">📄</span>
-              <div class="card-title">ATS Resume Builder</div>
-              <div class="card-desc">Single-page Harvard style resume builder with pre-loaded tech presets and instant export.</div>
-              <div class="card-meta"><span>Build Resume →</span></div>
-            </a>
-            <a href="resource.html#roadmaps" class="card card-interactive">
-              <span class="card-icon">🧭</span>
-              <div class="card-title">Career Learning Roadmaps</div>
-              <div class="card-desc">Step-by-step career path checklists for Frontend, Backend, Python, and Full Stack.</div>
-              <div class="card-meta"><span>View Roadmaps →</span></div>
-            </a>
-          </div>
-        `;
-      }
-
-      container.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          activeTab = btn.getAttribute('data-tab');
-          draw();
-        });
-      });
-    }
-
-    draw();
-  }
-
-  function renderSolvedModelPapers(container) {
-    const data = DATA.solvedModelPapers || {};
-    const subjects = data.subjects || [];
-    let activeSubject = subjects[0]?.subject || '';
-
-    function draw() {
-      const cur = subjects.find(s => s.subject === activeSubject) || subjects[0];
-
-      container.innerHTML = `
-        <div class="tabs" style="margin-bottom:16px; overflow-x:auto; flex-wrap:nowrap;">
-          ${subjects.map(s => `
-            <button type="button" class="tab-btn ${s.subject === activeSubject ? 'active' : ''}" data-sub="${escHtml(s.subject)}">
-              ${escHtml(s.subject.split('(')[0])}
-            </button>
-          `).join('')}
-        </div>
-
-        <div class="card" style="padding:22px; border-top:4px solid var(--primary); margin-bottom:18px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-            <div>
-              <span class="badge badge-free">${escHtml(cur.semester)} NEP Model Paper</span>
-              <h2 style="margin:6px 0 2px; font-size:1.3rem;">${escHtml(cur.subject)}</h2>
-              <p style="margin:0; font-size:0.88rem; color:var(--text-muted);">
-                Complete solved examination blueprint with Part A (2M), Part B (5M) &amp; Part C (10M) marking criteria.
-              </p>
-            </div>
-            <a href="resource.html#model-papers" class="btn btn-outline btn-sm">📄 University Model Papers PDF</a>
-          </div>
-        </div>
-
-        <div style="display:grid; gap:20px;">
-          ${(cur.parts || []).map(p => `
-            <div class="card" style="padding:18px; border:1px solid var(--border);">
-              <div style="font-size:1.05rem; font-weight:700; color:var(--primary); margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border);">
-                ${escHtml(p.part)}
-              </div>
-              <div style="display:grid; gap:12px;">
-                ${p.items.map((it, idx) => `
-                  <div style="padding:12px 14px; background:var(--bg); border:1px solid var(--border); border-radius:10px;">
-                    <div style="font-weight:700; font-size:0.92rem; color:var(--text); margin-bottom:6px;">
-                      Q${idx + 1}. ${escHtml(it.q)}
-                    </div>
-                    <div style="font-size:0.87rem; color:var(--text); line-height:1.5; padding:8px 12px; background:var(--bg-elevated); border-radius:6px; border-left:3px solid var(--success);">
-                      <strong>Model Answer &amp; Scheme:</strong> ${escHtml(it.a)}
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      `;
-
-      container.querySelectorAll('.tab-btn[data-sub]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          activeSubject = btn.getAttribute('data-sub');
-          draw();
-        });
-      });
-    }
-
-    draw();
-  }
-
-  function renderReferenceBooks(container) {
-    const data = DATA.referenceBooks || {};
-    const books = data.books || [];
-
-    container.innerHTML = `
-      <div class="card" style="padding:20px; border-top:4px solid var(--primary); margin-bottom:18px;">
-        <span class="badge badge-free">Prescribed Standard Textbooks</span>
-        <h2 style="margin:6px 0 2px; font-size:1.3rem;">BCA &amp; NEP Standard Textbooks &amp; Topper Revision Sheets</h2>
-        <p style="margin:0; font-size:0.88rem; color:var(--text-muted);">
-          Authoritative references recommended across Indian universities with chapter-wise high-yield exam cheat sheets.
-        </p>
-      </div>
-
-      <div style="display:grid; gap:18px;">
-        ${books.map((b, idx) => `
-          <div class="card" style="padding:22px; border:1px solid var(--border); border-radius:16px;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
-              <div>
-                <span class="badge">${escHtml(b.semesters)}</span>
-                <h3 style="margin:6px 0 2px; font-size:1.2rem; color:var(--text);">${escHtml(b.title)}</h3>
-                <div style="font-size:0.88rem; color:var(--text-muted); font-weight:500;">
-                  By <strong>${escHtml(b.authors)}</strong> • <em>${escHtml(b.publisher)}</em>
-                </div>
-              </div>
-              <button type="button" class="btn btn-outline btn-sm copy-btn-inline" data-copy-book="${idx}">
-                📋 Copy Revision Notes
-              </button>
-            </div>
-
-            <div style="padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:8px; font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">
-              <strong>Prescribed Syllabus Units:</strong> ${escHtml(b.units)}
-            </div>
-
-            <div style="font-weight:700; font-size:0.9rem; color:var(--primary); margin-bottom:8px;">
-              ⚡ High-Yield Topper Revision Cheat Sheet (Must-Revise Concepts)
-            </div>
-            <div style="display:grid; gap:8px;">
-              ${b.revisionSheet.map(item => `
-                <div style="display:flex; gap:10px; font-size:0.87rem; line-height:1.45; padding:8px 12px; background:var(--bg-elevated); border:1px solid var(--border); border-radius:8px;">
-                  <span style="color:var(--success); font-weight:700;">✓</span>
-                  <span>${escHtml(item)}</span>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-
-    container.querySelectorAll('button[data-copy-book]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const idx = Number(btn.getAttribute('data-copy-book'));
-        const b = books[idx];
-        if (!b) return;
-        const text = `# ${b.title}\nAuthors: ${b.authors} (${b.publisher})\nSemester: ${b.semesters}\nUnits: ${b.units}\n\n## Must-Revise Exam Concepts:\n${b.revisionSheet.map(r => '- ' + r).join('\n')}\n`;
-        navigator.clipboard.writeText(text).then(() => {
-          showToast(`Revision cheat sheet for "${b.title.split('(')[0]}" copied!`);
-        });
-      });
-    });
-  }
-
-  function renderNepGuidelines(container) {
-    const data = DATA.nepGuidelines || {};
-    let activeTab = 'regs';
-
-    function draw() {
-      container.innerHTML = `
-        <div class="tabs" style="margin-bottom:16px;">
-          <button type="button" class="tab-btn ${activeTab === 'regs' ? 'active' : ''}" data-tab="regs">📜 NEP 2020 Credit Framework &amp; Exit Options</button>
-          <button type="button" class="tab-btn ${activeTab === 'internship' ? 'active' : ''}" data-tab="internship">🏢 Sem VI Internship Manual &amp; Diary</button>
-          <button type="button" class="tab-btn ${activeTab === 'rubric' ? 'active' : ''}" data-tab="rubric">🎓 Viva Voce 50-Mark Rubric</button>
-        </div>
-        <div id="nepContent"></div>
-      `;
-
-      const sub = container.querySelector('#nepContent');
-
-      if (activeTab === 'regs') {
-        const regs = data.regulations || [];
-        sub.innerHTML = `
-          <div style="display:grid; gap:16px;">
-            ${regs.map(r => `
-              <div class="card" style="padding:22px; border-top:4px solid var(--primary);">
-                <div class="card-title" style="margin-bottom:12px; font-size:1.15rem;">${escHtml(r.title)}</div>
-                <div style="display:grid; gap:8px;">
-                  ${r.points.map(pt => `
-                    <div style="display:flex; gap:10px; padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:10px; font-size:0.88rem; line-height:1.5;">
-                      <span style="color:var(--primary); font-weight:700;">•</span>
-                      <span>${escHtml(pt)}</span>
-                    </div>
-                  `).join('')}
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        `;
-
-      } else if (activeTab === 'internship') {
-        const im = data.internshipManual || {};
-        sub.innerHTML = `
-          <div class="card" style="padding:22px; border-top:4px solid var(--primary); margin-bottom:18px;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
-              <div>
-                <span class="badge badge-free">Sem VI Mandatory Course (4 Credits)</span>
-                <h2 style="margin:6px 0 2px; font-size:1.3rem;">${escHtml(im.title)}</h2>
-                <p style="margin:0; font-size:0.88rem; color:var(--text-muted);">Duration: ${escHtml(im.duration)}</p>
-              </div>
-              <button type="button" class="btn btn-primary btn-sm copy-btn-inline" id="copyCertTemplateBtn">
-                📋 Copy Official Certificate Template
-              </button>
-            </div>
-          </div>
-
-          <div class="card" style="padding:20px; margin-bottom:16px;">
-            <div class="card-title" style="font-size:1.05rem; margin-bottom:8px;">Student Weekly Internship Diary Format</div>
-            <div class="card-desc" style="margin-bottom:12px;">Each student must maintain a signed weekly logbook detailing deliverables and hours logged.</div>
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px;">
-              ${(im.weeklyDiaryFormat?.fields || []).map((fld, idx) => `
-                <div style="padding:12px; background:var(--bg); border:1px solid var(--border); border-radius:8px; font-size:0.85rem;">
-                  <strong style="color:var(--primary);">Field ${idx + 1}:</strong> ${escHtml(fld)}
-                </div>
-              `).join('')}
-            </div>
-          </div>
-
-          <div class="card" style="padding:20px;">
-            <div class="card-title" style="font-size:1.05rem; margin-bottom:8px;">Company Completion Certificate Wording</div>
-            <pre class="code-blueprint" style="font-family:inherit; white-space:pre-wrap; font-size:0.9rem;"><code>${escHtml(im.certificateTemplate.trim())}</code></pre>
-          </div>
-        `;
-
-        const copyCertBtn = sub.querySelector('#copyCertTemplateBtn');
-        if (copyCertBtn) {
-          copyCertBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(im.certificateTemplate.trim()).then(() => {
-              showToast('Official company certificate wording copied to clipboard!');
-            });
-          });
-        }
-
-      } else if (activeTab === 'rubric') {
-        const im = data.internshipManual || {};
-        const checklist = im.vivaDefenseChecklist || [];
-        sub.innerHTML = `
-          <div class="card" style="padding:22px; border-top:4px solid var(--primary); margin-bottom:18px;">
-            <h2 style="margin:0 0 4px; font-size:1.25rem;">University Internship Viva Voce 50-Mark Defense Rubric</h2>
-            <p style="margin:0; font-size:0.88rem; color:var(--text-muted);">
-              Official breakdown used by external university examiners to evaluate final year semester VI internships.
-            </p>
-          </div>
-
-          <div style="display:grid; gap:12px;">
-            ${checklist.map((item, idx) => `
-              <div class="card" style="display:flex; justify-content:space-between; align-items:center; padding:16px 20px;">
-                <div style="display:flex; align-items:center; gap:12px;">
-                  <span style="width:32px; height:32px; border-radius:50%; background:rgba(79, 70, 229, 0.1); color:var(--primary); font-weight:700; display:grid; place-items:center;">${idx + 1}</span>
-                  <span style="font-weight:600; font-size:0.92rem; color:var(--text);">${escHtml(item.item)}</span>
-                </div>
-                <span class="badge badge-free" style="font-weight:700; font-size:0.9rem;">${escHtml(item.weight)}</span>
-              </div>
-            `).join('')}
-          </div>
-        `;
-      }
-
-      container.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          activeTab = btn.getAttribute('data-tab');
-          draw();
-        });
-      });
-    }
-
-    draw();
-  }
-
-
-  function renderCardDirectory(container, modId) {
+function renderCardDirectory(container, modId) {
     const map = {
       'syllabus': DATA.syllabus,
       'ebooks': DATA.ebooks,
