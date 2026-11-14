@@ -175,28 +175,32 @@ button {
 .sidebar-link {
   display: flex;
   align-items: center;
-  gap: 11px;
-  padding: 9px 12px;
-  border-radius: 10px;
-  font-size: 0.87rem;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  font-size: 0.86rem;
   font-weight: 500;
   color: var(--text-muted);
   border: 1px solid transparent;
-  transition: background-color 0.16s ease, color 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+  transition: all 0.15s ease;
   cursor: pointer;
 }
 
 .sidebar-link:hover {
-  background: var(--bg-card-hover);
+  background: #f1f5f9;
   color: var(--text);
-  transform: translateX(2px);
+  transform: none;
 }
 
 .sidebar-link.active {
-  background: linear-gradient(135deg, var(--primary-soft), var(--accent-soft));
-  color: var(--primary);
+  background: #f1f5f9;
+  color: var(--text);
   font-weight: 600;
-  border-color: var(--border-strong);
+  border-color: var(--border);
+}
+
+.sidebar-link.active .sidebar-link-icon {
+  color: var(--primary);
 }
 
 .sidebar-link-icon {
@@ -1549,20 +1553,24 @@ textarea:focus {
   bottom: 24px;
   z-index: 50;
   border-radius: 999px;
-  padding: 12px 20px;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.88rem;
-  border: none;
+  padding: 10px 18px;
+  background: #0f172a;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.84rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.32);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.18);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.18s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.18s ease, background 0.18s ease;
 }
 
 .help-fab:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.42);
+  background: #1e293b;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28);
 }
 
 /* ==========================================================================
@@ -2414,10 +2422,15 @@ textarea:focus {
 }
 
 .workspace-header {
-  padding: 24px 0 16px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 26px 28px 22px;
+  margin: 16px 0 20px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
 }
 
 .workspace-header-row {
@@ -2514,6 +2527,12 @@ textarea:focus {
   font-weight: 700;
 }
 
+.workspace-search-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .workspace-search-bar {
   position: relative;
   width: 100%;
@@ -2561,6 +2580,57 @@ textarea:focus {
   font-weight: 600;
   color: var(--text-soft);
   pointer-events: none;
+}
+
+.search-quick-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.quick-chip-label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.quick-chip {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 11px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.quick-chip:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #4338ca;
+}
+
+.pinned-section {
+  padding: 4px 0 16px;
+}
+
+.pinned-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.pinned-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
 }
 
 .tools-bento-grid {
@@ -2612,10 +2682,60 @@ textarea:focus {
   transition: all 0.15s ease;
 }
 
-.tool-bento-card:hover .tool-bento-icon {
+.tool-icon-mcq-quiz {
   background: #eef2ff;
   border-color: #c7d2fe;
   color: #4338ca;
+}
+
+.badge-tool-mcq {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  font-weight: 600;
+}
+
+.tool-icon-sgpa-calculator {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #059669;
+}
+
+.badge-tool-sgpa {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+  font-weight: 600;
+}
+
+.tool-icon-attendance-tracker {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #d97706;
+}
+
+.badge-tool-att {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  font-weight: 600;
+}
+
+.tool-icon-resume-builder {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #2563eb;
+}
+
+.badge-tool-res {
+  background: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+  font-weight: 600;
+}
+
+.tool-bento-card:hover .tool-bento-icon {
+  transform: scale(1.05);
 }
 
 .tool-bento-title {
