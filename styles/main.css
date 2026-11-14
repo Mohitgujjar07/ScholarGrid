@@ -2299,3 +2299,34 @@ textarea:focus {
   letter-spacing: 0.02em;
   margin-bottom: 8px;
 }
+
+/* Mandatory & Optional Badges for Smart Onboarding */
+.onboarding-step-badge.mandatory {
+  color: #b91c1c;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.onboarding-step-badge.optional {
+  color: #047857;
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+}
+
+.onboarding-skip-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.onboarding-skip-link:hover {
+  background: var(--primary-soft);
+}

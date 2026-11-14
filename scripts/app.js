@@ -387,13 +387,34 @@
     if (existingModal) existingModal.remove();
 
     const storedProfile = window.ScholarFirebase?.auth?.getUserProfile() || {};
+    const answers = storedProfile.onboardingAnswers || {};
+
+    function getCalculatedGradYear(sem) {
+      if (sem === 'Sem I' || sem === 'Sem II') return '2028';
+      if (sem === 'Sem III' || sem === 'Sem IV') return '2027';
+      return '2026';
+    }
+
     const state = {
       step: 1,
+      // Step 1: Academic Track (MANDATORY 🔴)
       semester: storedProfile.semester || (getSemFocus() !== 'All' ? getSemFocus() : 'Sem III'),
       college: storedProfile.college || 'Tumkur University',
+      graduationYear: answers.graduationYear || storedProfile.graduationYear || '',
+
+      // Step 2: Personal & Social Details (OPTIONAL 🟢)
+      phone: storedProfile.phone || answers.phone || '',
+      linkedin: answers.linkedin || storedProfile.linkedin || '',
+      github: answers.github || storedProfile.github || '',
+
+      // Step 3: Career Path & Goal (MANDATORY 🔴)
       careerPath: storedProfile.careerPath || 'Campus Placements / Core Software Engineer',
-      targetSGPA: storedProfile.targetSGPA || '8.5',
-      minAttendanceGoal: String(storedProfile.minAttendanceGoal || '75')
+
+      // Step 4: Academic Targets & Terms (MANDATORY 🔴 with Optional sub-fields)
+      targetSGPA: storedProfile.targetSGPA || '8.0',
+      minAttendanceGoal: String(storedProfile.minAttendanceGoal || '75'),
+      termsAccepted: isEditing ? true : false,
+      validationError: ''
     };
 
     const overlay = document.createElement('div');
@@ -401,13 +422,21 @@
     overlay.className = 'onboarding-overlay';
 
     function renderModal() {
-      const stepPct = Math.round((state.step / 3) * 100);
+      const stepPct = Math.round((state.step / 4) * 100);
+      const defaultGradYear = getCalculatedGradYear(state.semester);
 
       let stepHtml = '';
+
+      // --- STEP 1: Academic Track (MANDATORY 🔴) ---
       if (state.step === 1) {
         stepHtml = `
           <div>
-            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:8px;">Choose Your Current Semester</label>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <label style="font-weight:700;font-size:0.9rem;">
+                Select Current Semester <span style="color:var(--danger);">*</span>
+              </label>
+              <span style="font-size:0.75rem;color:var(--text-muted);">Required for Focus Mode</span>
+            </div>
             <div class="onboarding-card-grid cols-3">
               ${SEMESTERS.map(s => `
                 <div class="onboarding-option-card ${state.semester === s ? 'selected' : ''}" data-sem-choice="${s}">
@@ -422,8 +451,10 @@
           </div>
 
           <div style="margin-top:14px;">
-            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:6px;">Your College / University Name</label>
-            <input type="text" id="obCollegeInput" class="input" list="collegeList" value="${escHtml(state.college)}" placeholder="e.g. Tumkur University, Seshadripuram College..." />
+            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:6px;">
+              College / University Name <span style="color:var(--danger);">*</span>
+            </label>
+            <input type="text" id="obCollegeInput" class="input" list="collegeList" value="${escHtml(state.college)}" placeholder="e.g. Tumkur University, Seshadripuram College..." required />
             <datalist id="collegeList">
               <option value="Tumkur University, Tumakuru">
               <option value="Seshadripuram College, Bengaluru">
@@ -435,10 +466,58 @@
               <option value="Dayananda Sagar College, Bengaluru">
               <option value="BMS College of Commerce and Management">
             </datalist>
-            <span style="font-size:0.76rem;color:var(--text-muted);margin-top:4px;display:block;">Pre-fills your ATS Resume education details automatically.</span>
+            <span style="font-size:0.76rem;color:var(--text-muted);margin-top:4px;display:block;">Required: Pre-fills your ATS Resume education details.</span>
+          </div>
+
+          <div style="margin-top:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <label style="font-weight:700;font-size:0.9rem;">
+                Expected Graduation Year <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem;">(Optional)</span>
+              </label>
+              <span style="font-size:0.75rem;color:var(--primary);font-weight:600;">Default: ${defaultGradYear}</span>
+            </div>
+            <input type="number" id="obGradYearInput" class="input" value="${escHtml(state.graduationYear)}" placeholder="e.g. ${defaultGradYear} (Auto-calculated if blank)" min="2024" max="2032" />
+            <span style="font-size:0.76rem;color:var(--text-muted);margin-top:4px;display:block;">Leave blank to auto-calculate based on your semester.</span>
           </div>
         `;
-      } else if (state.step === 2) {
+      }
+
+      // --- STEP 2: Personal & Social Details (OPTIONAL 🟢) ---
+      else if (state.step === 2) {
+        stepHtml = `
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:12px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+            <div style="font-size:0.82rem;color:#166534;line-height:1.4;">
+              <strong>🟢 This entire step is optional!</strong> You can fill these now to auto-populate your ATS Resume, or skip right ahead to your career goals.
+            </div>
+            <button type="button" id="obInlineSkipBtn" class="btn btn-outline btn-sm" style="background:#ffffff;white-space:nowrap;">Skip this Step →</button>
+          </div>
+
+          <div>
+            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:6px;">
+              Phone / WhatsApp Number <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem;">(Optional)</span>
+            </label>
+            <input type="tel" id="obPhoneInput" class="input" value="${escHtml(state.phone)}" placeholder="+91 98765 43210 (Optional)" />
+            <span style="font-size:0.76rem;color:var(--text-muted);margin-top:3px;display:block;">Included in ATS Resume header for recruiter callbacks.</span>
+          </div>
+
+          <div style="margin-top:14px;">
+            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:6px;">
+              LinkedIn Profile URL <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem;">(Optional)</span>
+            </label>
+            <input type="url" id="obLinkedinInput" class="input" value="${escHtml(state.linkedin)}" placeholder="linkedin.com/in/username (Optional)" />
+          </div>
+
+          <div style="margin-top:14px;">
+            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:6px;">
+              GitHub Profile URL <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem;">(Optional)</span>
+            </label>
+            <input type="url" id="obGithubInput" class="input" value="${escHtml(state.github)}" placeholder="github.com/username (Optional)" />
+          </div>
+        `;
+      }
+
+      // --- STEP 3: Career Path & Goal (MANDATORY 🔴) ---
+      else if (state.step === 3) {
         const goals = [
           {
             id: 'Campus Placements / Core Software Engineer',
@@ -447,9 +526,9 @@
             desc: 'Data Structures, Algorithms, Core Java/C++, DBMS, OS & Aptitude tests'
           },
           {
-            id: 'Full-Stack Web & App Development',
+            id: 'Full-Stack Web Development',
             icon: '🌐',
-            title: 'Full-Stack Web & App Engineering',
+            title: 'Full-Stack Web Development',
             desc: 'Modern JavaScript, React, Node.js, Express, PostgreSQL, REST APIs'
           },
           {
@@ -459,22 +538,24 @@
             desc: 'Python programming, Pandas, Machine Learning models & SQL analytics'
           },
           {
-            id: 'Semester Top Rank & Academics',
+            id: 'Semester Exams & Academic Rank',
             icon: '🎓',
-            title: 'Semester Top Rank & Academics',
+            title: 'Semester Exams & Academic Rank',
             desc: 'Maximum SGPA target, university question banks, and complete theory mastery'
           },
           {
-            id: 'Higher Studies / MCA Entrance',
+            id: 'Higher Studies & MCA',
             icon: '📚',
-            title: 'Higher Studies / MCA Entrance',
+            title: 'Higher Studies & MCA',
             desc: 'NIMCET, Karnataka PGCET, Discrete Math, Computer Basics & Logical Reasoning'
           }
         ];
 
         stepHtml = `
           <div>
-            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:8px;">Select Your Primary Focus Area</label>
+            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:8px;">
+              Choose Your Primary Focus Area <span style="color:var(--danger);">*</span>
+            </label>
             <div class="onboarding-card-grid">
               ${goals.map(g => `
                 <div class="onboarding-option-card ${state.careerPath === g.id ? 'selected' : ''}" data-goal-choice="${escHtml(g.id)}">
@@ -488,17 +569,24 @@
             </div>
           </div>
         `;
-      } else if (state.step === 3) {
+      }
+
+      // --- STEP 4: Academic Targets & Terms (MANDATORY 🔴 with Optional sub-fields) ---
+      else if (state.step === 4) {
         const sgpaOptions = ['7.5', '8.0', '8.5', '9.0+'];
         stepHtml = `
           <div>
-            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:8px;">Target Semester SGPA</label>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <label style="font-weight:700;font-size:0.9rem;">
+                Target Semester SGPA <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem;">(Optional — Default: 8.0)</span>
+              </label>
+            </div>
             <div class="onboarding-card-grid cols-2" style="grid-template-columns:repeat(4, 1fr);">
               ${sgpaOptions.map(sg => `
                 <div class="onboarding-option-card ${state.targetSGPA === sg ? 'selected' : ''}" data-sgpa-choice="${sg}" style="text-align:center;justify-content:center;padding:12px 8px;">
                   <div class="onboarding-option-content">
                     <strong style="font-size:1.15rem;color:var(--primary);">${sg}</strong>
-                    <span style="font-size:0.72rem;">${sg === '9.0+' ? 'Ranker' : sg === '8.5' ? 'Distinction' : 'First Class'}</span>
+                    <span style="font-size:0.72rem;">${sg === '9.0+' ? 'Ranker' : sg === '8.5' ? 'Distinction' : sg === '8.0' ? 'Recommended' : 'First Class'}</span>
                   </div>
                 </div>
               `).join('')}
@@ -506,45 +594,73 @@
           </div>
 
           <div style="margin-top:14px;">
-            <label style="font-weight:700;font-size:0.9rem;display:block;margin-bottom:8px;">Minimum Attendance Target</label>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <label style="font-weight:700;font-size:0.9rem;">
+                Minimum Attendance Target <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem;">(Optional — Default: 75%)</span>
+              </label>
+            </div>
             <div class="onboarding-card-grid cols-2">
               <div class="onboarding-option-card ${state.minAttendanceGoal === '75' ? 'selected' : ''}" data-att-choice="75">
                 <div class="onboarding-option-icon">⚠️</div>
                 <div class="onboarding-option-content">
                   <strong>75% Mandatory</strong>
-                  <span>Standard university minimum attendance rule</span>
+                  <span>Standard university minimum attendance threshold</span>
                 </div>
               </div>
               <div class="onboarding-option-card ${state.minAttendanceGoal === '80' ? 'selected' : ''}" data-att-choice="80">
                 <div class="onboarding-option-icon">🛡️</div>
                 <div class="onboarding-option-content">
                   <strong>80% Safe Buffer</strong>
-                  <span>Leaves a safety cushion for emergencies &amp; leave</span>
+                  <span>Leaves a safety cushion for emergencies &amp; events</span>
                 </div>
               </div>
             </div>
           </div>
+
+          <!-- Strictly Required Terms Agreement -->
+          <div style="margin-top:18px;background:#f8fafc;border:1.5px solid ${state.termsAccepted ? 'var(--primary)' : 'var(--border)'};border-radius:12px;padding:14px 16px;transition:border-color 0.2s ease;">
+            <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;font-weight:600;font-size:0.88rem;color:var(--text);user-select:none;">
+              <input type="checkbox" id="obTermsCheckbox" ${state.termsAccepted ? 'checked' : ''} style="margin-top:2px;width:18px;height:18px;accent-color:var(--primary);cursor:pointer;" />
+              <div>
+                <div>I agree to ScholarGrid's Terms of Service and Academic Privacy Policy <span style="color:var(--danger);font-weight:700;">*</span></div>
+                <div style="font-size:0.78rem;color:var(--text-muted);font-weight:400;margin-top:3px;line-height:1.4;">
+                  I confirm that I am a college student using ScholarGrid for academic learning, course material access, attendance tracking, and placement preparation.
+                </div>
+              </div>
+            </label>
+          </div>
         `;
       }
+
+      const stepBadgeClass = state.step === 2 ? 'optional' : 'mandatory';
+      const stepBadgeText = state.step === 2 ? 'Step 2 of 4 • Optional 🟢' : `Step ${state.step} of 4 • Required 🔴`;
 
       overlay.innerHTML = `
         <div class="onboarding-modal" role="dialog" aria-modal="true">
           <div class="onboarding-header">
             <div class="onboarding-top-bar">
-              <span class="onboarding-step-badge">Step ${state.step} of 3</span>
-              ${isEditing ? '<button type="button" id="closeOnboardingBtn" class="close-btn">&times;</button>' : ''}
+              <span class="onboarding-step-badge ${stepBadgeClass}">${stepBadgeText}</span>
+              <div style="display:flex;align-items:center;gap:10px;">
+                ${state.step === 2 ? '<button type="button" id="obTopSkipBtn" class="onboarding-skip-link">Skip this step →</button>' : ''}
+                ${isEditing ? '<button type="button" id="closeOnboardingBtn" class="close-btn" aria-label="Close">&times;</button>' : ''}
+              </div>
             </div>
             <div class="onboarding-progress-track">
               <div class="onboarding-progress-fill" style="width:${stepPct}%;"></div>
             </div>
             <h2 class="onboarding-title">
-              ${state.step === 1 ? 'Academic Track &amp; College' : state.step === 2 ? 'Career Path &amp; Focus Area' : 'Semester Goals &amp; Benchmarks'}
+              ${state.step === 1 ? 'Academic Track &amp; College' :
+                state.step === 2 ? 'Personal &amp; Social Details' :
+                state.step === 3 ? 'Career Path &amp; Domain Interest' :
+                'Academic Targets &amp; Terms Agreement'}
             </h2>
             <p class="onboarding-desc">
-              ${state.step === 1 ? 'Configure your semester focus to highlight current notes, labs, and question papers.' :
-                state.step === 2 ? 'ScholarGrid will align your ATS resume presets and placement quizzes to this goal.' :
-                'Set your benchmarks for attendance alerts and grade point targets.'}
+              ${state.step === 1 ? 'Configure your current semester to unlock Focus Mode and set your college name.' :
+                state.step === 2 ? 'Add your contact and social links to auto-fill your ATS resume (or skip to continue).' :
+                state.step === 3 ? 'ScholarGrid will align your ATS resume templates and placement practice quizzes to this goal.' :
+                'Set your benchmarks for attendance alerts, target grades, and accept the terms.'}
             </p>
+            ${state.validationError ? `<div style="background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:8px 12px;border-radius:8px;font-size:0.82rem;margin-top:10px;">⚠️ ${escHtml(state.validationError)}</div>` : ''}
           </div>
 
           <div class="onboarding-body">
@@ -555,9 +671,12 @@
             <div>
               ${state.step > 1 ? '<button type="button" id="obBackBtn" class="btn btn-outline btn-sm">← Back</button>' : ''}
             </div>
-            <button type="button" id="obNextBtn" class="btn btn-primary">
-              ${state.step < 3 ? 'Continue →' : (isEditing ? 'Save Changes ✓' : 'Launch My Workspace 🚀')}
-            </button>
+            <div style="display:flex;align-items:center;gap:8px;">
+              ${state.step === 2 ? '<button type="button" id="obFooterSkipBtn" class="btn btn-outline btn-sm">Skip Step →</button>' : ''}
+              <button type="button" id="obNextBtn" class="btn btn-primary" ${state.step === 4 && !state.termsAccepted ? 'disabled' : ''}>
+                ${state.step < 4 ? 'Continue →' : (isEditing ? 'Save Changes ✓' : 'Complete Setup &amp; Launch Dashboard 🚀')}
+              </button>
+            </div>
           </div>
         </div>
       `;
@@ -570,6 +689,7 @@
       overlay.querySelectorAll('[data-sem-choice]').forEach(el => {
         el.addEventListener('click', () => {
           state.semester = el.getAttribute('data-sem-choice');
+          state.validationError = '';
           renderModal();
         });
       });
@@ -578,10 +698,42 @@
       if (collegeInp) {
         collegeInp.addEventListener('input', (e) => {
           state.college = e.target.value;
+          state.validationError = '';
         });
       }
 
-      // Step 2 choices
+      const gradYearInp = overlay.querySelector('#obGradYearInput');
+      if (gradYearInp) {
+        gradYearInp.addEventListener('input', (e) => {
+          state.graduationYear = e.target.value;
+        });
+      }
+
+      // Step 2 inputs & skip triggers
+      const phoneInp = overlay.querySelector('#obPhoneInput');
+      if (phoneInp) phoneInp.addEventListener('input', (e) => { state.phone = e.target.value; });
+
+      const linkedinInp = overlay.querySelector('#obLinkedinInput');
+      if (linkedinInp) linkedinInp.addEventListener('input', (e) => { state.linkedin = e.target.value; });
+
+      const githubInp = overlay.querySelector('#obGithubInput');
+      if (githubInp) githubInp.addEventListener('input', (e) => { state.github = e.target.value; });
+
+      const skipHandler = () => {
+        state.step = 3;
+        state.validationError = '';
+        renderModal();
+      };
+      const topSkipBtn = overlay.querySelector('#obTopSkipBtn');
+      if (topSkipBtn) topSkipBtn.addEventListener('click', skipHandler);
+
+      const inlineSkipBtn = overlay.querySelector('#obInlineSkipBtn');
+      if (inlineSkipBtn) inlineSkipBtn.addEventListener('click', skipHandler);
+
+      const footerSkipBtn = overlay.querySelector('#obFooterSkipBtn');
+      if (footerSkipBtn) footerSkipBtn.addEventListener('click', skipHandler);
+
+      // Step 3 choices
       overlay.querySelectorAll('[data-goal-choice]').forEach(el => {
         el.addEventListener('click', () => {
           state.careerPath = el.getAttribute('data-goal-choice');
@@ -589,7 +741,7 @@
         });
       });
 
-      // Step 3 choices
+      // Step 4 choices
       overlay.querySelectorAll('[data-sgpa-choice]').forEach(el => {
         el.addEventListener('click', () => {
           state.targetSGPA = el.getAttribute('data-sgpa-choice');
@@ -604,11 +756,21 @@
         });
       });
 
+      const termsCheckbox = overlay.querySelector('#obTermsCheckbox');
+      if (termsCheckbox) {
+        termsCheckbox.addEventListener('change', (e) => {
+          state.termsAccepted = e.target.checked;
+          const nextBtn = overlay.querySelector('#obNextBtn');
+          if (nextBtn) nextBtn.disabled = !state.termsAccepted;
+        });
+      }
+
       const backBtn = overlay.querySelector('#obBackBtn');
       if (backBtn) {
         backBtn.addEventListener('click', () => {
           if (state.step > 1) {
             state.step -= 1;
+            state.validationError = '';
             renderModal();
           }
         });
@@ -625,16 +787,47 @@
       const nextBtn = overlay.querySelector('#obNextBtn');
       if (nextBtn) {
         nextBtn.addEventListener('click', async () => {
-          if (state.step === 1 && collegeInp) {
-            state.college = collegeInp.value.trim() || 'Tumkur University';
+          // Validation per step
+          if (state.step === 1) {
+            const collegeVal = collegeInp ? collegeInp.value.trim() : state.college.trim();
+            if (!collegeVal) {
+              state.validationError = 'Please enter your College or University name to continue.';
+              renderModal();
+              return;
+            }
+            state.college = collegeVal;
+            state.validationError = '';
+            state.step = 2;
+            renderModal();
+            return;
           }
 
-          if (state.step < 3) {
-            state.step += 1;
+          if (state.step === 2) {
+            state.step = 3;
+            state.validationError = '';
             renderModal();
-          } else {
+            return;
+          }
+
+          if (state.step === 3) {
+            state.step = 4;
+            state.validationError = '';
+            renderModal();
+            return;
+          }
+
+          if (state.step === 4) {
+            if (!state.termsAccepted) {
+              state.validationError = 'You must agree to the Terms of Service to complete setup.';
+              renderModal();
+              return;
+            }
+
+            // Save & Launch Workspace!
             nextBtn.disabled = true;
             nextBtn.textContent = 'Personalizing...';
+
+            const effectiveGradYear = (state.graduationYear || '').trim() || getCalculatedGradYear(state.semester);
 
             const userProfile = {
               userId: user.uid,
@@ -642,12 +835,17 @@
               fullName: user.displayName || 'BCA Scholar',
               displayName: user.displayName || 'Scholar',
               email: user.email || '',
+              phone: (state.phone || '').trim(),
+              linkedin: (state.linkedin || '').trim(),
+              github: (state.github || '').trim(),
               semester: state.semester,
               college: state.college,
+              graduationYear: effectiveGradYear,
               degree: 'Bachelor of Computer Applications (BCA)',
               careerPath: state.careerPath,
-              targetSGPA: state.targetSGPA,
-              minAttendanceGoal: state.minAttendanceGoal
+              targetSGPA: state.targetSGPA || '8.0',
+              minAttendanceGoal: state.minAttendanceGoal || '75',
+              termsAccepted: true
             };
 
             if (window.ScholarFirebase && window.ScholarFirebase.sync) {
@@ -712,10 +910,27 @@
       if (profile.email && !resume.email) {
         resume.email = profile.email;
       }
-      if (profile.college && resume.education && resume.education[0]) {
-        if (!resume.education[0].institution || resume.education[0].institution === 'University Name') {
+      if (profile.phone && !resume.phone) {
+        resume.phone = profile.phone;
+      }
+      if (profile.linkedin && !resume.linkedin) {
+        resume.linkedin = profile.linkedin;
+      }
+      if (profile.github && !resume.github) {
+        resume.github = profile.github;
+      }
+
+      if (resume.education && resume.education[0]) {
+        if (profile.college && (!resume.education[0].institution || resume.education[0].institution === 'University Name')) {
           resume.education[0].institution = profile.college;
           resume.education[0].degree = 'Bachelor of Computer Applications (BCA)';
+        }
+        if (profile.graduationYear && !resume.education[0].year) {
+          const startYear = Math.max(2020, Number(profile.graduationYear) - 3);
+          resume.education[0].year = `${startYear} – ${profile.graduationYear}`;
+        }
+        if (profile.targetSGPA && (!resume.education[0].score || resume.education[0].score.includes('Target'))) {
+          resume.education[0].score = `Target SGPA: ${profile.targetSGPA} / 10.0`;
         }
       }
 

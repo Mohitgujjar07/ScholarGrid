@@ -530,9 +530,22 @@
       if (!resume.email && userProfile.email) {
         resume.email = userProfile.email;
       }
+      if (userProfile.phone && (!resume.phone || resume.phone.startsWith('+91 98765'))) {
+        resume.phone = userProfile.phone;
+      }
+      if (userProfile.linkedin && (!resume.linkedin || resume.linkedin.includes('username'))) {
+        resume.linkedin = userProfile.linkedin;
+      }
+      if (userProfile.github && (!resume.github || resume.github.includes('username'))) {
+        resume.github = userProfile.github;
+      }
       if (userProfile.college && resume.education && resume.education[0]) {
         if (!resume.education[0].institution || resume.education[0].institution === 'University Name' || resume.education[0].institution === 'Tumkur University') {
           resume.education[0].institution = userProfile.college;
+        }
+        if (userProfile.graduationYear && (!resume.education[0].year || resume.education[0].year.includes('2026'))) {
+          const startYr = Math.max(2020, Number(userProfile.graduationYear) - 3);
+          resume.education[0].year = `${startYr} – ${userProfile.graduationYear}`;
         }
       }
     }

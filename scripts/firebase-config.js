@@ -264,18 +264,24 @@
         fullName: profileData.fullName || profileData.displayName || 'BCA Scholar',
         displayName: profileData.displayName || profileData.fullName || 'Scholar',
         email: profileData.email || '',
+        phone: profileData.phone || '',
         semester: profileData.semester || 'Sem I',
         college: profileData.college || 'Tumkur University',
         degree: 'Bachelor of Computer Applications (BCA)',
         careerPath: profileData.careerPath || 'Campus Placements',
-        targetSGPA: Number(profileData.targetSGPA) || 8.5,
+        targetSGPA: Number(profileData.targetSGPA) || 8.0,
         minAttendanceGoal: Number(profileData.minAttendanceGoal) || 75,
         onboardingAnswers: {
           semester: profileData.semester || 'Sem I',
           college: profileData.college || '',
+          graduationYear: profileData.graduationYear || '',
+          phone: profileData.phone || '',
+          linkedin: profileData.linkedin || '',
+          github: profileData.github || '',
           careerPath: profileData.careerPath || '',
-          targetSGPA: profileData.targetSGPA || '8.5',
-          minAttendanceGoal: profileData.minAttendanceGoal || '75'
+          targetSGPA: profileData.targetSGPA || '8.0',
+          minAttendanceGoal: profileData.minAttendanceGoal || '75',
+          termsAccepted: !!profileData.termsAccepted
         },
         updatedAt: nowIso
       };
