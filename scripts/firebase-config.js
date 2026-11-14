@@ -13,11 +13,11 @@
   // https://console.firebase.google.com/ -> Project Settings -> General -> Your apps
   const DEFAULT_FIREBASE_CONFIG = {
     apiKey: "AIzaSy_YOUR_API_KEY_HERE",
-    authDomain: "scholargrid-bca.firebaseapp.com",
-    projectId: "scholargrid-bca",
-    storageBucket: "scholargrid-bca.appspot.com",
-    messagingSenderId: "102938475610",
-    appId: "1:102938475610:web:9a8b7c6d5e4f3a2b1c0d"
+    authDomain: "scholargrid-65385.firebaseapp.com",
+    projectId: "scholargrid-65385",
+    storageBucket: "scholargrid-65385.firebasestorage.app",
+    messagingSenderId: "572157940074",
+    appId: "1:572157940074:web:YOUR_APP_ID_HERE"
   };
 
   const CUSTOM_CONFIG_KEY = 'scholargrid_firebase_config_custom';

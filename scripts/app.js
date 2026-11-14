@@ -235,6 +235,156 @@
     }, duration);
   }
 
+
+  // ==========================================================================
+  // Firebase Setup & API Key Modal
+  // ==========================================================================
+
+  function openFirebaseSetupModal(onConnected) {
+    let existing = document.getElementById('firebaseSetupModalOverlay');
+    if (existing) existing.remove();
+
+    const activeCfg = window.ScholarFirebase ? window.ScholarFirebase.auth.getActiveConfig() : {};
+    const projectId = activeCfg.projectId || 'scholargrid-65385';
+    const projectNumber = activeCfg.messagingSenderId || '572157940074';
+
+    const overlay = document.createElement('div');
+    overlay.id = 'firebaseSetupModalOverlay';
+    overlay.className = 'onboarding-overlay';
+
+    overlay.innerHTML = `
+      <div class="onboarding-modal" style="max-width:540px;" role="dialog" aria-modal="true">
+        <div class="onboarding-header">
+          <div class="onboarding-top-bar">
+            <span class="onboarding-step-badge" style="background:#e0e7ff;color:#4338ca;border-color:#c7d2fe;">Firebase Project Integration</span>
+            <button type="button" id="closeFbSetupBtn" class="close-btn" aria-label="Close">&times;</button>
+          </div>
+          <h2 class="onboarding-title">Connect Project: ${escHtml(projectId)}</h2>
+          <p class="onboarding-desc">
+            Your Project ID (<strong>${escHtml(projectId)}</strong>) and Number (<strong>${escHtml(projectNumber)}</strong>) are configured. Enter your Web API Key from the Firebase Console to enable live Google Authentication.
+          </p>
+        </div>
+
+        <div class="onboarding-body" style="gap:14px;">
+          <div style="background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:0.84rem;line-height:1.45;">
+            <strong>Where to find your Web API Key:</strong><br />
+            1. Open <a href="https://console.firebase.google.com/project/${escHtml(projectId)}/settings/general" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Firebase Console &rarr; Project Settings ↗</a><br />
+            2. Under <em>"Your apps"</em>, click <strong>&lt;/&gt; (Web app)</strong> and register <code>ScholarGrid</code>.<br />
+            3. Copy the <code>apiKey</code> and <code>appId</code> from the snippet below.
+          </div>
+
+          <div>
+            <label style="font-weight:700;font-size:0.88rem;display:block;margin-bottom:6px;">
+              Web API Key (apiKey) <span style="color:var(--danger);">*</span>
+            </label>
+            <input type="text" id="fbApiKeyInput" class="input" placeholder="AIzaSy..." value="${activeCfg.apiKey && !activeCfg.apiKey.includes('YOUR_API_KEY') ? escHtml(activeCfg.apiKey) : ''}" />
+            <span style="font-size:0.75rem;color:var(--text-muted);margin-top:3px;display:block;">Found under Project Settings &rarr; Web API Key (starts with AIzaSy)</span>
+          </div>
+
+          <div>
+            <label style="font-weight:700;font-size:0.88rem;display:block;margin-bottom:6px;">
+              App ID (appId) <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem;">(Optional)</span>
+            </label>
+            <input type="text" id="fbAppIdInput" class="input" placeholder="1:${escHtml(projectNumber)}:web:..." value="${activeCfg.appId && !activeCfg.appId.includes('YOUR_APP_ID') ? escHtml(activeCfg.appId) : ''}" />
+          </div>
+
+          <div style="border-top:1px dashed var(--border);padding-top:12px;">
+            <label style="font-weight:700;font-size:0.84rem;display:block;margin-bottom:6px;color:var(--text-muted);">
+              Or Paste Full Firebase Config Snippet:
+            </label>
+            <textarea id="fbPasteSnippet" class="input" rows="3" placeholder="const firebaseConfig = { apiKey: '...', ... };"></textarea>
+          </div>
+
+          <div id="fbSetupError" style="display:none;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:8px 12px;border-radius:8px;font-size:0.82rem;"></div>
+        </div>
+
+        <div class="onboarding-footer" style="flex-wrap:wrap;gap:10px;">
+          <button type="button" id="fbDemoModeBtn" class="btn btn-outline btn-sm" title="Test Google sign-in & onboarding immediately with simulated account">
+            Continue in Demo / Test Mode ⚡
+          </button>
+          <button type="button" id="fbSaveConnectBtn" class="btn btn-primary">
+            Save &amp; Connect Live Firebase 🚀
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    requestAnimationFrame(() => overlay.classList.add('show'));
+
+    const closeBtn = overlay.querySelector('#closeFbSetupBtn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        overlay.classList.remove('show');
+        setTimeout(() => overlay.remove(), 250);
+      });
+    }
+
+    const pasteArea = overlay.querySelector('#fbPasteSnippet');
+    if (pasteArea) {
+      pasteArea.addEventListener('input', () => {
+        const val = pasteArea.value;
+        const keyMatch = val.match(/apiKey\s*:\s*["']([^"']+)["']/);
+        const appMatch = val.match(/appId\s*:\s*["']([^"']+)["']/);
+        if (keyMatch && keyMatch[1]) {
+          overlay.querySelector('#fbApiKeyInput').value = keyMatch[1];
+        }
+        if (appMatch && appMatch[1]) {
+          overlay.querySelector('#fbAppIdInput').value = appMatch[1];
+        }
+      });
+    }
+
+    const demoBtn = overlay.querySelector('#fbDemoModeBtn');
+    if (demoBtn) {
+      demoBtn.addEventListener('click', async () => {
+        overlay.classList.remove('show');
+        setTimeout(() => overlay.remove(), 250);
+        showToast('Running in Demo Student Mode ⚡');
+        const { user: signedUser, isNewUser } = await window.ScholarFirebase.auth.signInWithGoogle();
+        const curProf = window.ScholarFirebase.auth.getUserProfile();
+        if (isNewUser || !curProf) {
+          openOnboardingModal(signedUser, false);
+        } else {
+          applyPersonalization(curProf);
+        }
+      });
+    }
+
+    const saveBtn = overlay.querySelector('#fbSaveConnectBtn');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', () => {
+        const apiKey = overlay.querySelector('#fbApiKeyInput').value.trim();
+        const appId = overlay.querySelector('#fbAppIdInput').value.trim() || `1:${projectNumber}:web:scholargrid`;
+        const errEl = overlay.querySelector('#fbSetupError');
+
+        if (!apiKey) {
+          errEl.style.display = 'block';
+          errEl.textContent = 'Please enter your Web API Key to connect live Firebase.';
+          return;
+        }
+
+        const newConfig = {
+          apiKey,
+          authDomain: `${projectId}.firebaseapp.com`,
+          projectId,
+          storageBucket: `${projectId}.firebasestorage.app`,
+          messagingSenderId: projectNumber,
+          appId
+        };
+
+        try {
+          window.ScholarFirebase.auth.saveCustomConfig(newConfig);
+          overlay.classList.remove('show');
+          setTimeout(() => overlay.remove(), 250);
+        } catch (e) {
+          errEl.style.display = 'block';
+          errEl.textContent = e.message;
+        }
+      });
+    }
+  }
+
   function mountTopbarAuth(onSemChange) {
     const slot = document.getElementById('topbarAuthSlot');
     if (!slot) return;
@@ -256,6 +406,10 @@
         const btn = document.getElementById('googleSignInBtn');
         if (btn) {
           btn.addEventListener('click', async () => {
+            if (!window.ScholarFirebase.auth.isConfigured()) {
+              openFirebaseSetupModal();
+              return;
+            }
             try {
               btn.disabled = true;
               btn.innerHTML = '<span>Signing in...</span>';
@@ -303,6 +457,9 @@
               </button>
               <button type="button" class="user-dropdown-item" id="menuSyncNowBtn">
                 <span class="sync-status-indicator"></span> Sync Status (Cloud Active)
+              </button>
+              <button type="button" class="user-dropdown-item" id="menuConfigBtn">
+                <span>⚙️</span> Firebase Config (scholargrid-65385)
               </button>
               <div class="user-dropdown-divider"></div>
               <button type="button" class="user-dropdown-item danger" id="menuSignOutBtn">
@@ -353,6 +510,14 @@
               await window.ScholarFirebase.sync.syncLocalToCloud(user.uid);
               showToast('✓ Cloud Firestore sync complete!');
             }
+          });
+        }
+
+        const configBtn = document.getElementById('menuConfigBtn');
+        if (configBtn) {
+          configBtn.addEventListener('click', () => {
+            dropdown.classList.remove('show');
+            openFirebaseSetupModal();
           });
         }
 
