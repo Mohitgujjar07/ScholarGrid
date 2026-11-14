@@ -12,12 +12,13 @@
   // Replace these with your project credentials from Firebase Console:
   // https://console.firebase.google.com/ -> Project Settings -> General -> Your apps
   const DEFAULT_FIREBASE_CONFIG = {
-    apiKey: "AIzaSy_YOUR_API_KEY_HERE",
+    apiKey: "AIzaSyAOJTSKRKi-aIQIjid5kQlQSNcCow4DQw4",
     authDomain: "scholargrid-65385.firebaseapp.com",
     projectId: "scholargrid-65385",
     storageBucket: "scholargrid-65385.firebasestorage.app",
     messagingSenderId: "572157940074",
-    appId: "1:572157940074:web:YOUR_APP_ID_HERE",
+    appId: "1:572157940074:web:f39d20ef09bd146f271513",
+    measurementId: "G-K44GLJJJ07",
     clientId: "572157940074-dp8smfbl0jojjkg417b27bmgkab0aeqt.apps.googleusercontent.com"
   };
 
