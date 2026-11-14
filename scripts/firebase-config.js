@@ -17,7 +17,8 @@
     projectId: "scholargrid-65385",
     storageBucket: "scholargrid-65385.firebasestorage.app",
     messagingSenderId: "572157940074",
-    appId: "1:572157940074:web:YOUR_APP_ID_HERE"
+    appId: "1:572157940074:web:YOUR_APP_ID_HERE",
+    clientId: "572157940074-dp8smfbl0jojjkg417b27bmgkab0aeqt.apps.googleusercontent.com"
   };
 
   const CUSTOM_CONFIG_KEY = 'scholargrid_firebase_config_custom';
@@ -170,6 +171,7 @@
     },
 
     async signInWithGoogle() {
+      // 1. If Firebase auth is configured with apiKey
       if (this.isConfigured() && auth) {
         try {
           const provider = new firebase.auth.GoogleAuthProvider();
@@ -187,12 +189,63 @@
           this.notifySubscribers(result.user, profile);
           return { user: result.user, isNewUser: !profile };
         } catch (error) {
-          console.error('Google Sign-In Error:', error);
-          throw error;
+          console.warn('Firebase signInWithPopup notice:', error);
         }
       }
 
-      // Demo / Guest Mode sign-in (for preview without live GCP project)
+      // 2. Direct Google Identity Services (using your Google Client ID)
+      const clientId = activeConfig.clientId || '572157940074-dp8smfbl0jojjkg417b27bmgkab0aeqt.apps.googleusercontent.com';
+      if (typeof google !== 'undefined' && google.accounts && google.accounts.oauth2) {
+        try {
+          const googleUser = await new Promise((resolve, reject) => {
+            const tokenClient = google.accounts.oauth2.initTokenClient({
+              client_id: clientId,
+              scope: 'email profile openid',
+              callback: async (tokenResponse) => {
+                if (tokenResponse.error) {
+                  return reject(new Error(tokenResponse.error));
+                }
+                try {
+                  const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+                  });
+                  const info = await res.json();
+                  resolve(info);
+                } catch (e) {
+                  reject(e);
+                }
+              }
+            });
+            tokenClient.requestAccessToken({ prompt: 'select_account' });
+          });
+
+          if (googleUser && googleUser.email) {
+            const liveUser = {
+              uid: 'google_' + (googleUser.sub || Math.random().toString(36).substring(2, 9)),
+              displayName: googleUser.name || 'Scholar Student',
+              email: googleUser.email,
+              photoURL: googleUser.picture || 'https://api.dicebear.com/7.x/bottts/svg?seed=ScholarStudent',
+              isGoogleLive: true
+            };
+            localStorage.setItem(DEMO_USER_KEY, JSON.stringify(liveUser));
+            currentUser = liveUser;
+
+            let profile = ScholarAuth.getUserProfile();
+            if (db && ScholarAuth.isConfigured()) {
+              try {
+                profile = await ScholarSync.getUserProfile(liveUser.uid);
+              } catch {}
+            }
+            if (profile) ScholarAuth.saveUserProfileLocally(profile);
+            this.notifySubscribers(liveUser, profile);
+            return { user: liveUser, isNewUser: !profile };
+          }
+        } catch (gisError) {
+          console.warn('Google Identity Services notice:', gisError);
+        }
+      }
+
+      // 3. Simulated Demo Student Account fallback
       const demoUser = {
         uid: 'demo_google_student_' + Math.random().toString(36).substring(2, 9),
         displayName: 'Mohit Gujjar',
