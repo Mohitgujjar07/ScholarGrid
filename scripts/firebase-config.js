@@ -22,27 +22,16 @@
     clientId: "572157940074-dp8smfbl0jojjkg417b27bmgkab0aeqt.apps.googleusercontent.com"
   };
 
-  const CUSTOM_CONFIG_KEY = 'scholargrid_firebase_config_custom';
   const PROFILE_STORAGE_KEY = 'scholargrid_user_profile';
   const DEMO_USER_KEY = 'scholargrid_demo_user';
 
-  function getActiveConfig() {
-    try {
-      const custom = localStorage.getItem(CUSTOM_CONFIG_KEY);
-      if (custom) {
-        const parsed = JSON.parse(custom);
-        if (parsed && parsed.apiKey && parsed.projectId) {
-          return parsed;
-        }
-      }
-    } catch (e) {
-      console.warn('Failed to parse custom Firebase config:', e);
-    }
-    return DEFAULT_FIREBASE_CONFIG;
-  }
+  // Always use the real live credentials for scholargrid-65385
+  try {
+    localStorage.removeItem('scholargrid_firebase_config_custom');
+  } catch (e) {}
 
-  const activeConfig = getActiveConfig();
-  const isConfigured = !activeConfig.apiKey.includes('YOUR_API_KEY_HERE');
+  const activeConfig = DEFAULT_FIREBASE_CONFIG;
+  const isConfigured = true;
 
   let app = null;
   let auth = null;
@@ -80,7 +69,7 @@
   // --- Auth Service ---
   const ScholarAuth = {
     isConfigured() {
-      return isConfigured && !!auth;
+      return true;
     },
 
     getActiveConfig() {
