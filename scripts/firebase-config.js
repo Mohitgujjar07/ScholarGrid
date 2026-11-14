@@ -170,6 +170,22 @@
       });
     },
 
+    signInWithDemo() {
+      const demoUser = {
+        uid: 'demo_google_student_' + Math.random().toString(36).substring(2, 9),
+        displayName: 'Mohit Gujjar',
+        email: 'mohit.gujjar@gmail.com',
+        photoURL: 'https://api.dicebear.com/7.x/bottts/svg?seed=ScholarStudent',
+        isDemo: true
+      };
+      localStorage.setItem(DEMO_USER_KEY, JSON.stringify(demoUser));
+      currentUser = demoUser;
+
+      const existingProfile = this.getUserProfile();
+      this.notifySubscribers(demoUser, existingProfile);
+      return { user: demoUser, isNewUser: !existingProfile };
+    },
+
     async signInWithGoogle() {
       // 1. If Firebase auth is configured with apiKey
       if (this.isConfigured() && auth) {
@@ -198,10 +214,14 @@
       if (typeof google !== 'undefined' && google.accounts && google.accounts.oauth2) {
         try {
           const googleUser = await new Promise((resolve, reject) => {
+            const timeoutTimer = setTimeout(() => {
+              reject(new Error('Google OAuth popup closed or origin mismatch'));
+            }, 3500);
             const tokenClient = google.accounts.oauth2.initTokenClient({
               client_id: clientId,
               scope: 'email profile openid',
               callback: async (tokenResponse) => {
+                clearTimeout(timeoutTimer);
                 if (tokenResponse.error) {
                   return reject(new Error(tokenResponse.error));
                 }

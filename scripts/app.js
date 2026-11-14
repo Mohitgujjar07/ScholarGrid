@@ -337,14 +337,16 @@
 
     const demoBtn = overlay.querySelector('#fbDemoModeBtn');
     if (demoBtn) {
-      demoBtn.addEventListener('click', async () => {
+      demoBtn.addEventListener('click', () => {
         overlay.classList.remove('show');
         setTimeout(() => overlay.remove(), 250);
         showToast('Running in Demo Student Mode ⚡');
-        const { user: signedUser, isNewUser } = await window.ScholarFirebase.auth.signInWithGoogle();
+        const { user: signedUser, isNewUser } = window.ScholarFirebase.auth.signInWithDemo();
         const curProf = window.ScholarFirebase.auth.getUserProfile();
         if (isNewUser || !curProf) {
-          openOnboardingModal(signedUser, false);
+          openOnboardingModal(signedUser, false, () => {
+            if (typeof onConnected === 'function') onConnected();
+          });
         } else {
           applyPersonalization(curProf);
         }
