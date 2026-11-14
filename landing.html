@@ -3,275 +3,316 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ScholarGrid — Academic Workspace for BCA</title>
-  <meta name="description" content="Open-access academic workspace for BCA students. 173 verified syllabus PDFs, notes, lab manuals, SGPA calculator, attendance buffer tracker, and placement practice." />
+  <title>ScholarGrid — The Complete BCA Academic Workspace</title>
+  <meta name="description" content="Your degree. Organized. 173 verified syllabus notes, practical lab manuals, previous year papers, SGPA calculators, and placement MCQs for BCA students under Tumkur University NEP curriculum." />
   <link rel="icon" type="image/jpeg" href="assets/logo.jpg" />
   <link rel="apple-touch-icon" href="assets/logo.jpg" />
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#4f46e5" />
+  <meta name="theme-color" content="#09090B" />
+
+  <!-- Google Fonts: Space Grotesk (Headings), Inter (Body), JetBrains Mono (Tech/Metrics) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Landing Page Isolated Stylesheet -->
   <link rel="stylesheet" href="styles/landing.css" />
 </head>
-<body class="landing-body">
-  <div class="landing-bg-mesh" aria-hidden="true"></div>
+<body class="landing-page">
 
-  <!-- Navigation Bar -->
-  <header class="landing-nav">
-    <div class="landing-container">
-      <div class="landing-nav-inner">
-        <a href="landing.html" class="landing-brand">
-          <img src="assets/logo.jpg" alt="ScholarGrid" class="landing-brand-img" />
-          <div class="landing-brand-text">
-            <span class="landing-brand-title">
-              ScholarGrid
-              <span class="landing-brand-pill">BCA Workspace</span>
-            </span>
-            <span class="landing-brand-subtitle">NEP Curriculum • Tumkur University</span>
+  <!-- Background Ambient Glow & Grid Pattern -->
+  <div class="landing-ambient-bg" aria-hidden="true">
+    <div class="ambient-glow-top"></div>
+    <div class="ambient-grid-overlay"></div>
+  </div>
+
+  <!-- Sticky Modern Navigation Bar -->
+  <header class="header-nav" id="mainNav">
+    <div class="container">
+      <div class="nav-inner">
+        <!-- Logo -->
+        <a href="landing.html" class="brand-link" aria-label="ScholarGrid Home">
+          <div class="brand-icon">
+            <!-- Custom Geometric SVG Logo -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="3" width="7.5" height="7.5" rx="2" fill="#A3E635"/>
+              <rect x="13.5" y="3" width="7.5" height="7.5" rx="2" fill="#F4F4F5" fill-opacity="0.8"/>
+              <rect x="3" y="13.5" width="7.5" height="7.5" rx="2" fill="#F4F4F5" fill-opacity="0.8"/>
+              <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" fill="#8B5CF6"/>
+            </svg>
           </div>
+          <span class="brand-name">
+            ScholarGrid
+            <span class="brand-badge">BCA NEP</span>
+          </span>
         </a>
 
-        <nav class="landing-nav-links" aria-label="Main Navigation">
-          <a href="#resources" class="landing-nav-link">Academic Vault</a>
-          <a href="#tools" class="landing-nav-link">Student Tools</a>
-          <a href="#curriculum" class="landing-nav-link">Syllabus Directory</a>
-          <a href="#platform" class="landing-nav-link">Platform Details</a>
+        <!-- Center Links -->
+        <nav class="nav-center-links" aria-label="Primary Navigation">
+          <a href="#academics" class="nav-link">Academics</a>
+          <a href="#tools" class="nav-link">Student Tools</a>
+          <a href="#curriculum" class="nav-link">Curriculum</a>
+          <a href="resource.html#exam-notifications" class="nav-link">Updates</a>
         </nav>
 
-        <div class="landing-nav-cta">
-          <a href="index.html" class="btn-landing-primary">
-            <span>Launch Workspace</span>
-            <span aria-hidden="true">→</span>
+        <!-- Right Controls -->
+        <div class="nav-right-controls">
+          <div class="status-indicator" title="Open-access, no paywalls">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span>FREE FOREVER</span>
+          </div>
+          <a href="index.html" class="btn-launch-primary">
+            <span>Open Workspace</span>
+            <span aria-hidden="true">↗</span>
           </a>
+          <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu" aria-expanded="false">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+          </button>
         </div>
       </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-menu-drawer" id="mobileMenuDrawer" aria-label="Mobile Navigation">
+      <a href="#academics" class="nav-link">Academics</a>
+      <a href="#tools" class="nav-link">Student Tools</a>
+      <a href="#curriculum" class="nav-link">Curriculum</a>
+      <a href="resource.html#exam-notifications" class="nav-link">Updates</a>
+      <a href="index.html" class="btn-launch-primary" style="text-align:center;justify-content:center;margin-top:8px;">
+        <span>Launch Workspace ↗</span>
+      </a>
     </div>
   </header>
 
   <main>
-    <!-- Hero Section -->
-    <section class="landing-hero">
-      <div class="landing-container">
-        <!-- University & Curriculum Pill -->
-        <div class="hero-eyebrow-badge">
-          <span class="pulse-dot" aria-hidden="true"></span>
-          <span>BCA Academic Workspace • NEP 2020 Syllabus</span>
+    <!-- ==========================================================================
+         HERO SECTION
+         ========================================================================== -->
+    <section class="hero-section">
+      <div class="container">
+        <!-- Small Announcement Badge -->
+        <div class="hero-announcement">
+          <span class="hero-announcement-star">✳</span>
+          <span>BUILT FOR BCA STUDENTS · NEP CURRICULUM</span>
         </div>
 
-        <h1 class="landing-hero-title">
-          The Complete Academic Workspace for BCA Students.
+        <!-- Main Headline -->
+        <h1 class="hero-headline">
+          The Complete BCA<br />
+          <span class="text-lime">Academic Workspace.</span>
         </h1>
 
-        <p class="landing-hero-subtitle">
-          Access 173 verified syllabus notes, complete lab manuals, and previous year papers across all six semesters, alongside offline SGPA calculations, attendance tracking, and campus placement practice.
+        <!-- Supporting Paragraph -->
+        <p class="hero-subtitle">
+          Everything you need to stay ahead in your BCA journey. Access 173 verified syllabus notes, lab manuals, previous year papers, academic calculators, and placement preparation — all in one place.
         </p>
 
-        <!-- Action CTAs -->
-        <div class="landing-hero-actions">
-          <a href="index.html" class="btn-landing-primary" style="font-size:1rem;padding:12px 28px;">
-            <span>Open Workspace Dashboard</span>
-            <span aria-hidden="true">→</span>
+        <!-- Primary & Secondary CTAs -->
+        <div class="hero-actions">
+          <a href="index.html" class="btn-launch-primary">
+            <span>Launch Workspace ↗</span>
           </a>
-          <a href="resource.html#mcq-quiz" class="btn-landing-secondary" style="font-size:1rem;padding:12px 24px;">
-            <span>Placement MCQ Arena</span>
+          <a href="#academics" class="btn-secondary">
+            <span>Explore Resources ↓</span>
           </a>
         </div>
 
-        <!-- Metric Highlights -->
-        <div class="hero-sub-badges">
-          <div class="hero-sub-badge-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>173 Verified PDFs</span>
+        <!-- Trust Indicators -->
+        <div class="hero-trust-row">
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span>100% Free &amp; Open Access</span>
           </div>
-          <div class="hero-sub-badge-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>Semesters I – VI Covered</span>
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span>Ad-Free Experience</span>
           </div>
-          <div class="hero-sub-badge-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>100% Free &amp; Open-Access</span>
-          </div>
-          <div class="hero-sub-badge-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>Ad-Free &amp; Offline Ready</span>
+          <div class="trust-item">
+            <span class="trust-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span>Works Offline*</span>
           </div>
         </div>
+        <p class="hero-footnote">
+          *Previously cached resources can be accessed offline, subject to browser storage and resource availability.
+        </p>
 
-        <!-- Hero Interactive Tools Preview Window -->
-        <div class="hero-preview-window">
-          <div class="preview-window-topbar">
-            <div class="window-dots">
-              <span class="window-dot red"></span>
-              <span class="window-dot yellow"></span>
-              <span class="window-dot green"></span>
-            </div>
-            <div class="window-search-pill">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <span>Search notes, lab manuals, and tools...</span>
-            </div>
-            <div class="window-status-pill">
-              <span>● Workspace Active</span>
-            </div>
+        <!-- ==========================================================================
+             HERO VISUAL: Realistic Desktop Dashboard Mockup
+             ========================================================================== -->
+        <div class="mockup-container">
+          <!-- Floating UI Chips -->
+          <div class="floating-chip chip-1" aria-hidden="true">
+            <span class="chip-dot"></span>
+            <span>173 PDFs indexed</span>
+          </div>
+          <div class="floating-chip chip-2" aria-hidden="true">
+            <span class="chip-dot"></span>
+            <span>6 Semesters</span>
+          </div>
+          <div class="floating-chip chip-3" aria-hidden="true">
+            <span class="chip-dot"></span>
+            <span>SGPA Calculator</span>
+          </div>
+          <div class="floating-chip chip-4" aria-hidden="true">
+            <span class="chip-dot"></span>
+            <span>Placement Ready?</span>
           </div>
 
-          <!-- Preview Tabs -->
-          <div class="preview-tabs-nav" role="tablist">
-            <button type="button" class="preview-tab-btn active" data-tab="tab-sgpa">
-              <span>🧮 SGPA Calculator</span>
-            </button>
-            <button type="button" class="preview-tab-btn" data-tab="tab-attendance">
-              <span>📅 Attendance Tracker</span>
-            </button>
-            <button type="button" class="preview-tab-btn" data-tab="tab-mcq">
-              <span>🎯 Placement MCQ Engine</span>
-            </button>
-            <button type="button" class="preview-tab-btn" data-tab="tab-resume">
-              <span>📄 1-Page ATS Resume</span>
-            </button>
-          </div>
+          <div class="mockup-frame">
+            <!-- Window Chrome -->
+            <div class="mockup-chrome">
+              <div class="window-dots" aria-hidden="true">
+                <span class="window-dot red"></span>
+                <span class="window-dot yellow"></span>
+                <span class="window-dot green"></span>
+              </div>
+              <div class="mockup-url-bar">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span>scholargrid.edu/workspace</span>
+              </div>
+              <div class="mockup-status">
+                <span class="status-dot"></span>
+                <span>Active · NEP 2020</span>
+              </div>
+            </div>
 
-          <!-- Tab Bodies -->
-          <div class="preview-tab-body">
-            <!-- TAB 1: SGPA Engine Demo -->
-            <div id="tab-sgpa" class="preview-pane active">
-              <div class="mini-grid-2">
-                <div class="mini-interactive-card">
-                  <span class="mini-label">Syllabus Grade Calculator</span>
-                  <div class="mini-input-group">
-                    <label class="mini-label" for="demoSemSelect">Semester</label>
-                    <select id="demoSemSelect" class="mini-input">
-                      <option value="Sem III" selected>Semester III (24 Total Credits)</option>
-                      <option value="Sem IV">Semester IV (24 Total Credits)</option>
-                      <option value="Sem V">Semester V (24 Total Credits)</option>
-                    </select>
+            <!-- Realistic Dashboard App Body -->
+            <div class="dashboard-app">
+              <!-- Sidebar -->
+              <aside class="dashboard-sidebar">
+                <div>
+                  <div class="sidebar-brand-mini">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <rect x="3" y="3" width="7" height="7" rx="1.5" fill="#A3E635"/>
+                      <rect x="14" y="3" width="7" height="7" rx="1.5" fill="#F4F4F5" fill-opacity="0.8"/>
+                      <rect x="3" y="14" width="7" height="7" rx="1.5" fill="#F4F4F5" fill-opacity="0.8"/>
+                      <rect x="14" y="14" width="7" height="7" rx="1.5" fill="#8B5CF6"/>
+                    </svg>
+                    <span>ScholarGrid</span>
                   </div>
-                  <div class="mini-input-group">
-                    <label class="mini-label" for="demoGrade1">Sample Subject Grades</label>
-                    <div style="display:flex;gap:8px;">
-                      <select id="demoGrade1" class="mini-input" style="flex:1;">
-                        <option value="10" selected>Theory 1: O (10 pts)</option>
-                        <option value="9">Theory 1: A+ (9 pts)</option>
-                        <option value="8">Theory 1: A (8 pts)</option>
-                      </select>
-                      <select id="demoGrade2" class="mini-input" style="flex:1;">
-                        <option value="10">Theory 2: O (10 pts)</option>
-                        <option value="9" selected>Theory 2: A+ (9 pts)</option>
-                        <option value="8">Theory 2: A (8 pts)</option>
-                      </select>
+
+                  <nav class="sidebar-nav-items">
+                    <a href="index.html" class="sidebar-nav-item active">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                      <span>Dashboard</span>
+                    </a>
+                    <a href="resource.html#notes" class="sidebar-nav-item">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                      <span>Notes</span>
+                    </a>
+                    <a href="resource.html#lab-manuals" class="sidebar-nav-item">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31L4.67 19.1A2 2 0 0 0 6.4 22h11.2a2 2 0 0 0 1.73-2.9L14 9.31V2"/></svg>
+                      <span>Labs</span>
+                    </a>
+                    <a href="resource.html#previous-papers" class="sidebar-nav-item">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                      <span>Papers</span>
+                    </a>
+                    <a href="resource.html#sgpa-calculator" class="sidebar-nav-item">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+                      <span>Tools</span>
+                    </a>
+                  </nav>
+                </div>
+
+                <div class="sidebar-footer-sem">
+                  <span>Current Focus</span>
+                  <strong>Sem V · NEP 2020</strong>
+                </div>
+              </aside>
+
+              <!-- Main Dashboard Canvas -->
+              <div class="dashboard-main">
+                <!-- Greeting Header -->
+                <div class="dash-header-row">
+                  <div>
+                    <h2 class="dash-greeting">Good morning, student.</h2>
+                    <p class="dash-sub">Tumkur University · BCA Academic Hub</p>
+                  </div>
+                  <span class="dash-sem-badge">All 6 Semesters Connected</span>
+                </div>
+
+                <!-- Top Widgets Row -->
+                <div class="dash-grid-top">
+                  <!-- Semester Progress -->
+                  <div class="dash-widget">
+                    <div class="widget-label">
+                      <span>Semester Progress</span>
+                      <span style="color:var(--accent-lime);">Sem V</span>
+                    </div>
+                    <div class="widget-title">Artificial Intelligence &amp; Web Stack</div>
+                    <div class="dash-progress-bar-wrap">
+                      <div class="dash-progress-bar-fill"></div>
+                    </div>
+                    <div class="widget-stat-meta">
+                      <span>72% Term Completed</span>
+                      <span>18 / 24 Credits Tracked</span>
                     </div>
                   </div>
-                  <div style="font-size:0.75rem;color:#64748b;">
-                    Calculates according to the university formula: (Σ Credit × Grade Point) / Σ Credit
+
+                  <!-- SGPA Calculator Preview -->
+                  <div class="dash-widget">
+                    <div class="widget-label">
+                      <span>SGPA Calculator</span>
+                      <span style="color:#10B981;">Target Met</span>
+                    </div>
+                    <div class="sgpa-mini-val">9.25 <span style="font-size:0.9rem;font-weight:500;color:var(--text-secondary);">SGPA</span></div>
+                    <div class="sgpa-mini-meta">Equivalent: <strong>87.5% Marks</strong> · Outstanding Distinction</div>
                   </div>
                 </div>
 
-                <div class="mini-result-box">
-                  <span class="mini-label">Calculated SGPA</span>
-                  <div id="demoSgpaOutput" class="mini-result-value">9.25</div>
-                  <div id="demoPercentageOutput" style="font-weight:700;color:#0f172a;margin-bottom:8px;">Approx: 87.5% Marks</div>
-                  <span class="mini-result-tag">★ Outstanding Distinction</span>
-                  <div style="margin-top:16px;">
-                    <a href="resource.html#sgpa-calculator" class="btn-landing-primary" style="font-size:0.84rem;padding:8px 16px;">
-                      Open 6-Semester Calculator →
-                    </a>
+                <!-- Middle Quick Access Cards -->
+                <div class="dash-middle-cards">
+                  <div class="mini-quick-card">
+                    <div class="mini-quick-tag">NOTES</div>
+                    <div class="mini-quick-title">Unit 1–5 Lecture Notes</div>
+                    <div class="mini-quick-sub">AI &amp; Web Technologies</div>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- TAB 2: Attendance Tracker Demo -->
-            <div id="tab-attendance" class="preview-pane">
-              <div class="mini-grid-2">
-                <div class="mini-interactive-card">
-                  <span class="mini-label">Attendance &amp; Buffer Calculator</span>
-                  <div class="mini-input-group">
-                    <label class="mini-label" for="demoHeld">Total Classes Conducted</label>
-                    <input id="demoHeld" type="number" class="mini-input" value="45" min="1" />
+                  <div class="mini-quick-card">
+                    <div class="mini-quick-tag">LABS</div>
+                    <div class="mini-quick-title">16 Practical Manuals</div>
+                    <div class="mini-quick-sub">ADA, Java &amp; Python Labs</div>
                   </div>
-                  <div class="mini-input-group">
-                    <label class="mini-label" for="demoAttended">Classes Attended</label>
-                    <input id="demoAttended" type="number" class="mini-input" value="38" min="0" />
-                  </div>
-                  <div style="font-size:0.75rem;color:#64748b;">
-                    Checks against the university's 75% minimum examination threshold.
+                  <div class="mini-quick-card">
+                    <div class="mini-quick-tag">PAPERS</div>
+                    <div class="mini-quick-title">2023–2026 Papers</div>
+                    <div class="mini-quick-sub">Semester End Exams</div>
                   </div>
                 </div>
 
-                <div class="mini-result-box">
-                  <span class="mini-label">Current Attendance</span>
-                  <div id="demoAttPct" class="mini-result-value" style="color:#059669;">84.4%</div>
-                  <div id="demoAttMessage" style="font-weight:700;color:#0f172a;margin-bottom:8px;">
-                    Safe buffer: You can miss <strong>5 more classes</strong> while maintaining 75%.
+                <!-- Bottom Row: Placement Prep & Recent Files -->
+                <div class="dash-grid-bottom">
+                  <!-- Placement Prep -->
+                  <div class="dash-widget">
+                    <div class="widget-label">
+                      <span>Placement Preparation</span>
+                      <span style="color:#C4B5FD;">84% Mastery</span>
+                    </div>
+                    <div class="placement-prep-pill">
+                      <span>🎯 Daily 5 MCQ Streak: Day 3</span>
+                      <strong style="color:#FFF;">Next: Java Polymorphism</strong>
+                    </div>
                   </div>
-                  <span id="demoAttTag" class="mini-result-tag">Eligible for Exams 🛡️</span>
-                  <div style="margin-top:16px;">
-                    <a href="resource.html#attendance-tracker" class="btn-landing-primary" style="font-size:0.84rem;padding:8px 16px;">
-                      Open Subject Attendance Tracker →
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <!-- TAB 3: MCQ Engine Demo -->
-            <div id="tab-mcq" class="preview-pane">
-              <div class="mini-interactive-card">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                  <span class="mini-label" style="margin-bottom:0;">Technical Assessment Question</span>
-                  <span class="badge badge-subtle" style="font-size:0.75rem;">Java Tricky Operators</span>
-                </div>
-                <div class="mini-mcq-question">What is the output of the following Java expression?</div>
-                <div class="mini-mcq-snippet">int a = 5;
-System.out.println(a++ + ++a);</div>
-                
-                <div class="mini-mcq-options">
-                  <button type="button" class="mini-mcq-btn" data-ans="0">A) 10</button>
-                  <button type="button" class="mini-mcq-btn" data-ans="1">B) 11</button>
-                  <button type="button" class="mini-mcq-btn" data-ans="2">C) 12 (Correct)</button>
-                  <button type="button" class="mini-mcq-btn" data-ans="3">D) 13</button>
-                </div>
-
-                <div id="demoMcqFeedback" class="mini-mcq-feedback">
-                  <strong>Explanation:</strong> <code>a++</code> evaluates to 5 and post-increments <code>a</code> to 6. Next, <code>++a</code> pre-increments <code>a</code> to 7 and evaluates to 7. Result: <code>5 + 7 = 12</code>.
-                </div>
-
-                <div style="margin-top:12px;display:flex;justify-content:flex-end;">
-                  <a href="resource.html#mcq-quiz" class="btn-landing-primary" style="font-size:0.84rem;padding:8px 16px;">
-                    Start Full Placement Test (Dual Modes) →
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- TAB 4: Resume Builder Demo -->
-            <div id="tab-resume" class="preview-pane">
-              <div class="mini-grid-2">
-                <div class="mini-interactive-card">
-                  <span class="mini-label">Recruitment Resume Builder</span>
-                  <div style="font-size:0.95rem;font-weight:700;color:#0f172a;margin-bottom:8px;">
-                    Standard Single-Page Technical Format
-                  </div>
-                  <p style="font-size:0.85rem;color:#475569;line-height:1.5;margin-bottom:16px;">
-                    Formatted specifically for campus drives and internship applications. Pre-loaded with tech presets (Full-Stack, Python/AI, and Fresher), section reordering, and direct single-page A4 PDF export.
-                  </p>
-                  <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <span class="badge badge-subtle">Full-Stack Preset</span>
-                    <span class="badge badge-subtle">Python / AI Preset</span>
-                    <span class="badge badge-subtle">Fresher Preset</span>
-                  </div>
-                </div>
-
-                <div class="mini-result-box">
-                  <span class="mini-label">Layout Standard</span>
-                  <div class="mini-result-value" style="color:#059669;font-size:2rem;">A4 Single-Page</div>
-                  <div style="font-weight:700;color:#0f172a;margin-bottom:8px;">Zero margin overflow or pagination issues</div>
-                  <span class="mini-result-tag">ATS Recruiter Compliant</span>
-                  <div style="margin-top:16px;">
-                    <a href="resource.html#resume-builder" class="btn-landing-primary" style="font-size:0.84rem;padding:8px 16px;">
-                      Open Resume Builder →
-                    </a>
+                  <!-- Recently Accessed -->
+                  <div class="dash-widget" style="padding:12px 16px;">
+                    <div class="widget-label" style="margin-bottom:4px;">
+                      <span>Recently Accessed</span>
+                    </div>
+                    <div class="recent-file-item">
+                      <span>📄 AI_Unit_2_Notes.pdf</span>
+                      <span style="color:var(--accent-lime);font-family:var(--font-mono);font-size:0.7rem;">Verified</span>
+                    </div>
+                    <div class="recent-file-item">
+                      <span>🧪 ADA_Lab_Manual.pdf</span>
+                      <span style="color:var(--accent-lime);font-family:var(--font-mono);font-size:0.7rem;">Verified</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -281,504 +322,709 @@ System.out.println(a++ + ++a);</div>
       </div>
     </section>
 
-    <!-- Academic Vault & Repository Section -->
-    <section id="resources" class="landing-contrast-section" style="background:#ffffff;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;">
-      <div class="landing-container">
-        <div style="text-align:center;">
-          <span class="section-tag">Academic Resources</span>
-          <h2 class="section-head-title">Comprehensive BCA Study Material</h2>
-          <p class="section-head-sub" style="margin-left:auto;margin-right:auto;">
-            All materials are aligned with the official NEP BCA scheme and university syllabus.
-          </p>
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:24px;">
-          <!-- Card 1 -->
-          <div class="contrast-card" style="background:#f8fafc;border:1px solid #e2e8f0;">
-            <div class="bento-icon-box">📘</div>
-            <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:10px;">Unit Lecture Notes</h3>
-            <p style="font-size:0.9rem;color:#64748b;line-height:1.6;margin-bottom:16px;">
-              Exhaustive Unit 1 to 5 lecture notes covering theory, diagrams, and code across Core CS subjects (C, Data Structures, DBMS, Java, OS, CN, Python, AI/ML, and Web Technologies).
-            </p>
-            <a href="resource.html#notes" style="font-size:0.85rem;color:#4f46e5;font-weight:700;">Browse Notes Library →</a>
+    <!-- ==========================================================================
+         TRUST / STATISTICS SECTION (Horizontal Strip)
+         ========================================================================== -->
+    <section class="stats-section" aria-label="Key Statistics">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-number" data-counter-target="173" data-counter-pad="false">173</span>
+            <span class="stat-label">Verified Curriculum PDFs</span>
           </div>
-
-          <!-- Card 2 -->
-          <div class="contrast-card" style="background:#f8fafc;border:1px solid #e2e8f0;">
-            <div class="bento-icon-box">💻</div>
-            <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:10px;">16 Solved Lab Manuals</h3>
-            <p style="font-size:0.9rem;color:#64748b;line-height:1.6;margin-bottom:16px;">
-              Complete laboratory manuals with program code, algorithm descriptions, test input/output screenshots, and viva voce question banks for Semesters I through V.
-            </p>
-            <a href="resource.html#lab-manuals" style="font-size:0.85rem;color:#4f46e5;font-weight:700;">Open Lab Manuals →</a>
+          <div class="stat-item">
+            <span class="stat-number" data-counter-target="6" data-counter-pad="true">06</span>
+            <span class="stat-label">Semesters Covered</span>
           </div>
-
-          <!-- Card 3 -->
-          <div class="contrast-card" style="background:#f8fafc;border:1px solid #e2e8f0;">
-            <div class="bento-icon-box">📄</div>
-            <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:10px;">Previous Exam Papers</h3>
-            <p style="font-size:0.9rem;color:#64748b;line-height:1.6;margin-bottom:16px;">
-              Authentic semester end examination question papers spanning 2023 to 2026, organized by semester to help students understand examination blueprints and mark distribution.
-            </p>
-            <a href="resource.html#previous-papers" style="font-size:0.85rem;color:#4f46e5;font-weight:700;">View Question Papers →</a>
+          <div class="stat-item">
+            <span class="stat-number" data-counter-target="20" data-counter-pad="false">20</span>
+            <span class="stat-label">Academic &amp; Career Modules</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-counter-target="0" data-counter-pad="true">00</span>
+            <span class="stat-label">Paywalls, Trackers &amp; Ads</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Productivity Tools Section -->
-    <section id="tools" class="landing-bento-section">
-      <div class="landing-container">
-        <div style="text-align:center;">
-          <span class="section-tag">Utility Tools</span>
-          <h2 class="section-head-title">Student Productivity Suite</h2>
-          <p class="section-head-sub" style="margin-left:auto;margin-right:auto;">
-            Built-in calculation, monitoring, and preparation utilities operating natively in your browser.
-          </p>
-        </div>
+    <!-- ==========================================================================
+         01 / ACADEMIC RESOURCES SECTION (The Knowledge Base)
+         ========================================================================== -->
+    <section class="section-wrapper" id="academics">
+      <div class="container">
+        <span class="section-label">01 / THE KNOWLEDGE BASE</span>
+        <h2 class="section-headline">Your entire syllabus. One searchable space.</h2>
+        <p class="section-desc">
+          Stop hunting through scattered PDFs and WhatsApp groups. Find your academic resources in one organized directory.
+        </p>
 
-        <div class="bento-grid-modern">
-          <!-- BENTO 1: SGPA Engine -->
-          <div class="bento-card bento-col-7">
-            <div>
-              <div class="bento-icon-box">🧮</div>
-              <span class="bento-tag">University Credit Matrix</span>
-              <h3 class="bento-title">SGPA &amp; CGPA Calculator</h3>
-              <p class="bento-desc">
-                Pre-configured with official credit points for Semesters I to VI. Enter expected grade points or marks to receive instant SGPA, cumulative CGPA, and equivalent percentage conversions.
+        <div class="resources-grid">
+          <!-- CARD 1 — UNIT NOTES -->
+          <div class="resource-feature-card">
+            <div class="res-card-top">
+              <div class="res-icon-wrap" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+              </div>
+              <h3 class="res-title">Complete Unit Notes</h3>
+              <p class="res-desc">
+                Unit 1–5 lecture notes across all six semesters, organized subject-wise.
               </p>
-            </div>
-            <div class="bento-preview-snippet">
-              <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;color:#475569;">
-                <span>University NEP 2020 Scheme</span>
-                <span style="color:#059669;font-weight:700;">(Σ C × G) / Σ C</span>
+              <div class="res-tags-row">
+                <span class="res-tag">6 Semesters</span>
+                <span class="res-tag">Unit 1–5</span>
+                <span class="res-tag">PDF Resources</span>
+              </div>
+              <div class="res-subjects-list">
+                Discrete Mathematics, C Programming, Data Structures, DBMS, Java, OS, Computer Networks, Python, AI/ML, Web Technologies.
               </div>
             </div>
-            <a href="resource.html#sgpa-calculator" class="bento-cta-link">
-              <span>Open SGPA Calculator</span>
+            <a href="resource.html#notes" class="res-card-link">
+              <span>Explore Notes</span>
               <span aria-hidden="true">→</span>
             </a>
           </div>
 
-          <!-- BENTO 2: Attendance Tracker -->
-          <div class="bento-card bento-col-5">
-            <div>
-              <div class="bento-icon-box">📅</div>
-              <span class="bento-tag">75% Mandatory Rule</span>
-              <h3 class="bento-title">Attendance &amp; Buffer Tracker</h3>
-              <p class="bento-desc">
-                Monitors individual subject attendances against the university threshold. Calculates the safe-to-miss lecture buffer or recovery classes needed.
+          <!-- CARD 2 — LAB MANUALS -->
+          <div class="resource-feature-card">
+            <div class="res-card-top">
+              <div class="res-icon-wrap" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 2v7.31L4.67 19.1A2 2 0 0 0 6.4 22h11.2a2 2 0 0 0 1.73-2.9L14 9.31V2"/>
+                  <line x1="8.5" y1="2" x2="15.5" y2="2"/>
+                </svg>
+              </div>
+              <h3 class="res-title">Practical Lab Manuals</h3>
+              <p class="res-desc">
+                16 laboratory manuals with algorithms, programs, expected outputs, and viva voce questions.
               </p>
-            </div>
-            <div class="bento-preview-snippet">
-              <span style="font-size:0.85rem;font-weight:600;color:#0f172a;">Buffer Calculation: ⌊(Attended − 0.75 × Total) / 0.75⌋</span>
-            </div>
-            <a href="resource.html#attendance-tracker" class="bento-cta-link">
-              <span>Track Attendance</span>
-              <span aria-hidden="true">→</span>
-            </a>
-          </div>
-
-          <!-- BENTO 3: Placement Quiz -->
-          <div class="bento-card bento-col-5">
-            <div>
-              <div class="bento-icon-box">🎯</div>
-              <span class="bento-tag">Recruitment Preparation</span>
-              <h3 class="bento-title">Technical MCQ &amp; Aptitude Quiz</h3>
-              <p class="bento-desc">
-                High-yield Core CS (DSA, OOPs, DBMS, OS, Networks) and Aptitude questions. Features Practice Mode (instant feedback) and Mock Exam Mode (15-min timer, -0.25 penalty, question palette).
-              </p>
-            </div>
-            <div class="bento-preview-snippet">
-              <span style="font-size:0.85rem;color:#475569;">Core CS • Quantitative • Logical Reasoning</span>
-            </div>
-            <a href="resource.html#mcq-quiz" class="bento-cta-link">
-              <span>Start MCQ Practice</span>
-              <span aria-hidden="true">→</span>
-            </a>
-          </div>
-
-          <!-- BENTO 4: Resume Builder -->
-          <div class="bento-card bento-col-7">
-            <div>
-              <div class="bento-icon-box">📄</div>
-              <span class="bento-tag">Placement Standard</span>
-              <h3 class="bento-title">1-Page ATS Resume Builder</h3>
-              <p class="bento-desc">
-                Standard single-column technical format designed for campus drives. Includes role presets, real-time completeness score, local saving, and clean A4 print stylesheet.
-              </p>
-            </div>
-            <div class="bento-preview-snippet">
-              <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;color:#475569;">
-                <span>Tested Single-Column Layout</span>
-                <span>Export Format: <strong>A4 PDF</strong></span>
+              <div class="res-tags-row">
+                <span class="res-tag">16 Manuals</span>
+                <span class="res-tag">Programs</span>
+                <span class="res-tag">Viva Preparation</span>
+              </div>
+              <div class="res-subjects-list">
+                C Lab, Data Structures Lab, DBMS Lab, Java Programming Lab, Python Lab, ADA Lab, Network Simulation, Web Design, and AI/ML Practicals.
               </div>
             </div>
-            <a href="resource.html#resume-builder" class="bento-cta-link">
-              <span>Build Resume</span>
+            <a href="resource.html#lab-manuals" class="res-card-link">
+              <span>View Lab Manuals</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <!-- CARD 3 — PREVIOUS YEAR PAPERS -->
+          <div class="resource-feature-card">
+            <div class="res-card-top">
+              <div class="res-icon-wrap" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10 9 9 9 8 9"/>
+                </svg>
+              </div>
+              <h3 class="res-title">Previous Year Papers</h3>
+              <p class="res-desc">
+                Access university question papers from 2023–2026 to understand examination patterns and practice effectively.
+              </p>
+              <div class="res-tags-row">
+                <span class="res-tag">2023–2026</span>
+                <span class="res-tag">University Papers</span>
+                <span class="res-tag">Exam Preparation</span>
+              </div>
+              <div class="res-subjects-list">
+                Includes NEP 2020 question sets for Theory Exams, SEP Final papers, Question Banks, and Model Examination papers.
+              </div>
+            </div>
+            <a href="resource.html#previous-papers" class="res-card-link">
+              <span>Access Papers</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <!-- CARD 4 — OFFICIAL DOCUMENTS -->
+          <div class="resource-feature-card">
+            <div class="res-card-top">
+              <div class="res-icon-wrap" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                  <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                </svg>
+              </div>
+              <h3 class="res-title">Syllabus &amp; Schemes</h3>
+              <p class="res-desc">
+                Access NEP credit matrices, official syllabus documents, examination blueprints, and internal assessment guidelines.
+              </p>
+              <div class="res-tags-row">
+                <span class="res-tag">NEP Curriculum</span>
+                <span class="res-tag">Credit Structure</span>
+                <span class="res-tag">Official Documents</span>
+              </div>
+              <div class="res-subjects-list">
+                Semester I through VI official NEP curriculum schemes, examination blueprints, credit allocations, and passing criteria.
+              </div>
+            </div>
+            <a href="resource.html#syllabus" class="res-card-link">
+              <span>View Syllabus</span>
               <span aria-hidden="true">→</span>
             </a>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Syllabus & Curriculum Directory -->
-    <section id="curriculum" class="landing-vault-section">
-      <div class="landing-container">
-        <div style="text-align:center;">
-          <span class="section-tag">Curriculum Explorer</span>
-          <h2 class="section-head-title">Syllabus Directory by Semester</h2>
-          <p class="section-head-sub" style="margin-left:auto;margin-right:auto;">
-            Select a semester to inspect core subjects, laboratory courses, and download verified notes.
-          </p>
-        </div>
-
-        <!-- Semester Navigator Pills -->
-        <div class="sem-nav-pills" role="tablist" aria-label="Curriculum Semester Navigator">
-          <button type="button" class="sem-pill-btn active" data-sem="Sem I">Semester I</button>
-          <button type="button" class="sem-pill-btn" data-sem="Sem II">Semester II</button>
-          <button type="button" class="sem-pill-btn" data-sem="Sem III">Semester III</button>
-          <button type="button" class="sem-pill-btn" data-sem="Sem IV">Semester IV</button>
-          <button type="button" class="sem-pill-btn" data-sem="Sem V">Semester V</button>
-          <button type="button" class="sem-pill-btn" data-sem="Sem VI">Semester VI</button>
-        </div>
-
-        <!-- Subject Cards Container -->
-        <div id="semDisplayGrid" class="sem-cards-display"></div>
-
-        <div style="text-align:center;margin-top:36px;">
-          <a href="index.html" class="btn-landing-primary" style="padding:12px 28px;">
-            <span>Browse All 20 Modules in Dashboard</span>
-            <span aria-hidden="true">→</span>
+        <div class="resources-bottom-cta">
+          <a href="index.html" class="btn-launch-primary">
+            <span>Browse All Academic Resources ↗</span>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Platform Details & Architecture -->
-    <section id="platform" class="landing-contrast-section" style="background:#f8fafc;border-top:1px solid #e2e8f0;">
-      <div class="landing-container">
-        <div style="text-align:center;">
-          <span class="section-tag">Architecture</span>
-          <h2 class="section-head-title">Platform Specifications</h2>
-          <p class="section-head-sub" style="margin-left:auto;margin-right:auto;">
-            Engineered for speed, privacy, and long-term academic reliability.
-          </p>
-        </div>
+    <!-- ==========================================================================
+         02 / STUDENT TOOLS SECTION (Student Toolkit)
+         ========================================================================== -->
+    <section class="section-wrapper" id="tools" style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+      <div class="container">
+        <span class="section-label">02 / STUDENT TOOLKIT</span>
+        <h2 class="section-headline">Less academic chaos. More progress.</h2>
+        <p class="section-desc">
+          Useful tools designed around the actual academic and career needs of BCA students.
+        </p>
 
-        <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:20px;">
-          <div class="vault-metric-card" style="text-align:left;padding:24px;">
-            <div style="font-size:1.4rem;margin-bottom:10px;">⚡</div>
-            <div style="font-weight:700;font-size:1rem;color:#0f172a;margin-bottom:6px;">Zero Sign-up Wall</div>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.5;">
-              All 173 PDFs, calculators, and quizzes are accessible immediately without registration.
-            </p>
+        <div class="tools-grid-blocks">
+          <!-- TOOL 1 — SGPA & CGPA CALCULATOR -->
+          <div class="tool-block-card">
+            <div>
+              <!-- Visual: Realistic Calculator Preview -->
+              <div class="tool-preview-surface">
+                <div class="calc-preview-row">
+                  <span>Semester III (24 Total Credits)</span>
+                  <span class="calc-grade-pill">NEP Scheme</span>
+                </div>
+                <div class="calc-preview-row">
+                  <label for="demoGrade1">Core Subject 1 (4 Cr):</label>
+                  <select id="demoGrade1" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:0.75rem;">
+                    <option value="10" selected>O (Grade 10)</option>
+                    <option value="9">A+ (Grade 9)</option>
+                    <option value="8">A (Grade 8)</option>
+                  </select>
+                </div>
+                <div class="calc-preview-row">
+                  <label for="demoGrade2">Core Subject 2 (4 Cr):</label>
+                  <select id="demoGrade2" style="background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:0.75rem;">
+                    <option value="10">O (Grade 10)</option>
+                    <option value="9" selected>A+ (Grade 9)</option>
+                    <option value="8">A (Grade 8)</option>
+                  </select>
+                </div>
+                <div class="calc-score-display">
+                  <div>
+                    <span style="font-size:0.72rem;color:var(--text-muted);display:block;text-transform:uppercase;">Calculated SGPA</span>
+                    <span id="demoSgpaVal" class="calc-score-big">9.25</span>
+                  </div>
+                  <div style="text-align:right;">
+                    <span class="calc-score-badge">★ Outstanding Distinction</span>
+                    <span id="demoSgpaPct" style="display:block;font-size:0.75rem;color:var(--text-secondary);margin-top:4px;">Approx. 85.0% Marks</span>
+                  </div>
+                </div>
+              </div>
+
+              <h3 class="tool-title">Know where you stand.</h3>
+              <p class="tool-desc">
+                Calculate SGPA, cumulative CGPA, and equivalent percentage using the configured syllabus credit structure.
+              </p>
+              <ul class="tool-features-list">
+                <li><span class="tool-check-bullet">✓</span> Subject-wise grade input.</li>
+                <li><span class="tool-check-bullet">✓</span> Official credit weights.</li>
+                <li><span class="tool-check-bullet">✓</span> Automatic SGPA calculation.</li>
+                <li><span class="tool-check-bullet">✓</span> Cumulative CGPA.</li>
+                <li><span class="tool-check-bullet">✓</span> Percentage conversion.</li>
+              </ul>
+            </div>
+            <div>
+              <a href="resource.html#sgpa-calculator" class="btn-launch-primary">
+                <span>Open SGPA Calculator ↗</span>
+              </a>
+            </div>
           </div>
 
-          <div class="vault-metric-card" style="text-align:left;padding:24px;">
-            <div style="font-size:1.4rem;margin-bottom:10px;">💾</div>
-            <div style="font-weight:700;font-size:1rem;color:#0f172a;margin-bottom:6px;">Offline Caching</div>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.5;">
-              Active quiz states, bookmarks, and attendance records are stored locally in your browser.
-            </p>
+          <!-- TOOL 2 — ATTENDANCE TRACKER -->
+          <div class="tool-block-card">
+            <div>
+              <!-- Visual: Circular Attendance Progress Indicator -->
+              <div class="tool-preview-surface">
+                <div class="att-preview-wrap">
+                  <div class="att-circle-box">
+                    <svg class="att-svg-circle" width="96" height="96" viewBox="0 0 96 96">
+                      <circle class="att-circle-bg" cx="48" cy="48" r="40" />
+                      <circle class="att-circle-fg" cx="48" cy="48" r="40" />
+                    </svg>
+                    <div class="att-circle-label">82%</div>
+                  </div>
+                  <div class="att-meta-box">
+                    <span style="font-size:0.78rem;font-weight:600;color:var(--text);">Current Attendance Status</span>
+                    <span style="font-size:0.75rem;color:var(--text-secondary);">37 of 45 Classes Attended</span>
+                    <span class="att-status-pill">Safe buffer: Can miss 3 classes</span>
+                  </div>
+                </div>
+              </div>
+
+              <h3 class="tool-title">Never lose track of attendance.</h3>
+              <p class="tool-desc">
+                Monitor classes attended, calculate your attendance percentage, and plan how many lectures you can safely miss or need to attend.
+              </p>
+              <ul class="tool-features-list">
+                <li><span class="tool-check-bullet">✓</span> 75% eligibility threshold.</li>
+                <li><span class="tool-check-bullet">✓</span> Classes held vs attended.</li>
+                <li><span class="tool-check-bullet">✓</span> Safe-to-miss calculation.</li>
+                <li><span class="tool-check-bullet">✓</span> Recovery calculation.</li>
+              </ul>
+            </div>
+            <div>
+              <a href="resource.html#attendance-tracker" class="btn-launch-primary">
+                <span>Track Attendance ↗</span>
+              </a>
+            </div>
           </div>
 
-          <div class="vault-metric-card" style="text-align:left;padding:24px;">
-            <div style="font-size:1.4rem;margin-bottom:10px;">🏛️</div>
-            <div style="font-weight:700;font-size:1rem;color:#0f172a;margin-bottom:6px;">Syllabus Aligned</div>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.5;">
-              All subjects, credits, and evaluation blueprints reflect the official NEP BCA regulations.
-            </p>
+          <!-- TOOL 3 — PLACEMENT & TECHNICAL MCQS -->
+          <div class="tool-block-card">
+            <div>
+              <!-- Visual: Modern Quiz Interface Preview -->
+              <div class="tool-preview-surface">
+                <div class="quiz-preview-header">
+                  <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-lime);">JAVA OPERATORS · Q3 OF 10</span>
+                  <div class="quiz-timer-pill">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>14:38</span>
+                  </div>
+                </div>
+                <div class="quiz-question-text">What is the output of the following Java expression?</div>
+                <div class="quiz-code-snippet">int a = 5;
+System.out.println(a++ + ++a);</div>
+                <div class="quiz-options-grid">
+                  <button type="button" class="quiz-opt-btn" data-correct="false">A) 10</button>
+                  <button type="button" class="quiz-opt-btn" data-correct="false">B) 11</button>
+                  <button type="button" class="quiz-opt-btn correct" data-correct="true">C) 12 (Correct)</button>
+                  <button type="button" class="quiz-opt-btn" data-correct="false">D) 13</button>
+                </div>
+                <div id="quizPreviewFeedback" style="font-size:0.74rem;color:var(--text-secondary);margin-top:8px;display:none;"></div>
+              </div>
+
+              <h3 class="tool-title">Practice like placements are tomorrow.</h3>
+              <p class="tool-desc">
+                Prepare for technical interviews and campus placement assessments through interactive MCQ sessions.
+              </p>
+              <ul class="tool-features-list">
+                <li><span class="tool-check-bullet">✓</span> Practice Mode &amp; Mock Exam Mode.</li>
+                <li><span class="tool-check-bullet">✓</span> 15-minute countdown timer.</li>
+                <li><span class="tool-check-bullet">✓</span> Optional -0.25 negative marking.</li>
+                <li><span class="tool-check-bullet">✓</span> Topic mastery breakdown.</li>
+                <li><span class="tool-check-bullet">✓</span> Step-by-step explanations.</li>
+              </ul>
+            </div>
+            <div>
+              <a href="resource.html#mcq-quiz" class="btn-launch-primary">
+                <span>Start Practicing ↗</span>
+              </a>
+            </div>
           </div>
 
-          <div class="vault-metric-card" style="text-align:left;padding:24px;">
-            <div style="font-size:1.4rem;margin-bottom:10px;">🔒</div>
-            <div style="font-weight:700;font-size:1rem;color:#0f172a;margin-bottom:6px;">Ad-Free Experience</div>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.5;">
-              Zero third-party advertisements, popup banners, or tracking scripts.
-            </p>
+          <!-- TOOL 4 — ATS RESUME BUILDER -->
+          <div class="tool-block-card">
+            <div>
+              <!-- Visual: Single Column Resume Preview -->
+              <div class="tool-preview-surface">
+                <div class="resume-preview-sheet" aria-hidden="true">
+                  <div class="res-sheet-header">
+                    <div class="res-sheet-name">MOHIT J GUJJAR</div>
+                    <div style="font-size:0.6rem;color:#475569;">BCA Student · Tumkur University · mohit@example.com</div>
+                  </div>
+                  <div class="res-sheet-sec-title">Education</div>
+                  <div style="font-weight:600;">Bachelor of Computer Applications (BCA)</div>
+                  <div style="color:#64748B;">CGPA: 9.15 / 10 · 2023–2026</div>
+                  <div class="res-sheet-sec-title">Technical Skills</div>
+                  <div>Java, Python, C++, Data Structures, React, Node.js, SQL, Git</div>
+                  <div class="res-sheet-sec-title">Projects</div>
+                  <div><strong>ScholarGrid Workspace</strong> — Offline-first academic PWA for BCA</div>
+                </div>
+              </div>
+
+              <h3 class="tool-title">Make your first impression count.</h3>
+              <p class="tool-desc">
+                Create professional, ATS-friendly resumes using templates tailored for campus recruitment.
+              </p>
+              <ul class="tool-features-list">
+                <li><span class="tool-check-bullet">✓</span> Full-stack developer template.</li>
+                <li><span class="tool-check-bullet">✓</span> Python / AI template.</li>
+                <li><span class="tool-check-bullet">✓</span> Fresher template.</li>
+                <li><span class="tool-check-bullet">✓</span> Single-column format.</li>
+                <li><span class="tool-check-bullet">✓</span> A4 PDF printing.</li>
+              </ul>
+            </div>
+            <div>
+              <a href="resource.html#resume-builder" class="btn-launch-primary">
+                <span>Build Your Resume ↗</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Bottom Action Card -->
-    <section class="landing-bottom-cta">
-      <div class="landing-container">
-        <div class="cta-banner-card">
-          <h2 class="cta-banner-title">Launch the Academic Workspace</h2>
-          <p class="cta-banner-subtitle">
-            Access syllabus notes, lab programs, question papers, and productivity tools directly in your browser.
+    <!-- ==========================================================================
+         03 / CURRICULUM OVERVIEW (Your Academic Roadmap)
+         ========================================================================== -->
+    <section class="section-wrapper" id="curriculum">
+      <div class="container">
+        <span class="section-label">03 / YOUR ACADEMIC ROADMAP</span>
+        <h2 class="section-headline">Six semesters. One clear roadmap.</h2>
+        <p class="section-desc">
+          Explore your complete BCA academic journey semester by semester.
+        </p>
+
+        <div class="curriculum-grid">
+          <!-- SEMESTER I -->
+          <div class="sem-card">
+            <div>
+              <div class="sem-card-header">
+                <span class="sem-number">Semester 01</span>
+                <span class="sem-icon-badge" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                </span>
+              </div>
+              <h3 class="sem-title">Foundations &amp; Programming</h3>
+              <ul class="sem-subject-list">
+                <li class="sem-subject-item"><span class="sem-dot"></span> Discrete Mathematics</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> COLD (Comp. Org. &amp; Logic Design)</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> C Programming</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> Digital Electronics Lab</li>
+              </ul>
+            </div>
+            <div>
+              <div class="sem-details-drawer">
+                <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.5;">
+                  <strong>Additional Courses:</strong> Kannada Kuruhu / Generic English, Constitutional Values I, Principles of Programming Languages (PPL).<br />
+                  <a href="index.html" style="color:var(--accent-lime);text-decoration:none;display:inline-block;margin-top:6px;">Open Sem I Materials →</a>
+                </div>
+              </div>
+              <button type="button" class="sem-toggle-btn" aria-expanded="false">
+                <span class="toggle-text">Show full syllabus details</span>
+                <span aria-hidden="true">↓</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- SEMESTER II -->
+          <div class="sem-card">
+            <div>
+              <div class="sem-card-header">
+                <span class="sem-number">Semester 02</span>
+                <span class="sem-icon-badge" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                </span>
+              </div>
+              <h3 class="sem-title">Data Structures &amp; Systems</h3>
+              <ul class="sem-subject-list">
+                <li class="sem-subject-item"><span class="sem-dot"></span> Data Structures using C</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> C++ OOPs</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> DBMS</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> Data Structures &amp; DBMS Labs</li>
+              </ul>
+            </div>
+            <div>
+              <div class="sem-details-drawer">
+                <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.5;">
+                  <strong>Additional Courses:</strong> Environmental Studies (EVS), Language II, Discrete Mathematics II, Constitutional Values II.<br />
+                  <a href="index.html" style="color:var(--accent-lime);text-decoration:none;display:inline-block;margin-top:6px;">Open Sem II Materials →</a>
+                </div>
+              </div>
+              <button type="button" class="sem-toggle-btn" aria-expanded="false">
+                <span class="toggle-text">Show full syllabus details</span>
+                <span aria-hidden="true">↓</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- SEMESTER III -->
+          <div class="sem-card">
+            <div>
+              <div class="sem-card-header">
+                <span class="sem-number">Semester 03</span>
+                <span class="sem-icon-badge" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </span>
+              </div>
+              <h3 class="sem-title">Core Architecture &amp; Java</h3>
+              <ul class="sem-subject-list">
+                <li class="sem-subject-item"><span class="sem-dot"></span> Operating Systems</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> Java Programming</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> Software Engineering</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> Java Lab</li>
+              </ul>
+            </div>
+            <div>
+              <div class="sem-details-drawer">
+                <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.5;">
+                  <strong>Additional Courses:</strong> Computer Architecture (CA), Language III, Unix &amp; Shell Scripting, Database Applications.<br />
+                  <a href="index.html" style="color:var(--accent-lime);text-decoration:none;display:inline-block;margin-top:6px;">Open Sem III Materials →</a>
+                </div>
+              </div>
+              <button type="button" class="sem-toggle-btn" aria-expanded="false">
+                <span class="toggle-text">Show full syllabus details</span>
+                <span aria-hidden="true">↓</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- SEMESTER IV -->
+          <div class="sem-card">
+            <div>
+              <div class="sem-card-header">
+                <span class="sem-number">Semester 04</span>
+                <span class="sem-icon-badge" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                </span>
+              </div>
+              <h3 class="sem-title">Networks &amp; Algorithms</h3>
+              <ul class="sem-subject-list">
+                <li class="sem-subject-item"><span class="sem-dot"></span> Computer Networks</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> Python Programming</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> DAA Algorithms</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> Python &amp; Simulation Labs</li>
+              </ul>
+            </div>
+            <div>
+              <div class="sem-details-drawer">
+                <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.5;">
+                  <strong>Additional Courses:</strong> Internet of Things (IoT), Frontiers of Thought, Web Design Basics, Network Simulation Lab.<br />
+                  <a href="index.html" style="color:var(--accent-lime);text-decoration:none;display:inline-block;margin-top:6px;">Open Sem IV Materials →</a>
+                </div>
+              </div>
+              <button type="button" class="sem-toggle-btn" aria-expanded="false">
+                <span class="toggle-text">Show full syllabus details</span>
+                <span aria-hidden="true">↓</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- SEMESTER V -->
+          <div class="sem-card">
+            <div>
+              <div class="sem-card-header">
+                <span class="sem-number">Semester 05</span>
+                <span class="sem-icon-badge" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10h-10V2z"/></svg>
+                </span>
+              </div>
+              <h3 class="sem-title">AI &amp; Web Technologies</h3>
+              <ul class="sem-subject-list">
+                <li class="sem-subject-item"><span class="sem-dot"></span> Artificial Intelligence</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> Web Technologies</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> Cloud Computing</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> AI Lab</li>
+              </ul>
+            </div>
+            <div>
+              <div class="sem-details-drawer">
+                <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.5;">
+                  <strong>Additional Courses:</strong> C# &amp; .NET Programming, Cryptography &amp; Network Security (CNS), Data Warehousing &amp; Data Mining.<br />
+                  <a href="index.html" style="color:var(--accent-lime);text-decoration:none;display:inline-block;margin-top:6px;">Open Sem V Materials →</a>
+                </div>
+              </div>
+              <button type="button" class="sem-toggle-btn" aria-expanded="false">
+                <span class="toggle-text">Show full syllabus details</span>
+                <span aria-hidden="true">↓</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- SEMESTER VI -->
+          <div class="sem-card">
+            <div>
+              <div class="sem-card-header">
+                <span class="sem-number">Semester 06</span>
+                <span class="sem-icon-badge" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </span>
+              </div>
+              <h3 class="sem-title">Advanced Systems &amp; Capstone</h3>
+              <ul class="sem-subject-list">
+                <li class="sem-subject-item"><span class="sem-dot"></span> Cyber Security</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> Big Data Analytics</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> Mobile App Development</li>
+                <li class="sem-subject-item"><span class="sem-dot"></span> Final Year Project</li>
+              </ul>
+            </div>
+            <div>
+              <div class="sem-details-drawer">
+                <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.5;">
+                  <strong>Additional Courses:</strong> NEP 2020 Sem VI Internship, Capstone Viva Voce, Final Year Project Documentation &amp; Presentation.<br />
+                  <a href="index.html" style="color:var(--accent-lime);text-decoration:none;display:inline-block;margin-top:6px;">Open Sem VI Materials →</a>
+                </div>
+              </div>
+              <button type="button" class="sem-toggle-btn" aria-expanded="false">
+                <span class="toggle-text">Show full syllabus details</span>
+                <span aria-hidden="true">↓</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <p class="curriculum-disclaimer">
+          Subject listings represent the supplied curriculum overview. Refer to official university documents for authoritative syllabus details.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         04 / WHY SCHOLARGRID? (Benefits Section)
+         ========================================================================== -->
+    <section class="section-wrapper" id="why-scholargrid">
+      <div class="container">
+        <span class="section-label">WHY SCHOLARGRID</span>
+        <h2 class="section-headline">Built for students. Not advertisers.</h2>
+
+        <div class="why-grid">
+          <div class="why-card">
+            <div class="why-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3 class="why-title">100% Free</h3>
+            <p class="why-desc">Academic resources and tools without subscription fees.</p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            </div>
+            <h3 class="why-title">Zero Ads</h3>
+            <p class="why-desc">No intrusive advertising or distracting banners.</p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.58 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            </div>
+            <h3 class="why-title">Offline Friendly</h3>
+            <p class="why-desc">Previously cached resources remain accessible without an active internet connection, subject to browser storage.</p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3 class="why-title">Student Focused</h3>
+            <p class="why-desc">Designed around the BCA NEP curriculum and practical student requirements.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         10 / FINAL CTA SECTION
+         ========================================================================== -->
+    <section class="final-cta-section">
+      <div class="container">
+        <div class="final-cta-card">
+          <h2 class="final-cta-headline">
+            Your BCA journey<br />
+            deserves a better workspace.
+          </h2>
+          <p class="final-cta-sub">
+            From your first semester notes to your final placement preparation, everything starts here.
           </p>
 
-          <div class="cta-banner-actions">
-            <a href="index.html" class="btn-cta-giant">
-              <span>Open ScholarGrid Dashboard</span>
-              <span aria-hidden="true">→</span>
+          <div class="final-cta-buttons">
+            <a href="index.html" class="btn-launch-primary">
+              <span>Open ScholarGrid Workspace ↗</span>
+            </a>
+            <a href="index.html#resources" class="link-subtle-explore">
+              Explore the resource directory
             </a>
           </div>
 
-          <div class="cta-perks-list">
-            <span>✓ Open-Access</span>
-            <span>✓ 173 Verified PDFs</span>
-            <span>✓ LocalStorage Persistence</span>
-          </div>
+          <p class="final-cta-note">
+            Free. Open-access. Built for BCA students.
+          </p>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- ==========================================================================
+       11 / MODERN MULTI-COLUMN FOOTER
+       ========================================================================== -->
   <footer class="landing-footer">
-    <div class="landing-container">
+    <div class="container">
       <div class="footer-top-grid">
-        <div>
-          <a href="landing.html" class="landing-brand">
-            <img src="assets/logo.jpg" alt="ScholarGrid" class="landing-brand-img" />
-            <div class="landing-brand-text">
-              <span class="landing-brand-title">ScholarGrid</span>
-              <span class="landing-brand-subtitle">Academic Workspace</span>
+        <!-- Brand Info -->
+        <div class="footer-brand-col">
+          <a href="landing.html" class="brand-link">
+            <div class="brand-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="7" height="7" rx="1.5" fill="#A3E635"/>
+                <rect x="14" y="3" width="7" height="7" rx="1.5" fill="#F4F4F5" fill-opacity="0.8"/>
+                <rect x="3" y="14" width="7" height="7" rx="1.5" fill="#F4F4F5" fill-opacity="0.8"/>
+                <rect x="14" y="14" width="7" height="7" rx="1.5" fill="#8B5CF6"/>
+              </svg>
             </div>
+            <span class="brand-name">ScholarGrid</span>
           </a>
-          <p class="footer-brand-bio">
-            An open-access academic workspace for BCA students following the NEP 2020 curriculum. Notes, lab manuals, GPA calculators, and placement simulators.
+          <p class="footer-tagline">Your degree. Organized.</p>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">
+            Open-access academic workspace for BCA students following the NEP 2020 curriculum under Tumkur University.
           </p>
         </div>
 
+        <!-- Column 1: Explore -->
         <div>
-          <div class="footer-column-title">Academics</div>
-          <ul class="footer-nav-list">
-            <li class="footer-nav-item"><a href="resource.html#notes">Notes Library</a></li>
-            <li class="footer-nav-item"><a href="resource.html#lab-manuals">Lab Manuals</a></li>
-            <li class="footer-nav-item"><a href="resource.html#previous-papers">Question Papers</a></li>
-            <li class="footer-nav-item"><a href="resource.html#important-questions">Important Question Sets</a></li>
-            <li class="footer-nav-item"><a href="resource.html#syllabus">Syllabus Regulations</a></li>
+          <h4 class="footer-col-title">Explore</h4>
+          <ul class="footer-links-list">
+            <li class="footer-link-item"><a href="index.html#notes">Academic Resources</a></li>
+            <li class="footer-link-item"><a href="resource.html#lab-manuals">Lab Manuals</a></li>
+            <li class="footer-link-item"><a href="resource.html#previous-papers">Previous Year Papers</a></li>
+            <li class="footer-link-item"><a href="#curriculum">Curriculum</a></li>
           </ul>
         </div>
 
+        <!-- Column 2: Tools -->
         <div>
-          <div class="footer-column-title">Productivity Tools</div>
-          <ul class="footer-nav-list">
-            <li class="footer-nav-item"><a href="resource.html#sgpa-calculator">SGPA &amp; CGPA Engine</a></li>
-            <li class="footer-nav-item"><a href="resource.html#attendance-tracker">Attendance &amp; Buffer Tracker</a></li>
-            <li class="footer-nav-item"><a href="resource.html#resume-builder">Single-Page ATS Resume</a></li>
-            <li class="footer-nav-item"><a href="resource.html#mcq-quiz">Placement MCQ Arena</a></li>
+          <h4 class="footer-col-title">Tools</h4>
+          <ul class="footer-links-list">
+            <li class="footer-link-item"><a href="resource.html#sgpa-calculator">SGPA Calculator</a></li>
+            <li class="footer-link-item"><a href="resource.html#attendance-tracker">Attendance Tracker</a></li>
+            <li class="footer-link-item"><a href="resource.html#mcq-quiz">Placement Quiz</a></li>
+            <li class="footer-link-item"><a href="resource.html#resume-builder">Resume Builder</a></li>
           </ul>
         </div>
 
+        <!-- Column 3: About -->
         <div>
-          <div class="footer-column-title">Career &amp; Tech</div>
-          <ul class="footer-nav-list">
-            <li class="footer-nav-item"><a href="resource.html#roadmaps">Learning Roadmaps</a></li>
-            <li class="footer-nav-item"><a href="resource.html#certifications">Industry Certifications</a></li>
-            <li class="footer-nav-item"><a href="resource.html#ai-tools">AI Tools Directory</a></li>
-            <li class="footer-nav-item"><a href="resource.html#placement-cell">Placement Cell</a></li>
+          <h4 class="footer-col-title">About</h4>
+          <ul class="footer-links-list">
+            <li class="footer-link-item"><a href="#why-scholargrid">About ScholarGrid</a></li>
+            <li class="footer-link-item"><a href="resource.html#nep-guidelines">Curriculum Guidelines</a></li>
+            <li class="footer-link-item"><a href="https://github.com/Mohitgujjar07/ScholarGrid" target="_blank" rel="noopener">Report an Issue ↗</a></li>
           </ul>
         </div>
       </div>
 
+      <!-- Footer Bottom Bar -->
       <div class="footer-bottom-bar">
-        <div>&copy; 2026 ScholarGrid • Open-Access Academic Project for BCA Students</div>
-        <div>
-          <a href="index.html" style="color:#4f46e5;font-weight:700;">Open Workspace Dashboard →</a>
-        </div>
+        <span>© 2026 ScholarGrid. Built for students, by students.</span>
+        <span class="footer-disclaimer-text">
+          An independent student resource portal. Not affiliated with or endorsed by Tumkur University.
+        </span>
       </div>
     </div>
   </footer>
 
-  <!-- JavaScript for Interactive Previews & Semester Directory -->
-  <script>
-    (function() {
-      // 1. Preview Tab Switcher
-      const tabBtns = document.querySelectorAll('.preview-tab-btn');
-      const tabPanes = document.querySelectorAll('.preview-pane');
-
-      tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const target = btn.dataset.tab;
-          tabBtns.forEach(b => b.classList.remove('active'));
-          tabPanes.forEach(p => p.classList.remove('active'));
-
-          btn.classList.add('active');
-          const activePane = document.getElementById(target);
-          if (activePane) activePane.classList.add('active');
-        });
-      });
-
-      // 2. Interactive SGPA Calculator Demo
-      const grade1 = document.getElementById('demoGrade1');
-      const grade2 = document.getElementById('demoGrade2');
-      const sgpaOut = document.getElementById('demoSgpaOutput');
-      const pctOut = document.getElementById('demoPercentageOutput');
-
-      function updateSgpa() {
-        if (!grade1 || !grade2 || !sgpaOut || !pctOut) return;
-        const g1 = parseFloat(grade1.value) || 10;
-        const g2 = parseFloat(grade2.value) || 9;
-        const avgGrade = (g1 * 4 + g2 * 4 + 9.5 * 16) / 24;
-        const finalSgpa = avgGrade.toFixed(2);
-        sgpaOut.textContent = finalSgpa;
-        const pct = ((avgGrade - 0.75) * 10).toFixed(1);
-        pctOut.textContent = 'Approx: ' + pct + '% Marks';
-      }
-
-      if (grade1 && grade2) {
-        grade1.addEventListener('change', updateSgpa);
-        grade2.addEventListener('change', updateSgpa);
-      }
-
-      // 3. Interactive Attendance Calculator Demo
-      const heldInput = document.getElementById('demoHeld');
-      const attendedInput = document.getElementById('demoAttended');
-      const attPctOut = document.getElementById('demoAttPct');
-      const attMsgOut = document.getElementById('demoAttMessage');
-      const attTag = document.getElementById('demoAttTag');
-
-      function updateAttendance() {
-        if (!heldInput || !attendedInput || !attPctOut || !attMsgOut || !attTag) return;
-        const held = parseInt(heldInput.value, 10) || 0;
-        const attended = parseInt(attendedInput.value, 10) || 0;
-
-        if (held <= 0) {
-          attPctOut.textContent = '100%';
-          attMsgOut.textContent = 'No classes held yet.';
-          return;
-        }
-
-        const pct = ((attended / held) * 100);
-        attPctOut.textContent = pct.toFixed(1) + '%';
-
-        if (pct >= 75) {
-          attPctOut.style.color = '#059669';
-          const safeBunk = Math.floor((attended - 0.75 * held) / 0.75);
-          attTag.className = 'mini-result-tag';
-          attTag.style.background = 'rgba(5, 150, 105, 0.1)';
-          attTag.style.color = '#059669';
-          attTag.textContent = 'Eligible for Exams 🛡️';
-          attMsgOut.innerHTML = 'Safe buffer: You can miss <strong>' + Math.max(0, safeBunk) + ' more classes</strong> while maintaining 75%.';
-        } else {
-          attPctOut.style.color = '#dc2626';
-          const needed = Math.ceil((0.75 * held - attended) / 0.25);
-          attTag.className = 'mini-result-tag';
-          attTag.style.background = 'rgba(220, 38, 38, 0.1)';
-          attTag.style.color = '#dc2626';
-          attTag.textContent = 'Below 75% Threshold ⚠️';
-          attMsgOut.innerHTML = 'Must attend next <strong>' + Math.max(1, needed) + ' consecutive classes</strong> to reach 75%.';
-        }
-      }
-
-      if (heldInput && attendedInput) {
-        heldInput.addEventListener('input', updateAttendance);
-        attendedInput.addEventListener('input', updateAttendance);
-      }
-
-      // 4. Interactive MCQ Demo
-      const mcqBtns = document.querySelectorAll('.mini-mcq-btn');
-      const mcqFeedback = document.getElementById('demoMcqFeedback');
-
-      mcqBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          mcqBtns.forEach(b => {
-            b.classList.remove('correct', 'wrong');
-            b.disabled = true;
-          });
-          const ans = btn.dataset.ans;
-          if (ans === '2') {
-            btn.classList.add('correct');
-          } else {
-            btn.classList.add('wrong');
-            const correctBtn = document.querySelector('.mini-mcq-btn[data-ans="2"]');
-            if (correctBtn) correctBtn.classList.add('correct');
-          }
-          if (mcqFeedback) mcqFeedback.style.display = 'block';
-        });
-      });
-
-      // 5. Semester Curriculum Navigator
-      const semSubjectsData = {
-        'Sem I': [
-          { code: 'BCAT 101', title: 'Discrete Mathematics', meta: '3 Unit Notes • Solved Examples' },
-          { code: 'BCAT 102', title: 'Computer Organization & Logic Design', meta: 'Logic Gates • Karnaugh Maps • Flip Flops' },
-          { code: 'BCAT 103', title: 'Principles of Programming Languages (C)', meta: 'Unit 1–5 Complete Lecture Notes' },
-          { code: 'BCAP 101', title: 'C Programming Lab Manual', meta: '22 Programs with Solved Vivas' },
-          { code: 'BCAP 102', title: 'Digital Electronics Lab Manual', meta: 'Truth Tables & Circuit Diagrams' },
-          { code: 'BCAT 104', title: 'English & Communication Skills', meta: 'Grammar & Professional Writing' }
-        ],
-        'Sem II': [
-          { code: 'BCAT 201', title: 'Data Structures using C', meta: 'Arrays, Stacks, Queues, Trees, Graphs' },
-          { code: 'BCAT 202', title: 'Object Oriented Programming with C++', meta: 'Classes, Inheritance, Polymorphism' },
-          { code: 'BCAT 203', title: 'Database Management Systems (DBMS)', meta: 'ER Models, SQL Queries, Normalization' },
-          { code: 'BCAP 201', title: 'Data Structures Lab Manual', meta: 'Linked Lists & Sorting Implementations' },
-          { code: 'BCAP 202', title: 'DBMS SQL & PL/SQL Lab Manual', meta: 'Queries, Triggers & Stored Procedures' },
-          { code: 'BCAT 204', title: 'Environmental Studies (EVS)', meta: 'Ecosystems & Sustainable Development' }
-        ],
-        'Sem III': [
-          { code: 'BCAT 301', title: 'Operating Systems (OS)', meta: 'Process Scheduling, Deadlocks, Memory' },
-          { code: 'BCAT 302', title: 'Java Programming', meta: 'JVM, Multithreading, Exception Handling' },
-          { code: 'BCAT 303', title: 'Software Engineering (SE)', meta: 'SDLC Models, Agile, Testing, SRS' },
-          { code: 'BCAP 301', title: 'Java Programming Lab Manual', meta: 'Core Java & GUI Applications' },
-          { code: 'BCAP 302', title: 'OS Shell Scripting Lab Manual', meta: 'Bash Scripting & UNIX System Calls' },
-          { code: 'BCAT 304', title: 'Constitution of India & Human Rights', meta: 'Fundamental Rights & NEP Framework' }
-        ],
-        'Sem IV': [
-          { code: 'BCAT 401', title: 'Computer Networks (CN)', meta: 'OSI 7 Layers, TCP/IP, Routing & Subnetting' },
-          { code: 'BCAT 402', title: 'Python Programming', meta: 'Data Analysis, File Handling, RegEx' },
-          { code: 'BCAT 403', title: 'Design & Analysis of Algorithms (DAA)', meta: 'Greedy, Dynamic Programming, NP-Complete' },
-          { code: 'BCAP 401', title: 'Python Programming Lab Manual', meta: 'NumPy, Pandas & Scripting' },
-          { code: 'BCAP 402', title: 'Networks Simulation Lab Manual', meta: 'Packet Tracer & Socket Programming' },
-          { code: 'BCAT 404', title: 'Indian Constitution & Cyber Law', meta: 'IT Act 2000 & Digital Security' }
-        ],
-        'Sem V': [
-          { code: 'BCAT 501', title: 'Artificial Intelligence & Machine Learning', meta: 'Search Algorithms, Neural Nets, Scikit' },
-          { code: 'BCAT 502', title: 'Web Technologies (HTML, CSS, JS, PHP)', meta: 'Full-Stack Web Development Notes' },
-          { code: 'BCAT 503', title: 'Cloud Computing & DevOps', meta: 'AWS, Virtualization, Containers' },
-          { code: 'BCAP 501', title: 'AI & ML Lab Manual', meta: 'Model Training & Evaluation Scripts' },
-          { code: 'BCAP 502', title: 'Web Development Lab Manual', meta: 'Responsive Web Design & Backend APIs' },
-          { code: 'BCAT 504', title: 'Final Project Viva Preparation', meta: 'SRS & Architecture Blueprints' }
-        ],
-        'Sem VI': [
-          { code: 'BCAT 601', title: 'Information & Cyber Security', meta: 'Cryptography, RSA, Firewalls, Hashing' },
-          { code: 'BCAT 602', title: 'Big Data Analytics', meta: 'Hadoop, MapReduce, Spark Fundamentals' },
-          { code: 'BCAT 603', title: 'Mobile Application Development', meta: 'Android Studio, Flutter & React Native' },
-          { code: 'BCAP 601', title: 'Mobile App Lab Manual', meta: 'Layouts, SQLite & REST API Integration' },
-          { code: 'BCAT 604', title: 'Major Final Year Project', meta: 'Documentation & Presentation Guide' },
-          { code: 'CAREER', title: 'Campus Placement & NQT Preparation', meta: 'Aptitude, Core CS & Mock Simulations' }
-        ]
-      };
-
-      const semDisplayGrid = document.getElementById('semDisplayGrid');
-      const semPills = document.querySelectorAll('.sem-pill-btn');
-
-      function renderSemesterSubjects(sem) {
-        if (!semDisplayGrid) return;
-        const subjects = semSubjectsData[sem] || semSubjectsData['Sem I'];
-        semDisplayGrid.innerHTML = subjects.map(s => `
-          <div class="sem-subject-card">
-            <span class="subject-code-badge">${s.code}</span>
-            <div class="subject-card-title">${s.title}</div>
-            <div class="subject-card-meta">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              <span>${s.meta}</span>
-            </div>
-            <div style="margin-top:12px;">
-              <a href="resource.html#notes" style="font-size:0.8rem;color:#4f46e5;font-weight:700;">Open Notes in Workspace →</a>
-            </div>
-          </div>
-        `).join('');
-      }
-
-      semPills.forEach(pill => {
-        pill.addEventListener('click', () => {
-          semPills.forEach(p => p.classList.remove('active'));
-          pill.classList.add('active');
-          renderSemesterSubjects(pill.dataset.sem);
-        });
-      });
-
-      // Initial render
-      renderSemesterSubjects('Sem I');
-    })();
-  </script>
+  <!-- Landing Page Script -->
+  <script src="scripts/landing.js"></script>
 </body>
 </html>
