@@ -1635,7 +1635,7 @@ function renderMcqQuiz(container) {
                     }).join('')}
                   </div>
 
-                  <div style="margin-top:10px; padding:10px 12px; background:rgba(37,99,235,0.05); border:1px solid rgba(37,99,235,0.15); border-radius:8px; font-size:0.86rem; color:var(--text);">
+                  <div style="margin-top:10px; padding:10px 12px; background:rgba(79, 70, 229, 0.05); border:1px solid rgba(79, 70, 229, 0.15); border-radius:8px; font-size:0.86rem; color:var(--text);">
                     <strong style="color:var(--primary);">💡 Explanation:</strong> ${esc(q.explanation)}
                   </div>
                 </div>
@@ -1740,7 +1740,7 @@ function renderMcqQuiz(container) {
 
             <!-- Monospace Code Snippet Block (if present) -->
             ${q.snippet ? `
-              <pre class="quiz-snippet" style="margin:12px 0 16px; padding:12px 16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; font-family:'Fira Code', 'Courier New', monospace; font-size:0.88rem; overflow-x:auto; line-height:1.45; color:#172B4D;"><code>${esc(q.snippet)}</code></pre>
+              <pre class="quiz-snippet" style="margin:12px 0 16px; padding:12px 16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; font-family:'Fira Code', 'Courier New', monospace; font-size:0.88rem; overflow-x:auto; line-height:1.45; color:#0f172a;"><code>${esc(q.snippet)}</code></pre>
             ` : ''}
 
             <!-- Options List -->
@@ -1768,7 +1768,7 @@ function renderMcqQuiz(container) {
 
             <!-- Practice Mode Instant Explanation -->
             ${mode === 'practice' && chosen !== undefined ? `
-              <div style="margin-top:16px; padding:14px; background:rgba(37,99,235,0.05); border:1px solid rgba(37,99,235,0.2); border-radius:10px; font-size:0.88rem;">
+              <div style="margin-top:16px; padding:14px; background:rgba(79, 70, 229, 0.05); border:1px solid rgba(79, 70, 229, 0.2); border-radius:10px; font-size:0.88rem;">
                 <div style="font-weight:700; color:var(--primary); margin-bottom:4px;">
                   ${chosen === q.answer ? '✅ Correct Answer!' : '❌ Incorrect Selection'}
                 </div>
@@ -1868,7 +1868,7 @@ function renderMcqQuiz(container) {
                     cursor:pointer;
                     display:grid;
                     place-items:center;
-                    box-shadow:${isCur ? '0 0 0 2px rgba(37,99,235,0.35)' : 'none'};
+                    box-shadow:${isCur ? '0 0 0 2px rgba(79, 70, 229, 0.35)' : 'none'};
                     transition:transform 0.1s ease;
                   ">
                     ${idx + 1}

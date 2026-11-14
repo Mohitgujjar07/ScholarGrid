@@ -185,7 +185,7 @@
           btn.classList.add('correct');
           if (feedbackBox) {
             feedbackBox.style.display = 'block';
-            feedbackBox.innerHTML = '<span style="color:#2563EB;font-weight:600;">✓ Correct!</span> <code>a++</code> uses 5 then becomes 6; <code>++a</code> becomes 7 then uses 7. 5 + 7 = <strong>12</strong>.';
+            feedbackBox.innerHTML = '<span style="color:#A3E635;font-weight:600;">✓ Correct!</span> <code>a++</code> uses 5 then becomes 6; <code>++a</code> becomes 7 then uses 7. 5 + 7 = <strong>12</strong>.';
           }
         } else {
           btn.classList.add('wrong');
