@@ -5,6 +5,25 @@
   const ATTENDANCE_STORAGE_KEY = 'scholargrid_attendance_v1';
   const RESUME_STORAGE_KEY = 'scholargrid_resume_v3';
 
+  // Crisp modern inline SVG icon system for tools (replaces raw emojis)
+  const TOOL_ICONS = {
+    check: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><polyline points="20 6 9 17 4 12"/></svg>',
+    cross: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+    lightbulb: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>',
+    download: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+    upload: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>',
+    print: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>',
+    target: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+    clock: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+    alert: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+    refresh: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>',
+    book: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/></svg>',
+    star: '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" style="vertical-align:-1px;display:inline-block;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+    starOutline: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;display:inline-block;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+    zap: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+    plus: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;display:inline-block;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'
+  };
+
   const GRADE_SCALE = [
     { label: 'O (Outstanding — 10)', gp: 10 },
     { label: 'A+ (Excellent — 9)', gp: 9 },
@@ -72,7 +91,11 @@
       return;
     }
 
-    let state = loadJson(SGPA_STORAGE_KEY, {});
+    let state = loadJson(SGPA_STORAGE_KEY, null);
+    if (!state) {
+      const altState = loadJson('scholargrid_sgpa_state', null);
+      state = (altState && altState.state) ? altState.state : {};
+    }
     let activeSem = getActiveSemesterDefault(semesters);
 
     function ensureSemState(sem) {
@@ -115,9 +138,28 @@
       };
     }
 
+    function dispatchSgpaUpdate() {
+      const s = computeSemStats(activeSem);
+      const c = computeCgpa();
+      const payload = {
+        sgpa: Number(s.sgpa.toFixed(2)),
+        cgpa: Number(c.cgpa.toFixed(2)),
+        activeSem,
+        totalCredits: s.totalCredits,
+        percentage: Number((s.sgpa * 9.5).toFixed(1)),
+        state
+      };
+      try {
+        localStorage.setItem('scholargrid_sgpa_state', JSON.stringify(payload));
+      } catch (e) {}
+      window.dispatchEvent(new CustomEvent('scholargrid:sgpa-updated', { detail: payload }));
+    }
+
     function render() {
       ensureSemState(activeSem);
       saveJson(SGPA_STORAGE_KEY, state);
+      dispatchSgpaUpdate();
+
       const subjects = creditsMap[activeSem] || [];
       const semStats = computeSemStats(activeSem);
       const cgpaStats = computeCgpa();
@@ -147,7 +189,7 @@
         <div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
             <div>
-              <div class="card-title">${esc(activeSem)} — Subjects, Internal Marks & Theory Grade</div>
+              <div class="card-title">${esc(activeSem)} — Subjects, Internal Marks &amp; Theory Grade</div>
               <div class="card-desc">Adjust your IA marks (0–40) and expected/final grade per subject. Saved automatically.</div>
             </div>
             <button type="button" class="btn btn-outline btn-sm" id="sgpaResetBtn">Reset ${esc(activeSem)}</button>
@@ -178,7 +220,7 @@
                         <input type="number" class="input sgpa-ia" data-code="${esc(sub.code)}" min="0" max="40" value="${Number(entry.ia)}" style="padding:6px 10px;" />
                       </td>
                       <td style="min-width:190px;">
-                        <select class="sgpa-grade" data-code="${esc(sub.code)}" style="padding:6px 10px;">
+                        <select class="input sgpa-grade" data-code="${esc(sub.code)}" style="padding:6px 10px;">
                           ${GRADE_SCALE.map((g) => `<option value="${g.gp}" ${Number(entry.gp) === g.gp ? 'selected' : ''}>${esc(g.label)}</option>`).join('')}
                         </select>
                       </td>
@@ -209,6 +251,7 @@
         if (sgpaEl) sgpaEl.textContent = s.sgpa.toFixed(2);
         if (cgpaEl) cgpaEl.textContent = c.cgpa.toFixed(2);
         if (pctEl) pctEl.textContent = (s.sgpa * 9.5).toFixed(1) + '%';
+        dispatchSgpaUpdate();
       }
 
       container.querySelectorAll('.sgpa-ia').forEach((input) => {
@@ -216,7 +259,7 @@
           const code = input.getAttribute('data-code');
           const val = Math.max(0, Math.min(40, Number(input.value) || 0));
           state[activeSem][code].ia = val;
-          saveJson(SGPA_STORAGE_KEY, state);
+          updateSummary();
         });
       });
 
@@ -256,7 +299,11 @@
       return;
     }
 
-    let state = loadJson(ATTENDANCE_STORAGE_KEY, {});
+    let state = loadJson(ATTENDANCE_STORAGE_KEY, null);
+    if (!state) {
+      const altState = loadJson('scholargrid_attendance_data', null);
+      state = (altState && altState.state) ? altState.state : {};
+    }
     let activeSem = getActiveSemesterDefault(semesters);
 
     function ensureSem(sem) {
@@ -304,11 +351,39 @@
       };
     }
 
+    function dispatchAttendance() {
+      const subjects = creditsMap[activeSem] || [];
+      let sumAttended = 0;
+      let sumTotal = 0;
+      subjects.forEach((sub) => {
+        const rec = state[activeSem]?.[sub.code] || { attended: 0, total: 0 };
+        sumAttended += Math.max(0, Number(rec.attended) || 0);
+        sumTotal += Math.max(0, Number(rec.total) || 0);
+      });
+      const goal = getAttendanceGoal();
+      const overall = calcStatus(sumAttended, sumTotal);
+      const payload = {
+        attended: sumAttended,
+        total: sumTotal,
+        percentage: Number(overall.pct.toFixed(1)),
+        safe: overall.safe,
+        text: overall.text,
+        goal,
+        activeSem,
+        state
+      };
+      try {
+        localStorage.setItem('scholargrid_attendance_data', JSON.stringify(payload));
+      } catch (e) {}
+      window.dispatchEvent(new CustomEvent('scholargrid:attendance-updated', { detail: payload }));
+    }
+
     function render() {
       ensureSem(activeSem);
       saveJson(ATTENDANCE_STORAGE_KEY, state);
-      const subjects = creditsMap[activeSem] || [];
+      dispatchAttendance();
 
+      const subjects = creditsMap[activeSem] || [];
       let sumAttended = 0;
       let sumTotal = 0;
       subjects.forEach((sub) => {
@@ -331,8 +406,10 @@
             <div class="stat-label">${esc(activeSem)} Overall Attendance (${sumAttended}/${sumTotal})</div>
           </div>
           <div class="stat-box">
-            <div class="stat-val" style="font-size:1.1rem;">
-              <span class="${overall.safe ? 'status-safe' : 'status-warn'}">${esc(overall.text)}</span>
+            <div class="stat-val" style="font-size:1.05rem;">
+              <span class="${overall.safe ? 'status-safe' : 'status-warn'}">
+                ${overall.safe ? TOOL_ICONS.check : TOOL_ICONS.alert} ${esc(overall.text)}
+              </span>
             </div>
             <div class="stat-label">75% Mandatory University Threshold</div>
           </div>
@@ -341,7 +418,7 @@
         <div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
             <div>
-              <div class="card-title">${esc(activeSem)} — Subject Attendance & IA Tracker</div>
+              <div class="card-title">${esc(activeSem)} — Subject Attendance &amp; IA Tracker</div>
               <div class="card-desc">Use +Present / +Absent for daily tracking or edit numbers directly. Persisted in browser storage.</div>
             </div>
             <button type="button" class="btn btn-outline btn-sm" id="attResetBtn">Reset ${esc(activeSem)}</button>
@@ -377,11 +454,15 @@
                         <input type="number" class="input att-total" data-code="${esc(sub.code)}" min="0" value="${Number(rec.total)}" style="padding:6px 8px;" />
                       </td>
                       <td style="white-space:nowrap;">
-                        <button type="button" class="btn btn-outline btn-sm att-present" data-code="${esc(sub.code)}" title="Mark 1 class attended">+P</button>
-                        <button type="button" class="btn btn-outline btn-sm att-absent" data-code="${esc(sub.code)}" title="Mark 1 class missed">+A</button>
+                        <button type="button" class="btn btn-outline btn-sm att-present" data-code="${esc(sub.code)}" title="Mark 1 class attended" style="padding:4px 9px;font-weight:700;color:var(--success);border-color:rgba(5,150,105,0.3);background:rgba(5,150,105,0.05);">+P</button>
+                        <button type="button" class="btn btn-outline btn-sm att-absent" data-code="${esc(sub.code)}" title="Mark 1 class missed" style="padding:4px 9px;font-weight:700;color:var(--danger);border-color:rgba(220,38,38,0.3);background:rgba(220,38,38,0.05);">+A</button>
                       </td>
                       <td><strong>${st.pct.toFixed(1)}%</strong></td>
-                      <td><span class="${st.safe ? 'status-safe' : 'status-warn'}">${esc(st.text)}</span></td>
+                      <td>
+                        <span class="${st.safe ? 'status-safe' : 'status-warn'}">
+                          ${st.safe ? TOOL_ICONS.check : TOOL_ICONS.alert} ${esc(st.text)}
+                        </span>
+                      </td>
                       <td style="width:82px;">
                         <input type="number" class="input att-ia" data-code="${esc(sub.code)}" min="0" max="40" value="${Number(rec.ia)}" style="padding:6px 8px;" />
                       </td>
@@ -443,6 +524,7 @@
           const code = inp.getAttribute('data-code');
           state[activeSem][code].ia = Math.max(0, Math.min(40, Number(inp.value) || 0));
           saveJson(ATTENDANCE_STORAGE_KEY, state);
+          dispatchAttendance();
         });
       });
 
@@ -459,44 +541,8 @@
   }
 
   /* ==========================================================================
-     3. Code Playground & Viva Q&A (with Lazy-Loaded Pyodide Python Runner)
-     ========================================================================== */
-  function loadPyodideRuntime() {
-    if (window._scholarPyodidePromise) return window._scholarPyodidePromise;
-    window._scholarPyodidePromise = new Promise((resolve, reject) => {
-      function initPyodide() {
-        if (typeof window.loadPyodide !== 'function') {
-          reject(new Error('Pyodide loader not available.'));
-          return;
-        }
-        window.loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.1/full/' })
-          .then(resolve)
-          .catch(reject);
-      }
-
-      if (typeof window.loadPyodide === 'function') {
-        initPyodide();
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js';
-      script.async = true;
-      script.onload = initPyodide;
-      script.onerror = () => {
-        window._scholarPyodidePromise = null;
-        reject(new Error('Failed to load Pyodide from CDN. Check your internet connection.'));
-      };
-      document.head.appendChild(script);
-    });
-    return window._scholarPyodidePromise;
-  }
-
-
-  /* ==========================================================================
      3. Advanced Single-Page ATS Resume Builder (Harvard / Tech Standard)
      ========================================================================== */
-
   function renderResumeBuilder(container) {
     if (!container) return;
 
@@ -509,7 +555,6 @@
     } catch {}
 
     if (!resume) {
-      // Pick preset based on user career goal
       let chosenPreset = 'fullstack';
       if (userProfile && userProfile.careerPath) {
         const cp = userProfile.careerPath.toLowerCase();
@@ -780,9 +825,9 @@
       }
       if (scoreTips) {
         if (tips.length === 0) {
-          scoreTips.innerHTML = '<span class="status-safe">✓ Outstanding! Your resume meets all top ATS guidelines.</span>';
+          scoreTips.innerHTML = `<span class="status-safe">${TOOL_ICONS.check} Outstanding! Your resume meets all top ATS guidelines.</span>`;
         } else {
-          scoreTips.innerHTML = `<span class="status-warn">💡 Tip: ${esc(tips[0])}</span>`;
+          scoreTips.innerHTML = `<span class="status-warn">${TOOL_ICONS.lightbulb} <strong>ATS Tip:</strong> ${esc(tips[0])}</span>`;
         }
       }
     }
@@ -803,10 +848,16 @@
               </select>
             </div>
             <div class="resume-toolbar-actions">
-              <button id="resumeExportJsonBtn" class="btn btn-outline btn-sm" type="button" title="Download your resume data as JSON">📥 Export JSON</button>
-              <button id="resumeImportJsonBtn" class="btn btn-outline btn-sm" type="button" title="Load resume data from JSON">📤 Import JSON</button>
+              <button id="resumeExportJsonBtn" class="btn btn-outline btn-sm" type="button" title="Download your resume data as JSON" style="display:inline-flex;align-items:center;gap:5px;">
+                ${TOOL_ICONS.download} Export JSON
+              </button>
+              <button id="resumeImportJsonBtn" class="btn btn-outline btn-sm" type="button" title="Load resume data from JSON" style="display:inline-flex;align-items:center;gap:5px;">
+                ${TOOL_ICONS.upload} Import JSON
+              </button>
               <input type="file" id="resumeFileInput" accept=".json" style="display:none;" />
-              <button id="resumePrintBtn" class="btn btn-primary btn-sm" type="button" title="Print or save as 1-page PDF">🖨️ Print / Save PDF</button>
+              <button id="resumePrintBtn" class="btn btn-primary btn-sm" type="button" title="Print or save as 1-page PDF" style="display:inline-flex;align-items:center;gap:5px;">
+                ${TOOL_ICONS.print} Print / Save PDF
+              </button>
             </div>
           </div>
         </div>
@@ -883,14 +934,14 @@
             <div class="card resume-section-card">
               <div class="resume-section-header">
                 <h3>3. Education</h3>
-                <button type="button" id="addEduBtn" class="btn btn-outline btn-sm">+ Add Education</button>
+                <button type="button" id="addEduBtn" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:4px;">${TOOL_ICONS.plus} Add Education</button>
               </div>
               <div id="eduList">
                 ${(resume.education || []).map((edu, idx) => `
                   <div class="resume-entry-card" data-edu-idx="${idx}">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
                       <strong style="font-size:0.85rem;">Degree #${idx + 1}</strong>
-                      <button type="button" class="btn btn-ghost btn-sm remove-edu-btn" data-idx="${idx}" style="color:var(--danger);padding:2px 8px;">✕ Remove</button>
+                      <button type="button" class="btn btn-ghost btn-sm remove-edu-btn" data-idx="${idx}" style="color:var(--danger);padding:2px 8px;display:inline-flex;align-items:center;gap:4px;">${TOOL_ICONS.cross} Remove</button>
                     </div>
                     <div class="grid grid-2" style="gap:8px;">
                       <input class="input rf-edu-input" data-idx="${idx}" data-field="degree" value="${esc(edu.degree || '')}" placeholder="Degree (e.g. Bachelor of Computer Applications)" />
@@ -938,14 +989,14 @@
             <div class="card resume-section-card">
               <div class="resume-section-header">
                 <h3>5. Technical Projects</h3>
-                <button type="button" id="addProjBtn" class="btn btn-outline btn-sm">+ Add Project</button>
+                <button type="button" id="addProjBtn" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:4px;">${TOOL_ICONS.plus} Add Project</button>
               </div>
               <div id="projList">
                 ${(resume.projects || []).map((proj, idx) => `
                   <div class="resume-entry-card" data-proj-idx="${idx}">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
                       <strong style="font-size:0.85rem;">Project #${idx + 1}</strong>
-                      <button type="button" class="btn btn-ghost btn-sm remove-proj-btn" data-idx="${idx}" style="color:var(--danger);padding:2px 8px;">✕ Remove</button>
+                      <button type="button" class="btn btn-ghost btn-sm remove-proj-btn" data-idx="${idx}" style="color:var(--danger);padding:2px 8px;display:inline-flex;align-items:center;gap:4px;">${TOOL_ICONS.cross} Remove</button>
                     </div>
                     <div class="grid grid-2" style="gap:8px;margin-bottom:8px;">
                       <input class="input rf-proj-input" data-idx="${idx}" data-field="name" value="${esc(proj.name || '')}" placeholder="Project Title" />
@@ -963,14 +1014,14 @@
             <div class="card resume-section-card">
               <div class="resume-section-header">
                 <h3>6. Experience &amp; Internships</h3>
-                <button type="button" id="addExpBtn" class="btn btn-outline btn-sm">+ Add Experience</button>
+                <button type="button" id="addExpBtn" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:4px;">${TOOL_ICONS.plus} Add Experience</button>
               </div>
               <div id="expList">
                 ${(resume.experience || []).map((exp, idx) => `
                   <div class="resume-entry-card" data-exp-idx="${idx}">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
                       <strong style="font-size:0.85rem;">Role #${idx + 1}</strong>
-                      <button type="button" class="btn btn-ghost btn-sm remove-exp-btn" data-idx="${idx}" style="color:var(--danger);padding:2px 8px;">✕ Remove</button>
+                      <button type="button" class="btn btn-ghost btn-sm remove-exp-btn" data-idx="${idx}" style="color:var(--danger);padding:2px 8px;display:inline-flex;align-items:center;gap:4px;">${TOOL_ICONS.cross} Remove</button>
                     </div>
                     <div class="grid grid-2" style="gap:8px;margin-bottom:8px;">
                       <input class="input rf-exp-input" data-idx="${idx}" data-field="role" value="${esc(exp.role || '')}" placeholder="Role / Title" />
@@ -1001,7 +1052,9 @@
                 <strong style="font-size:0.9rem;">Live ATS Resume Preview</strong>
                 <span class="badge badge-free" style="margin-left:6px;">1-Page Harvard Format</span>
               </div>
-              <button class="btn btn-primary btn-sm" onclick="window.print()" type="button">🖨️ Print / Save PDF</button>
+              <button class="btn btn-primary btn-sm" onclick="window.print()" type="button" style="display:inline-flex;align-items:center;gap:5px;">
+                ${TOOL_ICONS.print} Print / Save PDF
+              </button>
             </div>
             <div id="resumePaperWrap">
               ${renderPreviewHtml()}
@@ -1015,7 +1068,6 @@
     }
 
     function bindEvents() {
-      // General top inputs
       container.querySelectorAll('.rf-input').forEach(input => {
         input.addEventListener('input', (e) => {
           const path = e.target.dataset.path;
@@ -1024,7 +1076,6 @@
         });
       });
 
-      // Education inputs
       container.querySelectorAll('.rf-edu-input').forEach(input => {
         input.addEventListener('input', (e) => {
           const idx = parseInt(e.target.dataset.idx, 10);
@@ -1036,7 +1087,6 @@
         });
       });
 
-      // Skill inputs
       container.querySelectorAll('.rf-skill-input').forEach(input => {
         input.addEventListener('input', (e) => {
           const field = e.target.dataset.field;
@@ -1045,7 +1095,6 @@
         });
       });
 
-      // Project inputs
       container.querySelectorAll('.rf-proj-input').forEach(input => {
         input.addEventListener('input', (e) => {
           const idx = parseInt(e.target.dataset.idx, 10);
@@ -1067,7 +1116,6 @@
         });
       });
 
-      // Experience inputs
       container.querySelectorAll('.rf-exp-input').forEach(input => {
         input.addEventListener('input', (e) => {
           const idx = parseInt(e.target.dataset.idx, 10);
@@ -1089,7 +1137,6 @@
         });
       });
 
-      // Certifications input
       const certsInput = container.querySelector('#rfCerts');
       if (certsInput) {
         certsInput.addEventListener('input', (e) => {
@@ -1098,7 +1145,6 @@
         });
       }
 
-      // Add/Remove buttons
       const addEduBtn = container.querySelector('#addEduBtn');
       if (addEduBtn) {
         addEduBtn.addEventListener('click', () => {
@@ -1110,7 +1156,7 @@
 
       container.querySelectorAll('.remove-edu-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-          const idx = parseInt(e.target.dataset.idx, 10);
+          const idx = parseInt(e.target.closest('button').dataset.idx, 10);
           resume.education.splice(idx, 1);
           saveJson(RESUME_STORAGE_KEY, resume);
           render();
@@ -1128,7 +1174,7 @@
 
       container.querySelectorAll('.remove-proj-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-          const idx = parseInt(e.target.dataset.idx, 10);
+          const idx = parseInt(e.target.closest('button').dataset.idx, 10);
           resume.projects.splice(idx, 1);
           saveJson(RESUME_STORAGE_KEY, resume);
           render();
@@ -1146,14 +1192,13 @@
 
       container.querySelectorAll('.remove-exp-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-          const idx = parseInt(e.target.dataset.idx, 10);
+          const idx = parseInt(e.target.closest('button').dataset.idx, 10);
           resume.experience.splice(idx, 1);
           saveJson(RESUME_STORAGE_KEY, resume);
           render();
         });
       });
 
-      // Preset selector
       const presetSelect = container.querySelector('#resumePresetSelect');
       if (presetSelect) {
         presetSelect.addEventListener('change', (e) => {
@@ -1166,13 +1211,11 @@
         });
       }
 
-      // Print button
       const printBtn = container.querySelector('#resumePrintBtn');
       if (printBtn) {
         printBtn.addEventListener('click', () => window.print());
       }
 
-      // Export JSON
       const exportBtn = container.querySelector('#resumeExportJsonBtn');
       if (exportBtn) {
         exportBtn.addEventListener('click', () => {
@@ -1184,7 +1227,6 @@
         });
       }
 
-      // Import JSON
       const importBtn = container.querySelector('#resumeImportJsonBtn');
       const fileInput = container.querySelector('#resumeFileInput');
       if (importBtn && fileInput) {
@@ -1211,48 +1253,46 @@
     render();
   }
 
-
-function renderMcqQuiz(container) {
+  /* ==========================================================================
+     4. Campus Placement MCQ Practice & Timed Mock Exam
+     ========================================================================== */
+  function renderMcqQuiz(container) {
     if (!container) return;
     const bank = DATA.mcqBank || {};
 
-    // Filter categories to main display categories (excluding duplicate aliases)
     const allCatKeys = Object.keys(bank);
     const hiddenAliases = new Set(['DBMS', 'OS', 'CN', 'Aptitude']);
     const primaryCategories = allCatKeys.filter(c => !hiddenAliases.has(c));
-    const categories = ['🎯 Daily 5 Challenge', ...primaryCategories];
+    const categories = ['Daily 5 Challenge', ...primaryCategories];
 
     if (!primaryCategories.length) {
       container.innerHTML = '<div class="card">No MCQ questions available.</div>';
       return;
     }
 
-    // Check URL parameters for initial category or daily flag
     const urlParams = new URLSearchParams(window.location.search);
     const hash = window.location.hash || '';
     let initialCat = categories[1] || primaryCategories[0];
     if (hash.includes('daily=1') || urlParams.get('daily') === '1') {
-      initialCat = '🎯 Daily 5 Challenge';
+      initialCat = 'Daily 5 Challenge';
     }
 
-    // State
     let activeCat = initialCat;
-    let mode = 'practice'; // 'practice' (Instant Feedback) or 'mock' (Timed Exam)
-    let negativeMarking = true; // -0.25 penalty per incorrect answer in Mock mode
+    let mode = 'practice'; // 'practice' or 'mock'
+    let negativeMarking = true;
     let currentQ = 0;
-    let answers = {}; // { qIndex: optIndex }
-    let reviewFlags = new Set(); // Set of qIndices marked for review
-    let visited = new Set([0]); // Set of visited qIndices
+    let answers = {};
+    let reviewFlags = new Set();
+    let visited = new Set([0]);
     let submitted = false;
-    let showingReview = false; // Post-submit "Review All Solutions" toggle
-    let isRetakeOnly = false; // Whether running in "Retake Incorrect Only" mode
-    let retakeQuestions = null; // Subset of questions for retake
+    let showingReview = false;
+    let isRetakeOnly = false;
+    let retakeQuestions = null;
     let timerId = null;
-    let totalSeconds = 900; // 15 minutes default for mock
+    let totalSeconds = 900;
     let secondsLeft = 900;
     let startTime = Date.now();
 
-    // Helper: generate or retrieve today's Daily 5 questions
     function getDaily5Questions() {
       const todayStr = new Date().toISOString().slice(0, 10);
       try {
@@ -1263,7 +1303,6 @@ function renderMcqQuiz(container) {
         }
       } catch (e) {}
 
-      // Pick 5 high-yield questions across diverse domains
       const pool = [];
       const domainKeys = [
         'DSA: Data Structures & Algorithms',
@@ -1279,7 +1318,6 @@ function renderMcqQuiz(container) {
           pool.push({ ...picked, topic: dk.split(':')[0] });
         }
       });
-      // Fallback if less than 5
       while (pool.length < 5) {
         const anyKey = primaryCategories[Math.floor(Math.random() * primaryCategories.length)];
         const list = bank[anyKey] || [];
@@ -1297,7 +1335,7 @@ function renderMcqQuiz(container) {
       if (isRetakeOnly && retakeQuestions && retakeQuestions.length) {
         return retakeQuestions;
       }
-      if (activeCat === '🎯 Daily 5 Challenge') {
+      if (activeCat === 'Daily 5 Challenge' || activeCat.includes('Daily 5')) {
         return getDaily5Questions();
       }
       return bank[activeCat] || [];
@@ -1345,7 +1383,7 @@ function renderMcqQuiz(container) {
       }, 1000);
     }
 
-    function recordQuizCompletion() {
+    function recordQuizCompletion(finalize = true) {
       const questions = getActiveQuestions();
       let correct = 0;
       let wrong = 0;
@@ -1365,45 +1403,47 @@ function renderMcqQuiz(container) {
       const netMarks = Math.max(0, correct - penalties);
       const elapsedSec = Math.round((Date.now() - startTime) / 1000);
 
-      // Save to quiz history in localStorage
-      try {
-        const histKey = 'scholargrid_quiz_history';
-        const history = JSON.parse(localStorage.getItem(histKey) || '[]');
-        history.unshift({
-          date: new Date().toISOString(),
-          category: activeCat,
-          mode,
-          total: questions.length,
-          correct,
-          wrong,
-          unattempted,
-          netMarks: Number(netMarks.toFixed(2)),
-          timeSpentSec: elapsedSec
-        });
-        if (history.length > 25) history.length = 25;
-        localStorage.setItem(histKey, JSON.stringify(history));
-      } catch (e) {}
-
-      // If Daily 5 Challenge, record streak
-      if (activeCat === '🎯 Daily 5 Challenge') {
+      if (finalize) {
         try {
-          const streakKey = 'scholargrid_placement_streak';
-          const todayStr = new Date().toISOString().slice(0, 10);
-          const streakData = JSON.parse(localStorage.getItem(streakKey) || '{"count":0,"lastDate":""}');
-          
-          if (streakData.lastDate !== todayStr) {
-            const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-            if (streakData.lastDate === yesterday) {
-              streakData.count = (streakData.count || 0) + 1;
-            } else {
-              streakData.count = 1;
-            }
-            streakData.lastDate = todayStr;
-            localStorage.setItem(streakKey, JSON.stringify(streakData));
-            window.dispatchEvent(new CustomEvent('scholargrid:streak-updated', { detail: streakData }));
-          }
+          const histKey = 'scholargrid_quiz_history';
+          const history = JSON.parse(localStorage.getItem(histKey) || '[]');
+          history.unshift({
+            date: new Date().toISOString(),
+            category: activeCat,
+            mode,
+            total: questions.length,
+            correct,
+            wrong,
+            unattempted,
+            netMarks: Number(netMarks.toFixed(2)),
+            timeSpentSec: elapsedSec
+          });
+          if (history.length > 25) history.length = 25;
+          localStorage.setItem(histKey, JSON.stringify(history));
         } catch (e) {}
       }
+
+      // Advance Placement Streak
+      let streakData = { count: 0, lastDate: '' };
+      try {
+        const streakKey = 'scholargrid_placement_streak';
+        const todayStr = new Date().toISOString().slice(0, 10);
+        streakData = JSON.parse(localStorage.getItem(streakKey) || '{"count":0,"lastDate":""}');
+
+        if (streakData.lastDate !== todayStr) {
+          const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+          if (streakData.lastDate === yesterday) {
+            streakData.count = (streakData.count || 0) + 1;
+          } else {
+            streakData.count = Math.max(1, (streakData.count || 0) + 1);
+          }
+          streakData.lastDate = todayStr;
+          localStorage.setItem(streakKey, JSON.stringify(streakData));
+        }
+      } catch (e) {}
+
+      // Real-time synchronization event for dashboard placement streak widget
+      window.dispatchEvent(new CustomEvent('scholargrid:streak-updated', { detail: streakData }));
     }
 
     function resetQuiz(newCat, newMode) {
@@ -1421,7 +1461,7 @@ function renderMcqQuiz(container) {
       retakeQuestions = null;
 
       const questions = getActiveQuestions();
-      totalSeconds = Math.max(300, questions.length * 90); // 1.5 min per question
+      totalSeconds = Math.max(300, questions.length * 90);
       secondsLeft = totalSeconds;
       startTime = Date.now();
 
@@ -1442,7 +1482,7 @@ function renderMcqQuiz(container) {
       visited.add(0);
       submitted = false;
       showingReview = false;
-      mode = 'practice'; // Run retakes in Practice mode for instant clarity
+      mode = 'practice';
       render();
     }
 
@@ -1456,7 +1496,6 @@ function renderMcqQuiz(container) {
       visited.add(currentQ);
       const answeredCount = Object.keys(answers).length;
       const reviewCount = reviewFlags.size;
-      const unattemptedCount = questions.length - answeredCount;
 
       // -------------------------------------------------------------
       // SUBMITTED: SCORECARD & PERFORMANCE ANALYTICS VIEW
@@ -1490,7 +1529,6 @@ function renderMcqQuiz(container) {
         const accuracyPct = (correctCount + wrongCount) > 0 ? Math.round((correctCount / (correctCount + wrongCount)) * 100) : 0;
         const timeTakenFormatted = formatTime(Math.max(1, (Date.now() - startTime) / 1000));
 
-        // Topic mastery breakdown
         const strongTopics = [];
         const weakTopics = [];
         Object.keys(topicStats).forEach(t => {
@@ -1503,7 +1541,10 @@ function renderMcqQuiz(container) {
           <!-- Category Tabs -->
           <div class="tabs" role="tablist" aria-label="Quiz Categories" style="margin-bottom:16px; overflow-x:auto; flex-wrap:nowrap;">
             ${categories.map((cat) => `
-              <button type="button" class="tab-btn ${cat === activeCat ? 'active' : ''}" data-cat="${esc(cat)}">${esc(cat)}</button>
+              <button type="button" class="tab-btn ${cat === activeCat ? 'active' : ''}" data-cat="${esc(cat)}" style="display:inline-flex;align-items:center;gap:6px;">
+                ${cat.includes('Daily 5') ? TOOL_ICONS.target : ''}
+                <span>${esc(cat)}</span>
+              </button>
             `).join('')}
           </div>
 
@@ -1512,27 +1553,28 @@ function renderMcqQuiz(container) {
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
               <div>
                 <div style="display:flex; align-items:center; gap:8px;">
-                  <span class="badge ${netPct >= 70 ? 'badge-free' : 'badge-freemium'}" style="font-size:0.85rem;">
-                    ${netPct >= 70 ? '🎉 Exam Qualified' : '📖 Revision Recommended'}
+                  <span class="badge ${netPct >= 70 ? 'badge-free' : 'badge-freemium'}" style="font-size:0.85rem; display:inline-flex; align-items:center; gap:5px;">
+                    ${netPct >= 70 ? TOOL_ICONS.check : TOOL_ICONS.book}
+                    <span>${netPct >= 70 ? 'Exam Qualified' : 'Revision Recommended'}</span>
                   </span>
                   <span style="font-size:0.85rem; color:var(--text-muted);">${mode === 'mock' ? 'Mock Placement Exam' : 'Practice Mode'}</span>
                 </div>
                 <h2 style="margin:6px 0 2px; font-size:1.4rem;">${esc(activeCat)} Scorecard</h2>
                 <p style="margin:0; font-size:0.88rem; color:var(--text-muted);">
-                  Performance summary, accuracy analytics & syllabus mastery.
+                  Performance summary, accuracy analytics &amp; syllabus mastery.
                 </p>
               </div>
               <div style="display:flex; gap:8px; flex-wrap:wrap;">
                 ${missedQuestions.length > 0 ? `
-                  <button type="button" class="btn btn-primary btn-sm" id="quizRetakeIncorrectBtn">
-                    🔄 Retake Incorrect Only (${missedQuestions.length})
+                  <button type="button" class="btn btn-primary btn-sm" id="quizRetakeIncorrectBtn" style="display:inline-flex;align-items:center;gap:6px;">
+                    ${TOOL_ICONS.refresh} Retake Incorrect Only (${missedQuestions.length})
                   </button>
                 ` : ''}
-                <button type="button" class="btn btn-outline btn-sm" id="quizToggleSolutionsBtn">
-                  ${showingReview ? '▲ Hide Solutions' : '📖 Review All Solutions'}
+                <button type="button" class="btn btn-outline btn-sm" id="quizToggleSolutionsBtn" style="display:inline-flex;align-items:center;gap:6px;">
+                  ${TOOL_ICONS.book} ${showingReview ? 'Hide Solutions' : 'Review All Solutions'}
                 </button>
-                <button type="button" class="btn btn-outline btn-sm" id="quizRestartBtn">
-                  🔁 Start New Quiz
+                <button type="button" class="btn btn-outline btn-sm" id="quizRestartBtn" style="display:inline-flex;align-items:center;gap:6px;">
+                  ${TOOL_ICONS.refresh} Start New Quiz
                 </button>
               </div>
             </div>
@@ -1567,8 +1609,9 @@ function renderMcqQuiz(container) {
             <!-- Topic Mastery Breakdown -->
             <div style="display:flex; flex-wrap:wrap; gap:16px; padding:12px; background:var(--bg); border-radius:12px; border:1px solid var(--border);">
               <div style="flex:1; min-width:240px;">
-                <div style="font-size:0.85rem; font-weight:700; color:var(--success); margin-bottom:6px;">
-                  🟢 Strong Mastery (≥ 80%)
+                <div style="font-size:0.85rem; font-weight:700; color:var(--success); margin-bottom:6px; display:inline-flex; align-items:center; gap:6px;">
+                  <span style="width:8px; height:8px; border-radius:50%; background:var(--success); display:inline-block;"></span>
+                  Strong Mastery (≥ 80%)
                 </div>
                 <div style="display:flex; flex-wrap:wrap; gap:6px;">
                   ${strongTopics.length ? strongTopics.map(t => `
@@ -1578,13 +1621,14 @@ function renderMcqQuiz(container) {
               </div>
 
               <div style="flex:1; min-width:240px;">
-                <div style="font-size:0.85rem; font-weight:700; color:var(--danger); margin-bottom:6px;">
-                  🔴 Needs Revision (< 80%)
+                <div style="font-size:0.85rem; font-weight:700; color:var(--danger); margin-bottom:6px; display:inline-flex; align-items:center; gap:6px;">
+                  <span style="width:8px; height:8px; border-radius:50%; background:var(--danger); display:inline-block;"></span>
+                  Needs Revision (&lt; 80%)
                 </div>
                 <div style="display:flex; flex-wrap:wrap; gap:6px;">
                   ${weakTopics.length ? weakTopics.map(t => `
                     <span class="badge" style="background:rgba(220, 38, 38, 0.1); color:var(--danger); font-weight:600;">${esc(t)}</span>
-                  `).join('') : '<span style="font-size:0.82rem; color:var(--text-muted);">All topics mastered! 🚀</span>'}
+                  `).join('') : '<span style="font-size:0.82rem; color:var(--text-muted);">All topics mastered!</span>'}
                 </div>
               </div>
             </div>
@@ -1593,7 +1637,7 @@ function renderMcqQuiz(container) {
           <!-- Solutions Expansion -->
           <div id="solutionsContainer" style="${showingReview ? 'display:grid;' : 'display:none;'} gap:16px; margin-top:20px;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <h3 style="margin:0; font-size:1.15rem;">Question Solutions & Step-by-Step Explanations</h3>
+              <h3 style="margin:0; font-size:1.15rem;">Question Solutions &amp; Step-by-Step Explanations</h3>
               <span style="font-size:0.85rem; color:var(--text-muted);">${questions.length} Questions</span>
             </div>
             ${questions.map((q, idx) => {
@@ -1607,8 +1651,8 @@ function renderMcqQuiz(container) {
                       <span class="badge" style="font-size:0.75rem; margin-bottom:4px;">Q${idx + 1}</span>
                       <strong style="display:block; font-size:0.95rem; line-height:1.4;">${esc(q.q)}</strong>
                     </div>
-                    <span class="badge ${isCorrect ? 'badge-free' : (isSkipped ? 'badge-freemium' : 'badge-paid')}">
-                      ${isCorrect ? '✓ Correct (+1.0)' : (isSkipped ? '○ Skipped (0.0)' : `✕ Wrong (${negativeMarking && mode === 'mock' ? '-0.25' : '0.0'})`)}
+                    <span class="badge ${isCorrect ? 'badge-free' : (isSkipped ? 'badge-freemium' : 'badge-paid')}" style="display:inline-flex; align-items:center; gap:4px;">
+                      ${isCorrect ? `${TOOL_ICONS.check} Correct (+1.0)` : (isSkipped ? `○ Skipped (0.0)` : `${TOOL_ICONS.cross} Wrong (${negativeMarking && mode === 'mock' ? '-0.25' : '0.0'})`)}
                     </span>
                   </div>
 
@@ -1636,7 +1680,7 @@ function renderMcqQuiz(container) {
                   </div>
 
                   <div style="margin-top:10px; padding:10px 12px; background:rgba(79, 70, 229, 0.05); border:1px solid rgba(79, 70, 229, 0.15); border-radius:8px; font-size:0.86rem; color:var(--text);">
-                    <strong style="color:var(--primary);">💡 Explanation:</strong> ${esc(q.explanation)}
+                    <strong style="color:var(--primary);">${TOOL_ICONS.lightbulb} Explanation:</strong> ${esc(q.explanation)}
                   </div>
                 </div>
               `;
@@ -1644,7 +1688,6 @@ function renderMcqQuiz(container) {
           </div>
         `;
 
-        // Bind Post-Submit Events
         container.querySelectorAll('.tab-btn[data-cat]').forEach(btn => {
           btn.addEventListener('click', () => resetQuiz(btn.getAttribute('data-cat')));
         });
@@ -1670,13 +1713,15 @@ function renderMcqQuiz(container) {
       const q = questions[currentQ];
       const chosen = answers[currentQ];
       const isReviewed = reviewFlags.has(currentQ);
-      const isAnswered = chosen !== undefined;
 
       container.innerHTML = `
         <!-- Top Category Tabs -->
         <div class="tabs" role="tablist" aria-label="Quiz Categories" style="margin-bottom:14px; overflow-x:auto; flex-wrap:nowrap;">
           ${categories.map((cat) => `
-            <button type="button" class="tab-btn ${cat === activeCat ? 'active' : ''}" data-cat="${esc(cat)}">${esc(cat)}</button>
+            <button type="button" class="tab-btn ${cat === activeCat ? 'active' : ''}" data-cat="${esc(cat)}" style="display:inline-flex;align-items:center;gap:6px;">
+              ${cat.includes('Daily 5') ? TOOL_ICONS.target : ''}
+              <span>${esc(cat)}</span>
+            </button>
           `).join('')}
         </div>
 
@@ -1687,11 +1732,11 @@ function renderMcqQuiz(container) {
             <div style="display:flex; align-items:center; gap:8px;">
               <span style="font-size:0.84rem; font-weight:600; color:var(--text-muted);">Mode:</span>
               <div style="display:inline-flex; border:1px solid var(--border); border-radius:999px; padding:2px; background:var(--bg);">
-                <button type="button" class="btn btn-sm ${mode === 'practice' ? 'btn-primary' : 'btn-outline'}" id="quizModePracticeBtn" style="border-radius:999px; padding:4px 12px; font-size:0.8rem; border:none;">
-                  🟢 Practice (Instant Feedback)
+                <button type="button" class="btn btn-sm ${mode === 'practice' ? 'btn-primary' : 'btn-outline'}" id="quizModePracticeBtn" style="border-radius:999px; padding:4px 12px; font-size:0.8rem; border:none; display:inline-flex; align-items:center; gap:5px;">
+                  ${TOOL_ICONS.zap} Practice (Instant Feedback)
                 </button>
-                <button type="button" class="btn btn-sm ${mode === 'mock' ? 'btn-primary' : 'btn-outline'}" id="quizModeMockBtn" style="border-radius:999px; padding:4px 12px; font-size:0.8rem; border:none;">
-                  🔴 Mock Exam (Placement Timed)
+                <button type="button" class="btn btn-sm ${mode === 'mock' ? 'btn-primary' : 'btn-outline'}" id="quizModeMockBtn" style="border-radius:999px; padding:4px 12px; font-size:0.8rem; border:none; display:inline-flex; align-items:center; gap:5px;">
+                  ${TOOL_ICONS.clock} Mock Exam (Placement Timed)
                 </button>
               </div>
             </div>
@@ -1703,8 +1748,8 @@ function renderMcqQuiz(container) {
                   <input type="checkbox" id="negativeMarkingToggle" ${negativeMarking ? 'checked' : ''} style="accent-color:var(--primary);" />
                   Negative Marking (-0.25)
                 </label>
-                <div class="quiz-timer" style="background:rgba(220, 38, 38, 0.08); border-color:rgba(220, 38, 38, 0.25); color:var(--danger);">
-                  ⏱ <span id="quizTimerEl">${formatTime(secondsLeft)}</span>
+                <div class="quiz-timer" style="background:rgba(220, 38, 38, 0.08); border-color:rgba(220, 38, 38, 0.25); color:var(--danger); display:inline-flex; align-items:center; gap:6px;">
+                  ${TOOL_ICONS.clock} <span id="quizTimerEl">${formatTime(secondsLeft)}</span>
                 </div>
               ` : `
                 <span class="badge badge-free" style="font-size:0.8rem;">Untimed Self-Paced Practice</span>
@@ -1714,7 +1759,7 @@ function renderMcqQuiz(container) {
 
           <!-- Time Warning Banner (< 2 mins) -->
           <div id="quizWarningBanner" style="display:${(mode === 'mock' && secondsLeft <= 120 && secondsLeft > 0) ? 'flex' : 'none'}; align-items:center; gap:8px; margin-top:10px; padding:8px 12px; background:rgba(220, 38, 38, 0.1); border:1px solid var(--danger); border-radius:8px; color:var(--danger); font-size:0.85rem; font-weight:600;">
-            ⚠️ <strong>Time Alert:</strong> Less than 2 minutes remaining! Review marked questions before automated submission.
+            ${TOOL_ICONS.alert} <strong>Time Alert:</strong> Less than 2 minutes remaining! Review marked questions before automated submission.
           </div>
         </div>
 
@@ -1726,7 +1771,7 @@ function renderMcqQuiz(container) {
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
               <div style="display:flex; align-items:center; gap:8px;">
                 <span class="badge" style="font-size:0.82rem;">Question ${currentQ + 1} of ${questions.length}</span>
-                ${isReviewed ? '<span class="badge" style="background:rgba(147, 51, 234, 0.1); color:#7c3aed; border:1px solid rgba(147, 51, 234, 0.3);">★ Marked for Review</span>' : ''}
+                ${isReviewed ? `<span class="badge" style="background:rgba(147, 51, 234, 0.1); color:#7c3aed; border:1px solid rgba(147, 51, 234, 0.3); display:inline-flex; align-items:center; gap:4px;">${TOOL_ICONS.star} Marked for Review</span>` : ''}
               </div>
               <span style="font-size:0.82rem; color:var(--text-muted);">
                 Answered: <strong>${answeredCount}</strong> / ${questions.length}
@@ -1769,10 +1814,10 @@ function renderMcqQuiz(container) {
             <!-- Practice Mode Instant Explanation -->
             ${mode === 'practice' && chosen !== undefined ? `
               <div style="margin-top:16px; padding:14px; background:rgba(79, 70, 229, 0.05); border:1px solid rgba(79, 70, 229, 0.2); border-radius:10px; font-size:0.88rem;">
-                <div style="font-weight:700; color:var(--primary); margin-bottom:4px;">
-                  ${chosen === q.answer ? '✅ Correct Answer!' : '❌ Incorrect Selection'}
+                <div style="font-weight:700; color:${chosen === q.answer ? 'var(--success)' : 'var(--danger)'}; margin-bottom:4px; display:inline-flex; align-items:center; gap:6px;">
+                  ${chosen === q.answer ? `${TOOL_ICONS.check} Correct Answer!` : `${TOOL_ICONS.cross} Incorrect Selection`}
                 </div>
-                <div><strong>Explanation:</strong> ${esc(q.explanation)}</div>
+                <div><strong style="color:var(--primary);">${TOOL_ICONS.lightbulb} Explanation:</strong> ${esc(q.explanation)}</div>
               </div>
             ` : ''}
 
@@ -1793,11 +1838,11 @@ function renderMcqQuiz(container) {
                     Clear Choice
                   </button>
                 ` : ''}
-                <button type="button" class="btn btn-outline btn-sm" id="quizMarkReviewBtn" style="font-size:0.8rem; color:#7c3aed; border-color:rgba(147, 51, 234, 0.4);">
-                  ${isReviewed ? '★ Unmark Review' : '☆ Mark for Review'}
+                <button type="button" class="btn btn-outline btn-sm" id="quizMarkReviewBtn" style="font-size:0.8rem; color:#7c3aed; border-color:rgba(147, 51, 234, 0.4); display:inline-flex; align-items:center; gap:5px;">
+                  ${isReviewed ? `${TOOL_ICONS.star} Unmark Review` : `${TOOL_ICONS.starOutline} Mark for Review`}
                 </button>
                 <button type="button" class="btn btn-primary btn-sm" id="quizSubmitBtn">
-                  Finish & Submit
+                  Finish &amp; Submit
                 </button>
               </div>
             </div>
@@ -1888,17 +1933,13 @@ function renderMcqQuiz(container) {
         </div>
       `;
 
-      // -------------------------------------------------------------
-      // EVENT LISTENERS BINDING
-      // -------------------------------------------------------------
-      // Category Switching
+      // Event Listeners
       container.querySelectorAll('.tab-btn[data-cat]').forEach(btn => {
         btn.addEventListener('click', () => {
           resetQuiz(btn.getAttribute('data-cat'));
         });
       });
 
-      // Mode Switching
       const practiceBtn = container.querySelector('#quizModePracticeBtn');
       if (practiceBtn) {
         practiceBtn.addEventListener('click', () => {
@@ -1912,7 +1953,6 @@ function renderMcqQuiz(container) {
         });
       }
 
-      // Negative Marking Toggle
       const negToggle = container.querySelector('#negativeMarkingToggle');
       if (negToggle) {
         negToggle.addEventListener('change', () => {
@@ -1920,15 +1960,17 @@ function renderMcqQuiz(container) {
         });
       }
 
-      // Option Selection
       container.querySelectorAll('.quiz-option[data-opt-idx]').forEach(btn => {
         btn.addEventListener('click', () => {
           answers[currentQ] = Number(btn.getAttribute('data-opt-idx'));
+          // In practice mode, check if all questions are answered or if daily 5 completed
+          if (mode === 'practice' && Object.keys(answers).length >= questions.length) {
+            recordQuizCompletion(false);
+          }
           render();
         });
       });
 
-      // Clear Choice
       const clearBtn = container.querySelector('#quizClearChoiceBtn');
       if (clearBtn) {
         clearBtn.addEventListener('click', () => {
@@ -1937,7 +1979,6 @@ function renderMcqQuiz(container) {
         });
       }
 
-      // Mark for Review
       const reviewBtn = container.querySelector('#quizMarkReviewBtn');
       if (reviewBtn) {
         reviewBtn.addEventListener('click', () => {
@@ -1947,7 +1988,6 @@ function renderMcqQuiz(container) {
         });
       }
 
-      // Navigation Prev / Next
       const prevBtn = container.querySelector('#quizPrevBtn');
       if (prevBtn) {
         prevBtn.addEventListener('click', () => {
@@ -1967,7 +2007,6 @@ function renderMcqQuiz(container) {
         });
       }
 
-      // Jump via Palette
       container.querySelectorAll('.palette-q-btn[data-q-idx]').forEach(btn => {
         btn.addEventListener('click', () => {
           currentQ = Number(btn.getAttribute('data-q-idx'));
@@ -1975,7 +2014,6 @@ function renderMcqQuiz(container) {
         });
       });
 
-      // Submission
       const doSubmit = () => {
         if (mode === 'mock') {
           const unans = questions.length - Object.keys(answers).length;
@@ -1986,7 +2024,7 @@ function renderMcqQuiz(container) {
           if (!confirm(msg + '\n\nClick OK to finalize your submission.')) return;
         }
         submitted = true;
-        recordQuizCompletion();
+        recordQuizCompletion(true);
         render();
       };
 
@@ -1999,6 +2037,7 @@ function renderMcqQuiz(container) {
     if (mode === 'mock') startTimer();
     render();
   }
+
   window.SCHOLAR_TOOLS = {
     renderSgpaCalculator,
     renderAttendanceTracker,

@@ -128,25 +128,27 @@
       section.innerHTML = '';
       return;
     }
-    section.style.display = '';
+    section.style.display = 'block';
     section.innerHTML = `
-      <div class="section-header">
-        <div>
-          <h2 class="section-title">★ Pinned &amp; Favorite Notes</h2>
-          <p class="section-subtitle">Quick access to your bookmarked PDFs and subjects</p>
+      <div class="pinned-strip-card" style="background:#ffffff;border:1px solid var(--border);border-radius:14px;padding:12px 16px;margin-bottom:16px;box-shadow:0 1px 3px rgba(15,23,42,0.04);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="color:#d97706;font-size:0.95rem;">★</span>
+            <span style="font-weight:700;font-size:0.88rem;color:var(--text);">Pinned Resources (${pins.length})</span>
+          </div>
+          <span style="font-size:0.75rem;color:var(--text-muted);">Quick-access bookmarks saved in browser</span>
         </div>
-      </div>
-      <div class="pinned-grid">
-        ${pins.map((p) => `
-          <a href="${escHtml(p.url)}" class="card card-interactive">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-              <span class="badge badge-new">${escHtml(p.meta || 'Pinned')}</span>
+        <div class="pinned-horizontal-strip" style="display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x mandatory;">
+          ${pins.map((p) => `
+            <div class="pinned-chip-card" style="display:inline-flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:6px 10px;white-space:nowrap;flex-shrink:0;">
+              <a href="${escHtml(p.url)}" style="display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--text);font-size:0.82rem;font-weight:600;">
+                <span class="badge badge-subtle" style="font-size:0.7rem;padding:1px 5px;">${escHtml(p.meta || 'Resource')}</span>
+                <span>${escHtml(p.title)}</span>
+              </a>
               ${renderPinButton(p.id, p.title, p.url, p.meta || 'Pinned')}
             </div>
-            <div class="card-title">${escHtml(p.title)}</div>
-            <div class="card-meta"><span>Open resource ↗</span></div>
-          </a>
-        `).join('')}
+          `).join('')}
+        </div>
       </div>
     `;
   }
@@ -1291,15 +1293,852 @@
     });
   }
 
+  // =========================================================================
+  // Live Student Progress & Health Helpers (Attendance, SGPA, Streak)
+  // =========================================================================
+
+  function getLiveAttendanceData() {
+    try {
+      const raw = localStorage.getItem('scholargrid_attendance_data');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (typeof parsed === 'number') {
+          const pct = Math.min(100, Math.max(0, parsed));
+          const total = 50;
+          const attended = Math.round(total * (pct / 100));
+          const safe = pct >= 75;
+          const buffer = safe ? Math.floor((attended - 0.75 * total) / 0.75) : 0;
+          const needed = safe ? 0 : Math.ceil((0.75 * total - attended) / 0.25);
+          return { pct, attended, total, buffer, needed, safe };
+        }
+        if (parsed && typeof parsed === 'object') {
+          const pct = Number(parsed.pct ?? parsed.percentage ?? (parsed.total ? (parsed.attended / parsed.total) * 100 : 82));
+          const attended = Number(parsed.attended ?? 41);
+          const total = Number(parsed.total ?? 50);
+          const safe = pct >= 75;
+          const buffer = parsed.buffer !== undefined ? Number(parsed.buffer) : (safe ? Math.floor((attended - 0.75 * total) / 0.75) : 0);
+          const needed = safe ? 0 : Math.ceil((0.75 * total - attended) / 0.25);
+          return { pct, attended, total, buffer, needed, safe };
+        }
+      }
+    } catch (e) {}
+
+    // Fallback: Check scholargrid_attendance_v1 from tools
+    try {
+      const v1 = JSON.parse(localStorage.getItem('scholargrid_attendance_v1') || '{}');
+      const sems = Object.keys(v1);
+      if (sems.length > 0) {
+        let sumAttended = 0;
+        let sumTotal = 0;
+        sems.forEach((sem) => {
+          const subs = v1[sem] || {};
+          Object.values(subs).forEach((rec) => {
+            sumAttended += Math.max(0, Number(rec.attended) || 0);
+            sumTotal += Math.max(0, Number(rec.total) || 0);
+          });
+        });
+        if (sumTotal > 0) {
+          const pct = (sumAttended / sumTotal) * 100;
+          const safe = pct >= 75;
+          const buffer = safe ? Math.floor((sumAttended - 0.75 * sumTotal) / 0.75) : 0;
+          const needed = safe ? 0 : Math.ceil((0.75 * sumTotal - sumAttended) / 0.25);
+          return { pct, attended: sumAttended, total: sumTotal, buffer, needed, safe };
+        }
+      }
+    } catch (e) {}
+
+    // Default: 82% safe buffer
+    return { pct: 82.0, attended: 41, total: 50, buffer: 4, needed: 0, safe: true };
+  }
+
+  function getLiveSgpaData() {
+    try {
+      const raw = localStorage.getItem('scholargrid_sgpa_state');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (typeof parsed === 'number') {
+          return { current: parsed, target: 8.5, credits: 24, grade: parsed >= 9 ? 'O' : parsed >= 8 ? 'A+' : 'A' };
+        }
+        if (parsed && typeof parsed === 'object') {
+          const cur = Number(parsed.sgpa || parsed.current || 8.65);
+          const tgt = Number(parsed.target || 8.5);
+          const cred = Number(parsed.credits || 24);
+          const gr = parsed.grade || (cur >= 9 ? 'O (Outstanding)' : cur >= 8 ? 'A+ (Excellent)' : 'A (Very Good)');
+          return { current: cur, target: tgt, credits: cred, grade: gr };
+        }
+      }
+    } catch (e) {}
+
+    // Fallback: Check scholargrid_sgpa_v1
+    try {
+      const v1 = JSON.parse(localStorage.getItem('scholargrid_sgpa_v1') || '{}');
+      const sems = Object.keys(v1);
+      if (sems.length > 0) {
+        const sem = sems[sems.length - 1];
+        const semObj = v1[sem] || {};
+        let totalPts = 0;
+        let totalCreds = 0;
+        const creditsMap = (window.SCHOLAR_TOOLS_DATA && window.SCHOLAR_TOOLS_DATA.semesterCredits) || {};
+        const subList = creditsMap[sem] || [];
+        subList.forEach((sub) => {
+          const item = semObj[sub.code];
+          if (item && item.gp !== undefined) {
+            totalPts += Number(item.gp) * Number(sub.credits || 4);
+            totalCreds += Number(sub.credits || 4);
+          }
+        });
+        if (totalCreds > 0) {
+          const calculated = Number((totalPts / totalCreds).toFixed(2));
+          return {
+            current: calculated,
+            target: 8.5,
+            credits: totalCreds,
+            grade: calculated >= 9 ? 'O (Outstanding)' : calculated >= 8 ? 'A+ (Excellent)' : 'A (Very Good)'
+          };
+        }
+      }
+    } catch (e) {}
+
+    // Default: Target 8.5, current 8.65
+    return { current: 8.65, target: 8.5, credits: 24, grade: 'A+ (Excellent)' };
+  }
+
+  function getLiveStreakData() {
+    try {
+      const raw = localStorage.getItem('scholargrid_placement_streak');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        const todayStr = new Date().toISOString().slice(0, 10);
+        return {
+          count: Number(parsed.count || 0),
+          lastDate: parsed.lastDate || '',
+          isDoneToday: parsed.lastDate === todayStr
+        };
+      }
+    } catch (e) {}
+    return { count: 3, lastDate: '', isDoneToday: false };
+  }
+
+  // =========================================================================
+  // Live Student Widgets (Attendance, SGPA, Placement Streak)
+  // =========================================================================
+
+  function renderStudentWidgets() {
+    const container = document.getElementById('studentWidgetsRow');
+    if (!container) return;
+
+    const att = getLiveAttendanceData();
+    const sgpa = getLiveSgpaData();
+    const streak = getLiveStreakData();
+
+    // Circumference for r=24 is 2 * Math.PI * 24 ≈ 150.8
+    const circ = 150.8;
+    const attOffset = Math.max(0, circ - (circ * Math.min(100, att.pct)) / 100);
+    const sgpaOffset = Math.max(0, circ - (circ * Math.min(10, sgpa.current)) / 10);
+    const streakPct = streak.isDoneToday ? 100 : Math.min(100, Math.max(20, streak.count * 20));
+    const streakOffset = Math.max(0, circ - (circ * streakPct) / 100);
+
+    container.innerHTML = `
+      <div class="student-widgets-grid">
+        <!-- Widget 1: Attendance Health Meter (Emerald Accent) -->
+        <div class="widget-card widget-attendance">
+          <div class="widget-header">
+            <div class="widget-header-content">
+              <span class="widget-eyebrow">Statutory 75% Alert</span>
+              <h3 class="widget-title">Attendance Health</h3>
+            </div>
+            <div class="widget-icon emerald" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+          </div>
+
+          <div class="widget-radial-box">
+            <div class="widget-radial-circle">
+              <svg viewBox="0 0 58 58" aria-hidden="true">
+                <circle class="widget-radial-bg" cx="29" cy="29" r="24"></circle>
+                <circle class="widget-radial-bar emerald" cx="29" cy="29" r="24" stroke-dasharray="${circ}" stroke-dashoffset="${attOffset.toFixed(1)}"></circle>
+              </svg>
+              <div class="widget-radial-val">${att.pct.toFixed(0)}%</div>
+            </div>
+            <div class="widget-stat-group">
+              <div class="widget-stat-row">
+                <span class="widget-pill-badge ${att.safe ? 'safe' : 'warn'}">
+                  ${att.safe ? '● Buffer Safe' : '▲ Low Buffer'}
+                </span>
+              </div>
+              <div class="widget-stat-main">
+                <span class="widget-stat-value" style="font-size:1.45rem;">${att.safe ? `+${att.buffer} Safe` : `${att.needed} Needed`}</span>
+                <span class="widget-stat-unit">Classes</span>
+              </div>
+              <div class="widget-stat-label">${att.attended}/${att.total} Recorded Lectures</div>
+            </div>
+          </div>
+
+          <div class="widget-meter-wrap">
+            <div class="widget-meter-bar">
+              <div class="widget-meter-fill emerald" style="width:${Math.min(100, att.pct)}%;"></div>
+            </div>
+            <div class="widget-meter-meta">
+              <span>75% University Minimum</span>
+              <span>${att.safe ? 'Safe Buffer' : 'Action Required'}</span>
+            </div>
+          </div>
+
+          <div class="widget-actions">
+            <a href="resource.html#attendance-tracker" class="widget-btn widget-btn-primary">
+              <span>Track Attendance &amp; IA</span>
+              <span aria-hidden="true">→</span>
+            </a>
+            <span class="widget-stat-label" style="font-size:0.75rem;">Sem Active</span>
+          </div>
+        </div>
+
+        <!-- Widget 2: SGPA Target Tracker (Indigo Accent) -->
+        <div class="widget-card widget-sgpa">
+          <div class="widget-header">
+            <div class="widget-header-content">
+              <span class="widget-eyebrow">BCA NEP Framework</span>
+              <h3 class="widget-title">SGPA Tracker</h3>
+            </div>
+            <div class="widget-icon indigo" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+            </div>
+          </div>
+
+          <div class="widget-radial-box">
+            <div class="widget-radial-circle">
+              <svg viewBox="0 0 58 58" aria-hidden="true">
+                <circle class="widget-radial-bg" cx="29" cy="29" r="24"></circle>
+                <circle class="widget-radial-bar indigo" cx="29" cy="29" r="24" stroke-dasharray="${circ}" stroke-dashoffset="${sgpaOffset.toFixed(1)}"></circle>
+              </svg>
+              <div class="widget-radial-val">${sgpa.current.toFixed(2)}</div>
+            </div>
+            <div class="widget-stat-group">
+              <div class="widget-stat-row">
+                <span class="widget-pill-badge info">
+                  Target: ${sgpa.target.toFixed(1)} SGPA
+                </span>
+              </div>
+              <div class="widget-stat-main">
+                <span class="widget-stat-value" style="font-size:1.45rem;">${sgpa.grade}</span>
+              </div>
+              <div class="widget-stat-label">${sgpa.credits} Semester Credits Tracked</div>
+            </div>
+          </div>
+
+          <div class="widget-meter-wrap">
+            <div class="widget-meter-bar">
+              <div class="widget-meter-fill indigo" style="width:${Math.min(100, (sgpa.current / 10) * 100)}%;"></div>
+            </div>
+            <div class="widget-meter-meta">
+              <span>Scale: 10.0 Maximum</span>
+              <span>${sgpa.current >= sgpa.target ? 'Target Met ★' : 'On Track'}</span>
+            </div>
+          </div>
+
+          <div class="widget-actions">
+            <a href="resource.html#sgpa-calculator" class="widget-btn widget-btn-primary">
+              <span>Calculate &amp; Log Marks</span>
+              <span aria-hidden="true">→</span>
+            </a>
+            <span class="widget-stat-label" style="font-size:0.75rem;">Instant Math</span>
+          </div>
+        </div>
+
+        <!-- Widget 3: Daily Placement Streak (Amber Accent) -->
+        <div class="widget-card widget-streak">
+          <div class="widget-header">
+            <div class="widget-header-content">
+              <span class="widget-eyebrow">TCS NQT &amp; Infosys</span>
+              <h3 class="widget-title">Placement Streak</h3>
+            </div>
+            <div class="widget-icon amber" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            </div>
+          </div>
+
+          <div class="widget-radial-box">
+            <div class="widget-radial-circle">
+              <svg viewBox="0 0 58 58" aria-hidden="true">
+                <circle class="widget-radial-bg" cx="29" cy="29" r="24"></circle>
+                <circle class="widget-radial-bar amber" cx="29" cy="29" r="24" stroke-dasharray="${circ}" stroke-dashoffset="${streakOffset.toFixed(1)}"></circle>
+              </svg>
+              <div class="widget-radial-val">${streak.count}🔥</div>
+            </div>
+            <div class="widget-stat-group">
+              <div class="widget-stat-row">
+                <span class="widget-pill-badge streak">
+                  ${streak.isDoneToday ? 'Completed Today ✅' : `Day ${streak.count} Streak`}
+                </span>
+              </div>
+              <div class="widget-stat-main">
+                <span class="widget-stat-value" style="font-size:1.45rem;">${streak.isDoneToday ? '5/5 Done' : 'Daily 5'}</span>
+                <span class="widget-stat-unit">Today</span>
+              </div>
+              <div class="widget-stat-label">Core CS, DSA &amp; Aptitude</div>
+            </div>
+          </div>
+
+          <div class="widget-meter-wrap">
+            <div class="widget-meter-bar">
+              <div class="widget-meter-fill amber" style="width:${streak.isDoneToday ? 100 : Math.min(100, Math.max(20, streak.count * 20))}%;"></div>
+            </div>
+            <div class="widget-meter-meta">
+              <span>Placement Consistency</span>
+              <span>${streak.isDoneToday ? 'Streak Active' : 'Ready'}</span>
+            </div>
+          </div>
+
+          <div class="widget-actions">
+            <a href="${streak.isDoneToday ? 'resource.html#mcq-quiz' : 'resource.html?daily=1#mcq-quiz'}" class="widget-btn widget-btn-primary">
+              <span>${streak.isDoneToday ? 'Practice More MCQs' : '⚡ Start Daily 5'}</span>
+              <span aria-hidden="true">→</span>
+            </a>
+            <span class="widget-stat-label" style="font-size:0.75rem;">5 Mins</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // =========================================================================
+  // Active Semester Course Hub: Enrolled Semester Subjects Grid
+  // =========================================================================
+
+  function renderSemesterCourseHub(activeSem) {
+    const container = document.getElementById('semesterCoursesHub');
+    if (!container) return;
+
+    const savedFocus = getSemFocus();
+    let sem = activeSem || savedFocus;
+    if (sem === 'All' || !SEMESTERS.includes(sem)) {
+      sem = savedFocus !== 'All' ? savedFocus : 'Sem I';
+    }
+
+    const notesList = (DATA.notesBySemester && DATA.notesBySemester[sem]) || [];
+    const labsList = (DATA.labsBySemester && DATA.labsBySemester[sem]) || [];
+    const papersList = (DATA.previousPapersBySemester && DATA.previousPapersBySemester[sem]) || [];
+    const qbanksList = (DATA.importantQuestionsBySemester && DATA.importantQuestionsBySemester[sem]) || [];
+    const modelList = (DATA.modelPapersBySemester && DATA.modelPapersBySemester[sem]) || [];
+
+    // Combine courses into a unified list
+    const courses = [];
+    const seenCodes = new Set();
+
+    // 1. Process theory notes subjects
+    notesList.forEach((sub) => {
+      const code = sub.code || 'BCA';
+      seenCodes.add(code.toUpperCase());
+
+      // Find matching lab manual
+      let labPdf = '';
+      const matchingLab = labsList.find((l) => {
+        const lCode = (l.code || '').replace(/\D/g, '');
+        const sCode = code.replace(/\D/g, '');
+        return (lCode && sCode && lCode === sCode) || (l.name && sub.name && l.name.toLowerCase().includes(sub.name.toLowerCase().split(' ')[0]));
+      });
+      if (matchingLab && matchingLab.pdfs && matchingLab.pdfs[0]) {
+        labPdf = matchingLab.pdfs[0].url;
+      }
+
+      // Find matching previous paper or question bank or model paper
+      let qpPdf = '';
+      const matchingPaper = papersList.find((p) => (p.code && p.code.includes(code)) || (p.name && sub.name && p.name.toLowerCase().includes(sub.name.toLowerCase().split(' ')[0])));
+      if (matchingPaper && matchingPaper.pdfs && matchingPaper.pdfs[0]) {
+        qpPdf = matchingPaper.pdfs[0].url;
+      } else {
+        const matchingQBank = qbanksList.find((q) => (q.code && q.code.includes(code)) || (q.name && sub.name && q.name.toLowerCase().includes(sub.name.toLowerCase().split(' ')[0])));
+        if (matchingQBank && matchingQBank.pdfs && matchingQBank.pdfs[0]) {
+          qpPdf = matchingQBank.pdfs[0].url;
+        } else if (modelList && modelList[0] && modelList[0].pdfs && modelList[0].pdfs[0] && (modelList[0].name.toLowerCase().includes(sub.name.toLowerCase().split(' ')[0]))) {
+          qpPdf = modelList[0].pdfs[0].url;
+        }
+      }
+
+      const hasNotes = sub.pdfs && sub.pdfs.length > 0;
+      const notesPdf = hasNotes ? sub.pdfs[0].url : '';
+      const unitCount = sub.pdfs ? sub.pdfs.length : 0;
+
+      courses.push({
+        id: `course-${sem}-${code}`,
+        code: code,
+        name: sub.name,
+        type: 'Theory Course',
+        credits: code === 'AECC' ? '2 Credits' : '4 Credits',
+        unitCount: unitCount,
+        notesUrl: notesPdf || 'resource.html#notes',
+        hasNotes: hasNotes,
+        labUrl: labPdf || 'resource.html#lab-manuals',
+        hasLab: !!labPdf,
+        qpUrl: qpPdf || 'resource.html#previous-papers',
+        hasQp: !!qpPdf
+      });
+    });
+
+    // 2. Process any lab courses not yet covered
+    labsList.forEach((lab) => {
+      const code = lab.code || 'BCAP';
+      if (!seenCodes.has(code.toUpperCase())) {
+        seenCodes.add(code.toUpperCase());
+        const hasLabPdf = lab.pdfs && lab.pdfs.length > 0;
+        const labPdf = hasLabPdf ? lab.pdfs[0].url : '';
+
+        // Check if matching Q-bank exists
+        const matchingQBank = qbanksList.find((q) => q.code && q.code.includes(code));
+        const qpPdf = matchingQBank && matchingQBank.pdfs && matchingQBank.pdfs[0] ? matchingQBank.pdfs[0].url : '';
+
+        courses.push({
+          id: `course-lab-${sem}-${code}`,
+          code: code,
+          name: lab.name,
+          type: 'Practical Lab',
+          credits: '2 Credits',
+          unitCount: 0,
+          notesUrl: 'resource.html#notes',
+          hasNotes: false,
+          labUrl: labPdf || 'resource.html#lab-manuals',
+          hasLab: hasLabPdf,
+          qpUrl: qpPdf || 'resource.html#previous-papers',
+          hasQp: !!qpPdf
+        });
+      }
+    });
+
+    container.innerHTML = `
+      <div class="section-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <h2 class="section-title" style="margin:0;">Enrolled Semester Courses</h2>
+            <span class="badge" id="courseHubSemBadge" style="background:rgba(79,70,229,0.1);color:#4f46e5;font-weight:700;">${escHtml(sem)}</span>
+          </div>
+          <p class="section-subtitle" style="margin:4px 0 0;">
+            1-click access to official unit notes, practical lab manuals, and university question papers
+          </p>
+        </div>
+
+        <div class="segmented-control course-hub-sem-pills" role="tablist" aria-label="Course Hub Semester Filter">
+          ${SEMESTERS.map((s) => `
+            <button type="button" class="segment-btn ${s === sem ? 'active' : ''}" data-hub-sem="${escHtml(s)}">${escHtml(s)}</button>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="course-hub-grid">
+        ${courses.map((c) => `
+          <div class="course-card">
+            <div class="course-card-top">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                <span class="course-code-badge">${escHtml(c.code)}</span>
+                <span class="credit-badge">${escHtml(c.credits)}</span>
+              </div>
+              ${renderPinButton(c.id, `${c.name} (${c.code})`, c.notesUrl, `${sem} • Course`)}
+            </div>
+
+            <div>
+              <h3 class="course-title course-card-title">${escHtml(c.name)}</h3>
+              <p class="course-desc course-card-desc">
+                ${c.unitCount > 0 ? `${c.unitCount} Unit Lecture PDFs Available` : (c.type === 'Practical Lab' ? 'Official Laboratory Programs & Viva Manual' : 'Syllabus & Course Study Materials')}
+              </p>
+            </div>
+
+            <div class="course-actions-row course-action-pills">
+              <a href="${escHtml(c.notesUrl)}" class="course-action-pill ${c.hasNotes ? 'has-doc' : 'disabled'}" ${c.hasNotes ? '' : 'title="View notes in library"'}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+                <span>${c.hasNotes ? 'Unit Notes (PDF)' : 'Notes Library'}</span>
+              </a>
+
+              <a href="${escHtml(c.labUrl)}" class="course-action-pill ${c.hasLab ? 'has-doc' : 'disabled'}" ${c.hasLab ? '' : 'title="View lab manuals"'}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                <span>${c.hasLab ? 'Lab Manual' : 'Labs'}</span>
+              </a>
+
+              <a href="${escHtml(c.qpUrl)}" class="course-action-pill ${c.hasQp ? 'has-doc' : 'disabled'}" ${c.hasQp ? '' : 'title="View question papers"'}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <span>${c.hasQp ? 'Model QP' : 'Question Bank'}</span>
+              </a>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // Connect pill switches inside the course hub
+    container.querySelectorAll('[data-hub-sem]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const nextSem = btn.getAttribute('data-hub-sem');
+        setSemFocus(nextSem);
+
+        // Sync with Hero Pills
+        const heroPills = document.getElementById('heroSemPills');
+        if (heroPills) {
+          heroPills.querySelectorAll('.segment-btn').forEach((b) => {
+            b.classList.toggle('active', b.getAttribute('data-sem') === nextSem);
+          });
+        }
+        const topSelect = document.getElementById('semFocusSelect');
+        if (topSelect) topSelect.value = nextSem;
+        const semBadge = document.getElementById('headerSemBadge');
+        if (semBadge) semBadge.textContent = nextSem === 'All' ? 'All Semesters' : nextSem;
+
+        renderSemesterCourseHub(nextSem);
+      });
+    });
+  }
+
+  // =========================================================================
+  // Command Palette Spotlight Modal (⌘K / Ctrl+K / /)
+  // =========================================================================
+
+  function initCommandPalette() {
+    const modal = document.getElementById('commandPaletteModal');
+    const input = document.getElementById('cmdPaletteInput');
+    const resultsContainer = document.getElementById('cmdPaletteResults');
+    const triggerBar = document.getElementById('commandTriggerBar');
+    const moduleSearch = document.getElementById('moduleSearch');
+    if (!modal || !input || !resultsContainer) return;
+
+    let itemsIndex = [];
+    let activeFiltered = [];
+    let selectedIndex = 0;
+
+    function buildIndex() {
+      if (itemsIndex.length > 0) return itemsIndex;
+      const list = [];
+
+      // 1. Productivity Tools
+      list.push(
+        {
+          id: 'tool-mcq',
+          title: 'Daily 5 Placement Challenge',
+          desc: 'TCS NQT & Infosys recruitment pattern practice questions',
+          category: 'Tools',
+          badge: 'Daily Challenge',
+          url: 'resource.html?daily=1#mcq-quiz',
+          icon: 'mcq-quiz',
+          keywords: 'daily streak mcq quiz placement test questions practice'
+        },
+        {
+          id: 'tool-sgpa',
+          title: 'SGPA & CGPA Calculator',
+          desc: 'Instant university GPA calculator with pre-loaded BCA NEP credits',
+          category: 'Tools',
+          badge: 'Calculator',
+          url: 'resource.html#sgpa-calculator',
+          icon: 'sgpa-calculator',
+          keywords: 'sgpa cgpa gpa calculator marks credits grades'
+        },
+        {
+          id: 'tool-attendance',
+          title: 'Attendance & 75% Safe Buffer Tracker',
+          desc: 'Track statutory attendance, safe-to-miss lecture buffer & internal test marks',
+          category: 'Tools',
+          badge: 'Buffer Monitor',
+          url: 'resource.html#attendance-tracker',
+          icon: 'attendance-tracker',
+          keywords: 'attendance 75 percent safe buffer classes present absent'
+        },
+        {
+          id: 'tool-resume',
+          title: 'ATS Resume Builder (Harvard Standard)',
+          desc: 'Single-page technical resume builder with instant PDF export',
+          category: 'Tools',
+          badge: 'Resume',
+          url: 'resource.html#resume-builder',
+          icon: 'resume-builder',
+          keywords: 'resume cv builder harvard ats job placement'
+        }
+      );
+
+      // 2. All 20 Modules
+      (DATA.modules || []).forEach((m) => {
+        list.push({
+          id: `mod-${m.id}`,
+          title: m.title,
+          desc: m.desc,
+          category: 'Modules',
+          badge: m.badge || 'Module',
+          url: `resource.html#${m.id}`,
+          icon: m.id,
+          keywords: `${m.title} ${m.desc} ${m.badge} module`
+        });
+      });
+
+      // 3. Semester Notes & PDFs
+      const notesMap = DATA.notesBySemester || {};
+      Object.keys(notesMap).forEach((sem) => {
+        (notesMap[sem] || []).forEach((sub) => {
+          if (sub.pdfs && sub.pdfs.length) {
+            sub.pdfs.forEach((p) => {
+              list.push({
+                id: `pdf-${sem}-${sub.code}-${p.label}`,
+                title: `${sub.name} — ${p.label}`,
+                desc: `${sem} • ${sub.code} lecture notes PDF`,
+                category: 'Notes (PDF)',
+                badge: sem,
+                url: p.url,
+                icon: 'notes',
+                isPdf: true,
+                keywords: `${sem} ${sub.code} ${sub.name} ${p.label} notes pdf unit`
+              });
+            });
+          } else {
+            list.push({
+              id: `sub-${sem}-${sub.code}`,
+              title: `${sub.name} (${sub.code})`,
+              desc: `${sem} syllabus & study materials`,
+              category: 'Subjects',
+              badge: sem,
+              url: 'resource.html#notes',
+              icon: 'notes',
+              keywords: `${sem} ${sub.code} ${sub.name} notes subject`
+            });
+          }
+        });
+      });
+
+      // 4. Lab Manuals
+      const labsMap = DATA.labsBySemester || {};
+      Object.keys(labsMap).forEach((sem) => {
+        (labsMap[sem] || []).forEach((lab) => {
+          const pdfUrl = lab.pdfs && lab.pdfs[0] ? lab.pdfs[0].url : '';
+          list.push({
+            id: `lab-${sem}-${lab.code}`,
+            title: `${lab.name} (${lab.code})`,
+            desc: `${sem} practical lab manual & programs`,
+            category: 'Lab Manuals',
+            badge: sem,
+            url: pdfUrl || 'resource.html#lab-manuals',
+            icon: 'lab-manuals',
+            isPdf: !!pdfUrl,
+            keywords: `${sem} ${lab.code} ${lab.name} lab manual practical viva`
+          });
+        });
+      });
+
+      // 5. Question Papers & Important Questions
+      const papersMap = DATA.previousPapersBySemester || {};
+      Object.keys(papersMap).forEach((sem) => {
+        (papersMap[sem] || []).forEach((qp) => {
+          if (qp.pdfs && qp.pdfs.length) {
+            qp.pdfs.forEach((p) => {
+              list.push({
+                id: `qp-${sem}-${qp.code}-${p.label}`,
+                title: `${qp.name} — ${p.label}`,
+                desc: `${sem} university exam paper PDF`,
+                category: 'Question Papers',
+                badge: sem,
+                url: p.url,
+                icon: 'previous-papers',
+                isPdf: true,
+                keywords: `${sem} ${qp.code} ${qp.name} ${p.label} qp paper exam`
+              });
+            });
+          }
+        });
+      });
+
+      // 6. Roadmaps
+      (DATA.roadmaps || []).forEach((rm) => {
+        list.push({
+          id: `rm-${rm.id}`,
+          title: `${rm.title} Roadmap`,
+          desc: `Interactive skills checklist: ${(rm.skills || []).slice(0, 3).join(', ')}...`,
+          category: 'Career',
+          badge: 'Roadmap',
+          url: 'resource.html#roadmaps',
+          icon: 'roadmaps',
+          keywords: `${rm.title} roadmap skills career track`
+        });
+      });
+
+      itemsIndex = list;
+      return itemsIndex;
+    }
+
+    function openPalette() {
+      buildIndex();
+      modal.style.display = 'flex';
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      input.value = '';
+      selectedIndex = 0;
+      renderResults('');
+      setTimeout(() => input.focus(), 50);
+    }
+
+    function closePalette() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+      if (moduleSearch) moduleSearch.blur();
+    }
+
+    function highlightText(text, query) {
+      if (!query) return escHtml(text);
+      const q = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`(${q})`, 'gi');
+      return escHtml(text).replace(regex, '<mark style="background:rgba(79,70,229,0.15);color:#4338ca;padding:0 2px;border-radius:3px;">$1</mark>');
+    }
+
+    function renderResults(q) {
+      const query = (q || '').trim().toLowerCase();
+      const all = buildIndex();
+
+      if (!query) {
+        // Show top 8 quick recommendations
+        activeFiltered = all.slice(0, 8);
+      } else {
+        const terms = query.split(/\s+/).filter(Boolean);
+        activeFiltered = all.filter((item) => {
+          const haystack = `${item.title} ${item.desc} ${item.category} ${item.badge} ${item.keywords}`.toLowerCase();
+          return terms.every((t) => haystack.includes(t));
+        }).slice(0, 16);
+      }
+
+      if (selectedIndex >= activeFiltered.length) {
+        selectedIndex = Math.max(0, activeFiltered.length - 1);
+      }
+
+      if (!activeFiltered.length) {
+        resultsContainer.innerHTML = `
+          <div class="cmd-palette-empty">
+            <div style="font-weight:600;margin-bottom:4px;">No matching results</div>
+            <div style="font-size:0.82rem;">Try searching for "Notes", "DBMS", "SGPA", "Lab", or "Resume"</div>
+          </div>
+        `;
+        return;
+      }
+
+      resultsContainer.innerHTML = activeFiltered.map((item, idx) => `
+        <div class="cmd-palette-item ${idx === selectedIndex ? 'active' : ''}" data-cmd-index="${idx}" role="option" aria-selected="${idx === selectedIndex}">
+          <div class="cmd-palette-item-left">
+            <div class="cmd-palette-item-icon">${getIcon(item.icon || 'notes')}</div>
+            <div style="min-width:0;">
+              <span class="cmd-palette-item-title">${highlightText(item.title, query)}</span>
+              <span class="cmd-palette-item-subtitle">${escHtml(item.desc)}</span>
+            </div>
+          </div>
+          <span class="cmd-badge">${escHtml(item.badge || item.category)}</span>
+        </div>
+      `).join('');
+
+      const activeEl = resultsContainer.querySelector('.cmd-palette-item.active');
+      if (activeEl) {
+        activeEl.scrollIntoView({ block: 'nearest' });
+      }
+    }
+
+    function selectItem(idx) {
+      const item = activeFiltered[idx];
+      if (!item) return;
+
+      closePalette();
+
+      if (item.isPdf || (item.url && /\.pdf($|\?|#)/i.test(item.url))) {
+        const titleEl = document.getElementById('pdfModalTitle');
+        const frame = document.getElementById('pdfViewerFrame');
+        const downloadBtn = document.getElementById('pdfDownloadBtn');
+        const pdfModal = document.getElementById('pdfViewerModal');
+        if (pdfModal && frame && titleEl && downloadBtn) {
+          titleEl.textContent = item.title;
+          downloadBtn.setAttribute('href', item.url);
+          const filename = decodeURIComponent(item.url.split('/').pop().split('?')[0] || 'document.pdf');
+          downloadBtn.setAttribute('download', filename);
+          frame.setAttribute('src', item.url);
+          pdfModal.classList.add('open');
+          return;
+        }
+      }
+
+      window.location.href = item.url;
+    }
+
+    input.addEventListener('input', (e) => {
+      selectedIndex = 0;
+      renderResults(e.target.value);
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (activeFiltered.length > 0) {
+          selectedIndex = (selectedIndex + 1) % activeFiltered.length;
+          renderResults(input.value);
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (activeFiltered.length > 0) {
+          selectedIndex = (selectedIndex - 1 + activeFiltered.length) % activeFiltered.length;
+          renderResults(input.value);
+        }
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        selectItem(selectedIndex);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        closePalette();
+      }
+    });
+
+    resultsContainer.addEventListener('click', (e) => {
+      const row = e.target.closest('.cmd-palette-item');
+      if (row) {
+        const idx = Number(row.getAttribute('data-cmd-index'));
+        selectItem(idx);
+      }
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closePalette();
+      }
+    });
+
+    // Global Keydown Listeners for ⌘K / Ctrl+K / /
+    document.addEventListener('keydown', (e) => {
+      const isInput = ['input', 'textarea', 'select'].includes(document.activeElement?.tagName?.toLowerCase());
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        openPalette();
+      } else if (e.key === '/' && !isInput) {
+        e.preventDefault();
+        openPalette();
+      } else if (e.key === 'Escape' && modal.classList.contains('open')) {
+        closePalette();
+      }
+    });
+
+    if (triggerBar) {
+      triggerBar.addEventListener('click', (e) => {
+        e.preventDefault();
+        openPalette();
+      });
+    }
+
+    if (moduleSearch) {
+      moduleSearch.addEventListener('focus', (e) => {
+        e.preventDefault();
+        openPalette();
+      });
+    }
+  }
+
+  // =========================================================================
+  // Workspace Dashboard Initialization
+  // =========================================================================
+
   function initHomePage() {
     renderSidebar(null);
     renderTopbar('Dashboard', false, (sem) => {
       renderRecentUploads(sem);
+      renderSemesterCourseHub(sem);
       const badgeEl = document.getElementById('headerSemBadge');
       if (badgeEl) badgeEl.textContent = sem === 'All' ? 'All Semesters' : sem;
       const semPills = document.getElementById('heroSemPills');
       if (semPills) {
-        semPills.querySelectorAll('.segment-btn').forEach(b => {
+        semPills.querySelectorAll('.segment-btn').forEach((b) => {
           b.classList.toggle('active', b.getAttribute('data-sem') === sem);
         });
       }
@@ -1307,7 +2146,12 @@
     renderFooter();
     mountHelpWidget();
     renderPinnedSection();
+    renderStudentWidgets();
+
+    const focusSem = getSemFocus();
+    renderSemesterCourseHub(focusSem);
     renderToolsBento();
+    initCommandPalette();
 
     const grid = document.getElementById('modulesGrid');
     const searchInput = document.getElementById('moduleSearch');
@@ -1315,7 +2159,6 @@
     const uploadsList = document.getElementById('uploadsList');
     const semBadge = document.getElementById('headerSemBadge');
 
-    const focusSem = getSemFocus();
     if (semBadge) semBadge.textContent = focusSem === 'All' ? 'All Semesters' : focusSem;
 
     // 4 Core Productivity Tools Bento Showcase
@@ -1367,7 +2210,7 @@
         }
       ];
 
-      bentoEl.innerHTML = tools.map(t => `
+      bentoEl.innerHTML = tools.map((t) => `
         <a href="resource.html#${t.id}${t.param}" class="tool-bento-card">
           <div>
             <div class="tool-bento-top">
@@ -1394,12 +2237,13 @@
     let activeCategoryTab = 'all';
 
     function renderModules(filter = '', catTab = 'all') {
+      if (!grid) return;
       const q = filter.trim().toLowerCase();
       let items = DATA.modules;
 
       if (catTab && catTab !== 'all' && categoryModuleMap[catTab]) {
         const allowed = new Set(categoryModuleMap[catTab]);
-        items = items.filter(m => allowed.has(m.id));
+        items = items.filter((m) => allowed.has(m.id));
       }
 
       if (q) {
@@ -1481,26 +2325,77 @@
     // Hero Semester Pills Switching
     const semPills = document.getElementById('heroSemPills');
     if (semPills) {
-      semPills.querySelectorAll('.segment-btn').forEach(btn => {
+      semPills.querySelectorAll('.segment-btn').forEach((btn) => {
         btn.classList.toggle('active', btn.getAttribute('data-sem') === focusSem);
         btn.addEventListener('click', () => {
           const chosen = btn.getAttribute('data-sem');
           setSemFocus(chosen);
-          semPills.querySelectorAll('.segment-btn').forEach(b => b.classList.toggle('active', b === btn));
+          semPills.querySelectorAll('.segment-btn').forEach((b) => b.classList.toggle('active', b === btn));
           const topSelect = document.getElementById('semFocusSelect');
           if (topSelect) topSelect.value = chosen;
           if (semBadge) semBadge.textContent = chosen === 'All' ? 'All Semesters' : chosen;
           renderRecentUploads(chosen);
+          renderSemesterCourseHub(chosen);
         });
       });
+    }
+
+    // Quick Filter Chips Handling
+    const quickChips = document.getElementById('quickFilterChips');
+    if (quickChips) {
+      quickChips.querySelectorAll('.quick-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          quickChips.querySelectorAll('.quick-chip').forEach((c) => c.classList.remove('active'));
+          chip.classList.add('active');
+          const type = chip.getAttribute('data-chip');
+          if (type === 'all') {
+            activeCategoryTab = 'all';
+            syncCatNav('all');
+            renderModules('', 'all');
+          } else if (type === 'notes') {
+            activeCategoryTab = 'academics';
+            syncCatNav('academics');
+            renderModules('notes', 'academics');
+            const hub = document.getElementById('semesterCoursesHub');
+            if (hub) hub.scrollIntoView({ behavior: 'smooth' });
+          } else if (type === 'labs') {
+            activeCategoryTab = 'academics';
+            syncCatNav('academics');
+            renderModules('lab', 'academics');
+            const hub = document.getElementById('semesterCoursesHub');
+            if (hub) hub.scrollIntoView({ behavior: 'smooth' });
+          } else if (type === 'papers') {
+            activeCategoryTab = 'academics';
+            syncCatNav('academics');
+            renderModules('paper', 'academics');
+            const hub = document.getElementById('semesterCoursesHub');
+            if (hub) hub.scrollIntoView({ behavior: 'smooth' });
+          } else if (type === 'sgpa') {
+            window.location.href = 'resource.html#sgpa-calculator';
+          } else if (type === 'attendance') {
+            window.location.href = 'resource.html#attendance-tracker';
+          } else if (type === 'streak') {
+            window.location.href = 'resource.html?daily=1#mcq-quiz';
+          }
+        });
+      });
+    }
+
+    function syncCatNav(tabKey) {
+      const catTabs = document.getElementById('categoryTabsNav');
+      if (catTabs) {
+        catTabs.querySelectorAll('.segment-btn').forEach((btn) => {
+          btn.classList.toggle('active', btn.getAttribute('data-cat-tab') === tabKey);
+        });
+      }
     }
 
     // Category Tabs Pill Navigation
     const catTabs = document.getElementById('categoryTabsNav');
     if (catTabs) {
-      catTabs.querySelectorAll('.segment-btn').forEach(btn => {
+      catTabs.querySelectorAll('.segment-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
-          catTabs.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
+          catTabs.querySelectorAll('.segment-btn').forEach((b) => b.classList.remove('active'));
           btn.classList.add('active');
           activeCategoryTab = btn.getAttribute('data-cat-tab');
           renderModules(searchInput?.value || '', activeCategoryTab);
@@ -1509,20 +2404,6 @@
     }
 
     renderModules();
-
-    // Command Search Input & Keyboard Shortcuts
-    if (searchInput) {
-      searchInput.addEventListener('input', (e) => renderModules(e.target.value, activeCategoryTab));
-      document.addEventListener('keydown', (e) => {
-        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-          e.preventDefault();
-          searchInput.focus();
-        } else if (e.key === '/' && document.activeElement !== searchInput && !['input', 'textarea'].includes(document.activeElement?.tagName?.toLowerCase())) {
-          e.preventDefault();
-          searchInput.focus();
-        }
-      });
-    }
 
     if (noticesList) {
       async function renderNoticesWithAdminAnnouncements() {
@@ -1533,7 +2414,7 @@
           } catch {}
         }
 
-        const customNotices = (broadcastAnnouncements || []).map(ann => ({
+        const customNotices = (broadcastAnnouncements || []).map((ann) => ({
           title: ann.title,
           summary: ann.body,
           tag: ann.tag || 'Notice',
@@ -1563,7 +2444,18 @@
     }
 
     renderRecentUploads(focusSem);
-    window.addEventListener('scholargrid:streak-updated', renderToolsBento);
+
+    // Dynamic Reactive Event Listeners for Live Widgets
+    window.addEventListener('scholargrid:attendance-updated', renderStudentWidgets);
+    window.addEventListener('scholargrid:sgpa-updated', renderStudentWidgets);
+    window.addEventListener('scholargrid:streak-updated', () => {
+      renderStudentWidgets();
+      renderToolsBento();
+    });
+    window.addEventListener('storage', () => {
+      renderStudentWidgets();
+      renderPinnedSection();
+    });
   }
 
 
@@ -2007,53 +2899,14 @@ function renderCardDirectory(container, modId) {
       if (!isLocalPdf) return;
 
       e.preventDefault();
-      const card = link.closest('.card');
-      const cardTitle = card ? card.querySelector('.card-title')?.textContent?.trim() : '';
+      const card = link.closest('.card, .course-card');
+      const cardTitle = card ? (card.querySelector('.card-title, .course-card-title')?.textContent?.trim()) : '';
       const linkText = link.textContent.replace(/[📄↗]/g, '').trim();
       const title = cardTitle && linkText && cardTitle !== linkText
         ? `${cardTitle} — ${linkText}`
         : (cardTitle || linkText || 'PDF Document');
       openPdfModal(href, title);
     });
-  }
-
-  function initSplashScreen() {
-    const splash = document.getElementById('splashScreen');
-    if (!splash) return;
-
-    // Check if splash was already dismissed in this browser session
-    const shown = sessionStorage.getItem('scholargrid_splash_shown');
-    if (shown) {
-      splash.remove();
-      return;
-    }
-
-    const dismiss = () => {
-      if (!splash.parentElement) return;
-      splash.classList.add('fade-out');
-      sessionStorage.setItem('scholargrid_splash_shown', 'true');
-      setTimeout(() => {
-        if (splash.parentElement) splash.remove();
-      }, 520);
-    };
-
-    // Auto dismiss after 1.8s
-    const timer = setTimeout(dismiss, 1800);
-
-    // Immediate dismiss on click or skip button
-    splash.addEventListener('click', () => {
-      clearTimeout(timer);
-      dismiss();
-    });
-
-    const skipBtn = document.getElementById('skipSplashBtn');
-    if (skipBtn) {
-      skipBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        clearTimeout(timer);
-        dismiss();
-      });
-    }
   }
 
   window.addEventListener('hashchange', () => {
@@ -2063,7 +2916,6 @@ function renderCardDirectory(container, modId) {
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    initSplashScreen();
     mountPdfViewer();
     const page = document.body.dataset.page;
     if (page === 'home') {

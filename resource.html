@@ -9,6 +9,91 @@
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#4f46e5" />
   <link rel="stylesheet" href="styles/main.css" />
+  <style>
+    /* Sticky Topbar & Sidebar layout guarantees */
+    .app-shell {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+    }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      z-index: 60;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 45;
+    }
+
+    /* Clean Modern Breadcrumbs */
+    .breadcrumbs-wrap {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .breadcrumbs-nav {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 10px;
+      background: var(--bg-card, #ffffff);
+      border: 1px solid var(--border, #e2e8f0);
+      font-size: 0.82rem;
+      color: var(--text-muted, #475569);
+    }
+    .breadcrumb-link {
+      color: var(--text-muted, #475569);
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.15s ease;
+    }
+    .breadcrumb-link:hover {
+      color: var(--primary, #4f46e5);
+    }
+    .breadcrumb-sep {
+      color: var(--text-soft, #94a3b8);
+      font-size: 0.75rem;
+      user-select: none;
+    }
+    .breadcrumb-cat {
+      color: var(--text-muted, #475569);
+      font-weight: 500;
+    }
+    .breadcrumb-active {
+      color: var(--text, #0f172a);
+      font-weight: 700;
+      background: var(--bg-card-hover, #f1f5f9);
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border, #e2e8f0);
+    }
+
+    /* PDF Viewer In-App Modal High Elevation (Zero Z-Index Conflicts) */
+    #pdfViewerModal.modal-backdrop {
+      z-index: 9999 !important;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    #pdfViewerModal .pdf-modal {
+      z-index: 10000 !important;
+      position: relative;
+      max-width: 1040px;
+      width: 95vw;
+      height: 90vh;
+      box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35);
+      border: 1px solid var(--border, #e2e8f0);
+      border-radius: 18px;
+    }
+  </style>
 </head>
 <body data-page="resource">
   <div id="appShell" class="app-shell">
@@ -18,7 +103,21 @@
     <div class="main-content">
       <header id="topbar" class="topbar"></header>
 
-      <main class="container" style="padding:32px 24px 48px;flex:1;">
+      <main class="container" style="padding:28px 24px 48px;flex:1;">
+        <!-- Clean Modern Breadcrumbs Navigation -->
+        <div class="breadcrumbs-wrap">
+          <nav id="resourceBreadcrumbs" class="breadcrumbs-nav" aria-label="Breadcrumb">
+            <a href="index.html" class="breadcrumb-link">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <span>Dashboard</span>
+            </a>
+            <span class="breadcrumb-sep">/</span>
+            <span id="breadcrumbCategory" class="breadcrumb-cat">Academics</span>
+            <span class="breadcrumb-sep">/</span>
+            <span id="breadcrumbTitle" class="breadcrumb-active">Resource</span>
+          </nav>
+        </div>
+
         <div id="moduleHeader" class="section-header" style="margin-bottom:24px;"></div>
         <div id="moduleContent"></div>
       </main>
@@ -38,5 +137,53 @@
   <script src="scripts/tools-data.js"></script>
   <script src="scripts/tools.js"></script>
   <script src="scripts/app.js"></script>
+  <script>
+    (function () {
+      const CATEGORY_MAP = {
+        'notes': 'Academics',
+        'lab-manuals': 'Academics',
+        'previous-papers': 'Academics',
+        'important-questions': 'Academics',
+        'model-papers': 'Academics',
+        'syllabus': 'Academics',
+        'ebooks': 'Academics',
+        'sgpa-calculator': 'Productivity Tools',
+        'attendance-tracker': 'Productivity Tools',
+        'resume-builder': 'Productivity Tools',
+        'mcq-quiz': 'Productivity Tools',
+        'roadmaps': 'Career & Tech',
+        'certifications': 'Career & Tech',
+        'ai-tools': 'Career & Tech',
+        'learning-platforms': 'Career & Tech',
+        'placement-cell': 'Career & Tech',
+        'career-development': 'Career & Tech',
+        'video-tutorials': 'Career & Tech',
+        'exam-announcements': 'University Notices',
+        'notices': 'University Notices'
+      };
+
+      function updateBreadcrumbs() {
+        const catEl = document.getElementById('breadcrumbCategory');
+        const titleEl = document.getElementById('breadcrumbTitle');
+        if (!catEl || !titleEl) return;
+
+        const params = new URLSearchParams(window.location.search);
+        const rawHash = window.location.hash.replace(/^#/, '');
+        const hashId = rawHash.split('?')[0].split('&')[0];
+        const moduleId = hashId || params.get('module') || 'notes';
+
+        const modules = window.SCHOLAR_DATA?.modules || [];
+        const mod = modules.find(m => m.id === moduleId) || modules[0] || { title: 'Resource' };
+
+        const cat = CATEGORY_MAP[moduleId] || 'Academics';
+        catEl.textContent = cat;
+        titleEl.textContent = mod.title || 'Resource';
+      }
+
+      window.addEventListener('hashchange', updateBreadcrumbs);
+      window.addEventListener('DOMContentLoaded', updateBreadcrumbs);
+      setTimeout(updateBreadcrumbs, 50);
+    })();
+  </script>
 </body>
 </html>
