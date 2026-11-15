@@ -132,18 +132,15 @@
     section.innerHTML = `
       <div class="section-header">
         <div>
-          <h2 class="section-title" style="display:flex;align-items:center;gap:8px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            <span>Pinned &amp; Favorite Notes</span>
-          </h2>
+          <h2 class="section-title">★ Pinned &amp; Favorite Notes</h2>
           <p class="section-subtitle">Quick access to your bookmarked PDFs and subjects</p>
         </div>
       </div>
       <div class="pinned-grid">
         ${pins.map((p) => `
-          <a href="${escHtml(p.url)}" class="card card-interactive pinned-card">
+          <a href="${escHtml(p.url)}" class="card card-interactive">
             <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-              <span class="badge badge-subtle" style="color:var(--primary);">${escHtml(p.meta || 'Pinned')}</span>
+              <span class="badge badge-new">${escHtml(p.meta || 'Pinned')}</span>
               ${renderPinButton(p.id, p.title, p.url, p.meta || 'Pinned')}
             </div>
             <div class="card-title">${escHtml(p.title)}</div>
@@ -1221,11 +1218,7 @@
     fab.id = 'helpFab';
     fab.className = 'help-fab';
     fab.type = 'button';
-    fab.innerHTML = `
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      <span>Support</span>
-    `;
-    fab.setAttribute('aria-label', 'Student Support & Notes Submission');
+    fab.textContent = '💬 Need help?';
 
     const modal = document.createElement('div');
     modal.className = 'modal-backdrop';
@@ -1344,7 +1337,6 @@
           id: 'mcq-quiz',
           title: 'Placement MCQ Engine',
           badge: isDoneToday ? `🔥 Day ${streakCount} Done` : (streakCount > 0 ? `🔥 Day ${streakCount} Streak` : 'Daily 5 Practice'),
-          badgeClass: 'badge-tool-mcq',
           desc: 'Timed TCS NQT &amp; Infosys recruitment mock tests with GATE-style question palette &amp; instant feedback.',
           action: isDoneToday ? 'Practice More Questions →' : 'Start Daily 5 Questions →',
           param: isDoneToday ? '' : '?daily=1'
@@ -1353,7 +1345,6 @@
           id: 'sgpa-calculator',
           title: 'SGPA &amp; CGPA Calculator',
           badge: 'Instant Math',
-          badgeClass: 'badge-tool-sgpa',
           desc: 'Pre-loaded BCA credits with internal marks entry, grade point estimation, and Firestore cloud sync.',
           action: 'Calculate SGPA →',
           param: ''
@@ -1362,7 +1353,6 @@
           id: 'attendance-tracker',
           title: 'Attendance &amp; IA Tracker',
           badge: '75% Statutory Alert',
-          badgeClass: 'badge-tool-att',
           desc: 'Track subject attendance, calculate safe-to-miss lecture buffer, and log internal test assessments.',
           action: 'Track Attendance →',
           param: ''
@@ -1371,7 +1361,6 @@
           id: 'resume-builder',
           title: 'ATS Resume Builder',
           badge: 'Harvard Standard',
-          badgeClass: 'badge-tool-res',
           desc: 'Single-page technical resume builder with pre-configured BCA project templates and instant PDF print.',
           action: 'Build Resume →',
           param: ''
@@ -1379,13 +1368,13 @@
       ];
 
       bentoEl.innerHTML = tools.map(t => `
-        <a href="resource.html#${t.id}${t.param}" class="tool-bento-card" data-tool="${t.id}">
+        <a href="resource.html#${t.id}${t.param}" class="tool-bento-card">
           <div>
             <div class="tool-bento-top">
-              <div class="tool-bento-icon tool-icon-${t.id}">${getIcon(t.id)}</div>
-              <span class="badge ${t.badgeClass}">${t.badge}</span>
+              <div class="tool-bento-icon">${getIcon(t.id)}</div>
+              <span class="badge badge-subtle">${t.badge}</span>
             </div>
-            <div class="tool-bento-title" style="margin-top:14px;">${t.title}</div>
+            <div class="tool-bento-title" style="margin-top:12px;">${t.title}</div>
             <div class="tool-bento-desc">${t.desc}</div>
           </div>
           <div class="tool-bento-footer">
@@ -1521,7 +1510,7 @@
 
     renderModules();
 
-    // Command Search Input, Quick Chips & Keyboard Shortcuts
+    // Command Search Input & Keyboard Shortcuts
     if (searchInput) {
       searchInput.addEventListener('input', (e) => renderModules(e.target.value, activeCategoryTab));
       document.addEventListener('keydown', (e) => {
@@ -1534,18 +1523,6 @@
         }
       });
     }
-
-    // Quick Search Chips
-    document.querySelectorAll('.quick-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        const query = chip.getAttribute('data-query');
-        if (searchInput) {
-          searchInput.value = query;
-          renderModules(query, activeCategoryTab);
-          searchInput.focus();
-        }
-      });
-    });
 
     if (noticesList) {
       async function renderNoticesWithAdminAnnouncements() {
