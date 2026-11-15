@@ -1635,8 +1635,8 @@ function renderMcqQuiz(container) {
                     }).join('')}
                   </div>
 
-                  <div style="margin-top:10px; padding:10px 12px; background:#fef9c3; border:1px solid #fde047; border-radius:8px; font-size:0.86rem; color:#09090b;">
-                    <strong style="color:#09090b;">💡 Explanation:</strong> ${esc(q.explanation)}
+                  <div style="margin-top:10px; padding:10px 12px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; font-size:0.86rem; color:#1e293b;">
+                    <strong style="color:#2563eb;">💡 Explanation:</strong> ${esc(q.explanation)}
                   </div>
                 </div>
               `;
@@ -1768,8 +1768,8 @@ function renderMcqQuiz(container) {
 
             <!-- Practice Mode Instant Explanation -->
             ${mode === 'practice' && chosen !== undefined ? `
-              <div style="margin-top:16px; padding:14px; background:#fef9c3; border:1px solid #fde047; border-radius:10px; font-size:0.88rem; color:#09090b;">
-                <div style="font-weight:700; color:#09090b; margin-bottom:4px;">
+              <div style="margin-top:16px; padding:14px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; font-size:0.88rem; color:#1e293b;">
+                <div style="font-weight:700; color:#2563eb; margin-bottom:4px;">
                   ${chosen === q.answer ? '✅ Correct Answer!' : '❌ Incorrect Selection'}
                 </div>
                 <div><strong>Explanation:</strong> ${esc(q.explanation)}</div>
@@ -1868,7 +1868,7 @@ function renderMcqQuiz(container) {
                     cursor:pointer;
                     display:grid;
                     place-items:center;
-                    box-shadow:${isCur ? '0 0 0 2px #09090b, 0 0 0 4px #ffd600' : 'none'};
+                    box-shadow:${isCur ? '0 0 0 2px #ffffff, 0 0 0 4px #2563eb' : 'none'};
                     transition:transform 0.1s ease;
                   ">
                     ${idx + 1}
