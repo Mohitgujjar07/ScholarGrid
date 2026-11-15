@@ -323,7 +323,7 @@
       <div class="onboarding-modal" style="max-width:540px;" role="dialog" aria-modal="true">
         <div class="onboarding-header">
           <div class="onboarding-top-bar">
-            <span class="onboarding-step-badge" style="background:#e0e7ff;color:#4338ca;border-color:#c7d2fe;">Firebase Project Integration</span>
+            <span class="onboarding-step-badge" style="background:#fef08a;color:#09090b;border-color:#eab308;font-weight:700;">Firebase Project Integration</span>
             <button type="button" id="closeFbSetupBtn" class="close-btn" aria-label="Close">&times;</button>
           </div>
           <h2 class="onboarding-title">Connect Project: ${escHtml(projectId)}</h2>
@@ -1848,7 +1848,7 @@
 
     if (isDoneToday) {
       container.innerHTML = `
-        <div class="card" style="padding:18px 24px; background:linear-gradient(135deg, rgba(5,150,105,0.06), rgba(79,70,229,0.06)); border:1px solid rgba(5,150,105,0.3); border-radius:18px;">
+        <div class="card" style="padding:18px 24px; background:linear-gradient(135deg, rgba(5,150,105,0.06), rgba(255,214,0,0.06)); border:1px solid rgba(5,150,105,0.3); border-radius:18px;">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
             <div style="display:flex; align-items:center; gap:16px;">
               <div style="width:48px; height:48px; border-radius:14px; background:rgba(5,150,105,0.15); display:grid; place-items:center; font-size:1.6rem;">
@@ -1874,10 +1874,10 @@
       `;
     } else {
       container.innerHTML = `
-        <div class="card" style="padding:18px 24px; background:linear-gradient(135deg, rgba(79,70,229,0.06), rgba(2,132,199,0.06)); border:1px solid var(--border-strong); border-radius:18px; box-shadow:var(--shadow-glow);">
+        <div class="card" style="padding:18px 24px; background:linear-gradient(135deg, rgba(255,214,0,0.08), rgba(9,9,11,0.03)); border:1px solid var(--border-strong); border-radius:18px; box-shadow:var(--shadow-glow);">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
             <div style="display:flex; align-items:center; gap:16px;">
-              <div style="width:48px; height:48px; border-radius:14px; background:rgba(79,70,229,0.12); display:grid; place-items:center; font-size:1.6rem;">
+              <div style="width:48px; height:48px; border-radius:14px; background:#ffd600; color:#09090b; display:grid; place-items:center; font-size:1.6rem; border:1px solid #eab308;">
                 ⚡
               </div>
               <div>

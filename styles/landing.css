@@ -15,18 +15,18 @@
   --text-secondary: #A1A1AA;
   --text-muted: #71717A;
   
-  --accent-lime: #A3E635;
-  --accent-lime-hover: #BEF264;
-  --accent-lime-glow: rgba(163, 230, 53, 0.22);
-  --accent-lime-subtle: rgba(163, 230, 53, 0.12);
+  --accent-lime: #ffd600;
+  --accent-lime-hover: #facc15;
+  --accent-lime-glow: rgba(255, 214, 0, 0.28);
+  --accent-lime-subtle: rgba(255, 214, 0, 0.12);
   
-  --accent-violet: #8B5CF6;
-  --accent-violet-glow: rgba(139, 92, 246, 0.22);
-  --accent-violet-subtle: rgba(139, 92, 246, 0.12);
+  --accent-violet: #ffd600;
+  --accent-violet-glow: rgba(255, 214, 0, 0.28);
+  --accent-violet-subtle: rgba(255, 214, 0, 0.12);
 
   --border: rgba(255, 255, 255, 0.09);
   --border-hover: rgba(255, 255, 255, 0.18);
-  --border-lime: rgba(163, 230, 53, 0.4);
+  --border-lime: rgba(255, 214, 0, 0.45);
   
   /* Radii */
   --radius-sm: 8px;
@@ -1263,7 +1263,7 @@ body.landing-page {
   font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: #4338CA;
+  color: #09090b;
   border-bottom: 0.5px solid #CBD5E1;
   margin: 6px 0 3px;
   padding-bottom: 1px;
